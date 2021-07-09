@@ -1,6 +1,7 @@
 namespace LegoM
 {
     using LegoM.Data;
+    using LegoM.Infrastructure;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,7 +11,7 @@ namespace LegoM
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-  
+
 
     public class Startup
     {
@@ -25,20 +26,29 @@ namespace LegoM
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                .AddDbContext<LegoMDbContext>(options => options
+                  .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            services
+                .AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddControllersWithViews();
+            services
+                .AddDefaultIdentity<IdentityUser>(options =>
+                  {
+                      options.SignIn.RequireConfirmedAccount = true;
+
+                  })
+                .AddEntityFrameworkStores<LegoMDbContext>();
+
+            services
+                .AddControllersWithViews();
         }
 
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.PrepareDatabase();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
