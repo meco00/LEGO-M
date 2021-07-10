@@ -5,6 +5,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using static DataConstants;
+
     public class Category
     {
         public string Id { get; init; } = Guid.NewGuid().ToString();
