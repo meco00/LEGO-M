@@ -20,22 +20,31 @@
 
         public DbSet<SubCategory> SubCategories { get; set; }
 
+        public DbSet<ProductSubCategory> ProductsSubCategories { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder
-                .Entity<Product>()
-                .HasOne(x => x.SubCategory)
-                .WithMany(x => x.Products)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<ProductSubCategory>()
+                     .HasKey(c => new { c.ProductId, c.SubCategoryId });
 
             builder
-                .Entity<SubCategory>()
-                .HasOne(x => x.Category)
-                .WithMany(x => x.SubCategories)
+              .Entity<SubCategory>()
+              .HasOne(x => x.Category)
+              .WithMany(x => x.SubCategories)
+              .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<SubCategory>()
+                .HasMany(x => x.ProductsSubCategories)
+                .WithOne(x => x.SubCategory)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Entity<Product>()
+                .HasMany(x => x.ProductsSubCategories)
+                .WithOne(x => x.Product)
+                .OnDelete(DeleteBehavior.Restrict);
 
+     
 
             base.OnModelCreating(builder);
         }

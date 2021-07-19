@@ -15,10 +15,15 @@
 
 
         public const int ProductTittleMaxLength = 100;
-        public const int ProductTittleMinLength = 20;
+        public const int ProductTittleMinLength = 5;
 
         public const int ProductDescriptionMaxLength = 1000;
         public const int ProductDescriptionMinLength = 20;
+
+        public const int ProductQuantityMinLength = 1;
+
+        public const double ProductPriceMinLength = 0.10;
+        public const double ProductPriceMaxLength = 1000;
 
 
         public const int QuestionTextMaxLength = 200;

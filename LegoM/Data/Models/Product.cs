@@ -2,6 +2,7 @@
 {
     using LegoM.Data.Models.Enums;
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using static DataConstants;
@@ -20,12 +21,8 @@
 
         public decimal Price { get; set; }
 
-        public int Quantity { get; set; } 
+        public byte Quantity { get; set; } 
 
-        [Required]
-        public string SubCategoryId { get; set; }
-
-        public virtual SubCategory SubCategory { get; set; }
 
         [Required]
         public ProductCondition ProductCondition { get; set; }
@@ -38,6 +35,8 @@
         public bool isDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        public virtual ICollection<ProductSubCategory> ProductsSubCategories { get; set; } = new List<ProductSubCategory>();
 
         //public virtual ICollection<Question> Questions { get; set; }
 

@@ -42,6 +42,9 @@ namespace LegoM
 
             services
                 .AddControllersWithViews();
+
+            services.AddRazorPages()
+                .AddRazorRuntimeCompilation();
         }
 
 

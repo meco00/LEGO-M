@@ -4,14 +4,16 @@ using LegoM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LegoM.Data.Migrations
 {
     [DbContext(typeof(LegoMDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210719181517_ProductsCategoriesSubCategoriesProductsSubCategoriesTables")]
+    partial class ProductsCategoriesSubCategoriesProductsSubCategoriesTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,12 +67,8 @@ namespace LegoM.Data.Migrations
                     b.Property<DateTime>("PublishedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SubCategoryId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<byte>("Quantity")
+                        .HasColumnType("tinyint");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -82,9 +80,22 @@ namespace LegoM.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("LegoM.Data.Models.ProductSubCategory", b =>
+                {
+                    b.Property<string>("ProductId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SubCategoryId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ProductId", "SubCategoryId");
+
                     b.HasIndex("SubCategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("ProductsSubCategories");
                 });
 
             modelBuilder.Entity("LegoM.Data.Models.SubCategory", b =>
@@ -314,13 +325,21 @@ namespace LegoM.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("LegoM.Data.Models.Product", b =>
+            modelBuilder.Entity("LegoM.Data.Models.ProductSubCategory", b =>
                 {
+                    b.HasOne("LegoM.Data.Models.Product", "Product")
+                        .WithMany("ProductsSubCategories")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("LegoM.Data.Models.SubCategory", "SubCategory")
-                        .WithMany("Products")
+                        .WithMany("ProductsSubCategories")
                         .HasForeignKey("SubCategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Product");
 
                     b.Navigation("SubCategory");
                 });
@@ -392,9 +411,14 @@ namespace LegoM.Data.Migrations
                     b.Navigation("SubCategories");
                 });
 
+            modelBuilder.Entity("LegoM.Data.Models.Product", b =>
+                {
+                    b.Navigation("ProductsSubCategories");
+                });
+
             modelBuilder.Entity("LegoM.Data.Models.SubCategory", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("ProductsSubCategories");
                 });
 #pragma warning restore 612, 618
         }
