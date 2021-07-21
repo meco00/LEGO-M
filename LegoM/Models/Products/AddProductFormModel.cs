@@ -36,6 +36,8 @@
         [EnumDataType(typeof(DeliveryTake))]
         public DeliveryTake? Delivery { get; set; }
 
+        public bool AgreeOnTermsOfPolitics { get; set; }
+
         public IEnumerable<ProductSubCategoryViewModel> SubCategories { get; set; }
 
 

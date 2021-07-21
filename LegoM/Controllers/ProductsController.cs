@@ -27,8 +27,10 @@
         [HttpPost]
         public IActionResult Add(AddProductFormModel product)
         {
-            ;
-
+            if (!product.AgreeOnTermsOfPolitics)
+            {
+                this.ModelState.AddModelError(nameof(product.AgreeOnTermsOfPolitics), "You must agree before submiting.");
+            }
 
             if (!product.SubCategoriesIds.Any())
             {
@@ -84,10 +86,28 @@
 
             data.Products.Add(productToImport);
 
-            data.SaveChanges();   
+            data.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(All));
 
+        }
+
+        public IActionResult All()
+        {
+
+            var products = this.data.Products
+                .OrderByDescending(x=>x.PublishedOn)
+                .Select(x => new ProductListingViewModel()
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Price = x.Price,
+                Condition = x.ProductCondition.ToString()
+            })
+                .ToList();
+
+
+            return this.View(products);
         }
 
 

@@ -15,6 +15,15 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <span style="font-size: small">If your order costs more than 50 leva you get discount</span>
+                <ul class="navbar-nav flex-grow-1 ml-5">
+                    <li class="nav-item">
+                     <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Add">Add Product</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="All">All Products</a>
+                    </li>
+                </ul>
                 <div class="collapse navbar-collapse dropdown" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item text-dark dropdown">
