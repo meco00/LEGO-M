@@ -92,11 +92,27 @@
 
         }
 
-        public IActionResult All()
+        public IActionResult All(ProductsQueryModel product)
         {
+            var productsQuery = this.data.Products.AsQueryable();
 
-            var products = this.data.Products
-                .OrderByDescending(x=>x.PublishedOn)
+            ;
+
+            if (!string.IsNullOrEmpty(product.SearchTerm))
+            {
+
+                productsQuery = productsQuery
+                    .Where(x => x.ProductsSubCategories.Any(sb => sb.SubCategory.Name.ToLower().Contains(product.SearchTerm.ToLower()))
+                    || x.ProductsSubCategories.Any(sb => sb.SubCategory.Category.Name.ToLower().Contains(product.SearchTerm.ToLower()))
+                    || x.Title.ToLower().Contains(product.SearchTerm.ToLower())
+                    || (x.Title +" "+x.ProductCondition.ToString()).ToLower().Contains(product.SearchTerm.ToLower())
+                    || x.Description.ToLower().Contains(product.SearchTerm.ToLower()));
+
+            }
+
+
+
+            var products = productsQuery
                 .Select(x => new ProductListingViewModel()
             {
                 Id = x.Id,
@@ -107,7 +123,14 @@
                 .ToList();
 
 
-            return this.View(products);
+            return this.View(new ProductsQueryModel() 
+            { 
+                SearchTerm=product.SearchTerm,
+                Products=products,
+                productSorting=product.productSorting,
+                AllCategories=product.AllCategories,
+                AllSubCategories=product.AllSubCategories
+            });
         }
 
 

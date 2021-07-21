@@ -9,6 +9,8 @@
 
         public int TotalUsers { get; set; }
 
+        public string SearchTerm { get; set; }
+
         public List<ProductListingViewModel> Products {get;set;}
     }
 }

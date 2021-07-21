@@ -1,7 +1,17 @@
-﻿@model IEnumerable<ProductListingViewModel>
+﻿@model ProductsQueryModel
+
+
+@if (Model.SearchTerm!=null)
+{
+    <h2>You have searched - @Model.SearchTerm</h2>
+    <h2>Result : @Model.Products.Count()</h2>
+
+}
+
+<div class="mb-3"></div>
 
 <div class="row">
-@foreach (var product in Model)
+@foreach (var product in Model.Products)
 {
     <div class="col-md-4">
       <div class="card mb-3" >

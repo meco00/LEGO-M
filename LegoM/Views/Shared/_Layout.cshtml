@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -46,9 +48,9 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand mb-0 h5" asp-area="" asp-controller="Home" asp-action="Index">LEGO-M</a>
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+                <form method="get" class="form-inline">
+                    <input name="SearchTerm" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button asp-controller="Products" asp-action="All" class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </div>
         </nav>
