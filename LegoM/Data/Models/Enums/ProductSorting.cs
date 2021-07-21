@@ -2,12 +2,13 @@
 {
     public enum ProductSorting
     {
-        Newest=0,
-        NameAlphabetically=1,
-        NameDescending=2,
-        PriceAscending=3,
-        PriceDescending=4,
-        RatingAscending=5,
-        RatingDescending=6
+        Default=0,
+        Newest=1,
+        NameAlphabetically=2,
+        NameDescending=3,
+        PriceAscending=4,
+        PriceDescending=5,
+        RatingAscending=6,
+        RatingDescending=7
     }
 }

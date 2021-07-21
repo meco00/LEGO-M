@@ -5,8 +5,10 @@
     using System.Linq;
     using LegoM.Data;
     using LegoM.Data.Models;
+    using LegoM.Data.Models.Enums;
     using LegoM.Models.Products;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
 
     public class ProductsController:Controller
     {
@@ -92,25 +94,51 @@
 
         }
 
-        public IActionResult All(ProductsQueryModel product)
+        public IActionResult All(
+            string Category,
+            string SearchTerm,
+            ProductSorting ProductSorting)
         {
             var productsQuery = this.data.Products.AsQueryable();
 
             ;
 
-            if (!string.IsNullOrEmpty(product.SearchTerm))
+            if (!string.IsNullOrEmpty(Category))
+            {
+                productsQuery = productsQuery
+                    .Where(x => x.ProductsSubCategories.Any(x => x.SubCategory.Category.Name == Category));
+            }
+
+            if (!string.IsNullOrEmpty(SearchTerm))
             {
 
                 productsQuery = productsQuery
-                    .Where(x => x.ProductsSubCategories.Any(sb => sb.SubCategory.Name.ToLower().Contains(product.SearchTerm.ToLower()))
-                    || x.ProductsSubCategories.Any(sb => sb.SubCategory.Category.Name.ToLower().Contains(product.SearchTerm.ToLower()))
-                    || x.Title.ToLower().Contains(product.SearchTerm.ToLower())
-                    || (x.Title +" "+x.ProductCondition.ToString()).ToLower().Contains(product.SearchTerm.ToLower())
-                    || x.Description.ToLower().Contains(product.SearchTerm.ToLower()));
+                    .Include(x=>x.ProductsSubCategories)
+                    .ThenInclude(x=>x.SubCategory)
+                    .ThenInclude(x=>x.Category)
+                    .ToList()
+                    
+                    .Where(x => x.ProductsSubCategories.Any(sb => sb.SubCategory.Name.ToLower().Contains(SearchTerm.ToLower()))
+                    || x.ProductsSubCategories.Any(sb => sb.SubCategory.Category.Name.ToLower().Contains(SearchTerm.ToLower()))
+                    || x.Title.ToLower().Contains(SearchTerm.ToLower())
+                    || (x.Title +" "+x.ProductCondition.ToString()).ToLower().Contains(SearchTerm.ToLower())
+                    || x.Description.ToLower().Contains(SearchTerm.ToLower())).AsQueryable();
 
             }
 
+            productsQuery = ProductSorting switch
+            {
 
+              
+                ProductSorting.NameAlphabetically => productsQuery=productsQuery.OrderBy(x=>x.Title),
+                ProductSorting.NameDescending => productsQuery=productsQuery.OrderByDescending(x=>x.Title),
+                ProductSorting.PriceAscending => productsQuery=productsQuery.OrderBy(x=>x.Price),
+                ProductSorting.PriceDescending => productsQuery=productsQuery.OrderByDescending(x=>x.Price),
+                ProductSorting.Newest or _=> productsQuery.OrderByDescending(x=>x.PublishedOn)
+
+                //TODO : After implementation of Rating implement sorting by rating criteria too
+
+            };
 
             var products = productsQuery
                 .Select(x => new ProductListingViewModel()
@@ -122,14 +150,15 @@
             })
                 .ToList();
 
+            var productCategories = this.data.Categories.Select(x => x.Name).Distinct().ToList();
 
             return this.View(new ProductsQueryModel() 
             { 
-                SearchTerm=product.SearchTerm,
+                SearchTerm=SearchTerm,
                 Products=products,
-                productSorting=product.productSorting,
-                AllCategories=product.AllCategories,
-                AllSubCategories=product.AllSubCategories
+                ProductSorting=ProductSorting,
+                Categories=productCategories,
+                
             });
         }
 

@@ -1,32 +1,72 @@
 ﻿@model ProductsQueryModel
 
 
-@if (Model.SearchTerm!=null)
+@if (Model.SearchTerm != null)
 {
     <h2>You have searched - @Model.SearchTerm</h2>
     <h2>Result : @Model.Products.Count()</h2>
 
 }
 
-<div class="mb-3"></div>
 
-<div class="row">
-@foreach (var product in Model.Products)
-{
-    <div class="col-md-4">
-      <div class="card mb-3" >
-        <img class="card-img-top" src="https://m.media-amazon.com/images/I/61DUuwuvuML._AC_SL1500_.jpg" alt="@product.Condition @product.Title ">
-        <div class="card-body text-center">
-            <p class="card-text">@product.Condition</p>
-            <h5 class="card-title">@product.Title</h5>
-            <p class="card-text">@product.Price</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+<form method="get">
+
+    <div class="row mb-5">
+
+    <div class="form-group col-md-4">
+    <label asp-for="Category"></label>
+    <select asp-for="Category" class="form-control">
+        <option value="">All</option>
+        @foreach (var category in Model.Categories)
+        {
+            <option value="@category">@category</option>
+        }
+    </select>
+    <span asp-validation-for="Category" class="small text-danger"></span>
+
+       </div>
+
+    <div class="form-group col-md-4">
+        <div class="form-group">
+            <label asp-for="ProductSorting"></label>
+            <select asp-for="ProductSorting" class="form-control" asp-items="Html.GetEnumSelectList<ProductSorting>()">
+                <option selected="selected" value="">Please select</option>
+            </select>
+            <span asp-validation-for="ProductSorting" class="small text-danger"></span>
+        </div>
+
+    </div>
+
+    <div class="form-group col-md-4">
+        <div class="form-group">
+            <label asp-for="SearchTerm"></label>
+            <input asp-for="SearchTerm" class="form-control">
+            <span asp-validation-for="SearchTerm" class="small text-danger"></span>
         </div>
     </div>
 
-    </div>
+   </div>
 
-}
+</form>
+
+
+<div class="row">
+    @foreach (var product in Model.Products)
+    {
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <img class="card-img-top" src="https://m.media-amazon.com/images/I/61DUuwuvuML._AC_SL1500_.jpg" alt="@product.Condition @product.Title ">
+                <div class="card-body text-center">
+                    <p class="card-text">@product.Condition</p>
+                    <h5 class="card-title">@product.Title</h5>
+                    <p class="card-text">@product.Price</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+
+        </div>
+
+    }
 
 </div>
 
