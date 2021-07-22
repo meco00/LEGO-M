@@ -6,17 +6,23 @@
 
     public class ProductsQueryModel
     {
-        public string Category { get; set; }
+        public const int ProductsPerPage = 3;
 
-        public IEnumerable<string> Categories { get; init; }
+        public int CurrentPage { get; set; } = 1;
 
-        public IEnumerable<string> AllSubCategories { get; init; }
+        public string Category { get; init; }
+
+        public IEnumerable<string> Categories { get; set; }
+
+        public IEnumerable<string> AllSubCategories { get; set; }
 
         [Display(Name ="Deep Search")]
         public string SearchTerm { get; init; }
 
         public ProductSorting ProductSorting { get; init; }
 
-       public IEnumerable<ProductListingViewModel> Products { get; init; }
+        public int TotalProducts { get; set; }
+
+       public IEnumerable<ProductListingViewModel> Products { get; set; }
     }
 }

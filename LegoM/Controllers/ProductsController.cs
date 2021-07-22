@@ -94,22 +94,19 @@
 
         }
 
-        public IActionResult All(
-            string Category,
-            string SearchTerm,
-            ProductSorting ProductSorting)
+        public IActionResult All([FromQuery]ProductsQueryModel query)
         {
             var productsQuery = this.data.Products.AsQueryable();
 
             ;
 
-            if (!string.IsNullOrEmpty(Category))
+            if (!string.IsNullOrEmpty(query.Category))
             {
                 productsQuery = productsQuery
-                    .Where(x => x.ProductsSubCategories.Any(x => x.SubCategory.Category.Name == Category));
+                    .Where(x => x.ProductsSubCategories.Any(x => x.SubCategory.Category.Name == query.Category));
             }
 
-            if (!string.IsNullOrEmpty(SearchTerm))
+            if (!string.IsNullOrEmpty(query.SearchTerm))
             {
 
                 productsQuery = productsQuery
@@ -118,15 +115,15 @@
                     .ThenInclude(x=>x.Category)
                     .ToList()
                     
-                    .Where(x => x.ProductsSubCategories.Any(sb => sb.SubCategory.Name.ToLower().Contains(SearchTerm.ToLower()))
-                    || x.ProductsSubCategories.Any(sb => sb.SubCategory.Category.Name.ToLower().Contains(SearchTerm.ToLower()))
-                    || x.Title.ToLower().Contains(SearchTerm.ToLower())
-                    || (x.Title +" "+x.ProductCondition.ToString()).ToLower().Contains(SearchTerm.ToLower())
-                    || x.Description.ToLower().Contains(SearchTerm.ToLower())).AsQueryable();
+                    .Where(x => x.ProductsSubCategories.Any(sb => sb.SubCategory.Name.ToLower().Contains(query.SearchTerm.ToLower()))
+                    || x.ProductsSubCategories.Any(sb => sb.SubCategory.Category.Name.ToLower().Contains(query.SearchTerm.ToLower()))
+                    || x.Title.ToLower().Contains(query.SearchTerm.ToLower())
+                    || (x.Title +" "+x.ProductCondition.ToString()).ToLower().Contains(query.SearchTerm.ToLower())
+                    || x.Description.ToLower().Contains(query.SearchTerm.ToLower())).AsQueryable();
 
             }
 
-            productsQuery = ProductSorting switch
+            productsQuery = query.ProductSorting switch
             {
 
               
@@ -140,7 +137,11 @@
 
             };
 
+            var totalProducts = this.data.Products.Count();
+
             var products = productsQuery
+                .Skip((query.CurrentPage -1)*ProductsQueryModel.ProductsPerPage)
+                .Take(ProductsQueryModel.ProductsPerPage)
                 .Select(x => new ProductListingViewModel()
             {
                 Id = x.Id,
@@ -152,14 +153,12 @@
 
             var productCategories = this.data.Categories.Select(x => x.Name).Distinct().ToList();
 
-            return this.View(new ProductsQueryModel() 
-            { 
-                SearchTerm=SearchTerm,
-                Products=products,
-                ProductSorting=ProductSorting,
-                Categories=productCategories,
+            query.Products = products;
+            query.Categories = productCategories;
+            query.TotalProducts = totalProducts;
                 
-            });
+
+            return this.View(query);
         }
 
 
