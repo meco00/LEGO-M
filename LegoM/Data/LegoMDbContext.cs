@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Text;
     using LegoM.Data.Models;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,8 @@
         public DbSet<SubCategory> SubCategories { get; set; }
 
         public DbSet<ProductSubCategory> ProductsSubCategories { get; set; }
+
+        public DbSet<Merchant> Merchants { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -44,7 +47,18 @@
                 .WithOne(x => x.Product)
                 .OnDelete(DeleteBehavior.Restrict);
 
-     
+            builder.Entity<Product>()
+              .HasOne(x => x.Merchant)
+              .WithMany(x => x.Products)
+              .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Merchant>()
+                .HasOne<IdentityUser>()
+                .WithOne()
+                .HasForeignKey<Merchant>(x=>x.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
 
             base.OnModelCreating(builder);
         }

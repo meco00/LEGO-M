@@ -34,5 +34,9 @@
         public const int ReviewTextMaxLength = 250;
         public const int ReviewTitleMaxLength = 100;
 
+        
+        public const int MerchantNameMaxLength = 20;
+        public const int MerchantTelephoneNumberMaxLength = 30;
+
     }
 }

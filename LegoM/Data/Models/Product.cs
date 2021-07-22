@@ -36,6 +36,11 @@
 
         public DateTime? DeletedOn { get; set; }
 
+        [Required]
+        public string MerchantId { get; set; }
+
+        public Merchant Merchant { get; set; }
+
         public virtual ICollection<ProductSubCategory> ProductsSubCategories { get; set; } = new List<ProductSubCategory>();
 
         //public virtual ICollection<Question> Questions { get; set; }
