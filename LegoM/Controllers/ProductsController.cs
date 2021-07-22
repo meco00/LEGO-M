@@ -137,7 +137,7 @@
 
             };
 
-            var totalProducts = this.data.Products.Count();
+            var totalProducts = productsQuery.Count();
 
             var products = productsQuery
                 .Skip((query.CurrentPage -1)*ProductsQueryModel.ProductsPerPage)

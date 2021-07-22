@@ -95,7 +95,7 @@
            asp-route-currentPage="@previousPage"><<</a>
     </div> 
     <div class="col-md-6">
-        <a class="btn btn-primary float-right @(Model.CurrentPage==maxPage ? "disabled" : string.Empty)" 
+        <a class="btn btn-primary float-right @(Model.CurrentPage==maxPage || !Model.Products.Any()  ? "disabled" : string.Empty)" 
            asp-controller="Products" 
            asp-action="All" 
            asp-route-category="@Model.Category"
