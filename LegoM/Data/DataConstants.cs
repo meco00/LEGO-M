@@ -36,7 +36,9 @@
 
         
         public const int MerchantNameMaxLength = 20;
+        public const int MerchantNameMinLength = 5;
         public const int MerchantTelephoneNumberMaxLength = 30;
+        public const int MerchantTelephoneNumberMinLength = 6;
 
     }
 }

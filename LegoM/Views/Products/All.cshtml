@@ -2,7 +2,7 @@
 
 
 @{ 
-    ViewData["Title"] = "All Products";
+    ViewBag.Title = "All Products";
 }
 
 
@@ -53,6 +53,12 @@
    </div>
 
 </form>
+
+@if (!Model.Products.Any())
+{
+    <h2 class="text-center">No products was found with the given criteria !</h2>
+		 
+}
 
 
 <div class="row">

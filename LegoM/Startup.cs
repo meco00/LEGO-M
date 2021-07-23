@@ -35,7 +35,10 @@ namespace LegoM
             services
                 .AddDefaultIdentity<IdentityUser>(options =>
                   {
-                      options.SignIn.RequireConfirmedAccount = true;
+                      options.Password.RequireDigit = false;
+                      options.Password.RequireLowercase = false;
+                      options.Password.RequireNonAlphanumeric = false;
+                      options.Password.RequireUppercase = false;
 
                   })
                 .AddEntityFrameworkStores<LegoMDbContext>();
