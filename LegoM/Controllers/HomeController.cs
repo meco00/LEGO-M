@@ -5,15 +5,21 @@
     using LegoM.Data;
     using LegoM.Models;
     using LegoM.Models.Home;
-    using LegoM.Models.Products;
+    using LegoM.Services.Products;
+    using LegoM.Services.Statistics;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : Controller
     {
         private readonly LegoMDbContext data;
 
-        public HomeController(LegoMDbContext data)
-           => this.data = data;
+        private readonly IStatisticsService statistics;
+
+        public HomeController(LegoMDbContext data, IStatisticsService statistics)
+        {
+            this.data = data;
+            this.statistics = statistics;
+        }
 
         public IActionResult Index() 
         {
@@ -21,7 +27,7 @@
 
             var products = this.data.Products
                .OrderByDescending(x => x.PublishedOn)
-               .Select(x => new ProductListingViewModel()
+               .Select(x => new ProductServiceModel()
                {
                    Id = x.Id,
                    Title = x.Title,
@@ -31,11 +37,14 @@
                .Take(3)
                .ToList();
 
+            var totalStatistics = this.statistics.Total();
+
 
             return this.View(new IndexViewModel
             {
-                TotalProducts = this.data.Products.Count(),
-                TotalUsers=0,
+                TotalProducts = totalStatistics.TotalProducts,
+                TotalUsers=totalStatistics.TotalUsers,
+                TotalProductsSold=totalStatistics.TotalProductsSold,
                 Products=products
             }) ;
         }

@@ -2,6 +2,8 @@ namespace LegoM
 {
     using LegoM.Data;
     using LegoM.Infrastructure;
+    using LegoM.Services.Products;
+    using LegoM.Services.Statistics;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.HttpsPolicy;
@@ -48,6 +50,9 @@ namespace LegoM
 
             services.AddRazorPages()
                 .AddRazorRuntimeCompilation();
+
+            services.AddTransient<IStatisticsService, StatisticsService>();
+            services.AddTransient<IProductsService, ProductsService>();
         }
 
 

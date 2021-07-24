@@ -1,7 +1,8 @@
 ﻿namespace LegoM.Models.Home
 {
-   using LegoM.Models.Products;
-   using System.Collections.Generic;
+   
+    using LegoM.Services.Products;
+    using System.Collections.Generic;
 
    public class IndexViewModel
     {
@@ -9,8 +10,8 @@
 
         public int TotalUsers { get; set; }
 
-        public string SearchTerm { get; set; }
+        public int TotalProductsSold{ get; set; }
 
-        public List<ProductListingViewModel> Products {get;set;}
+        public List<ProductServiceModel> Products {get;set;}
     }
 }

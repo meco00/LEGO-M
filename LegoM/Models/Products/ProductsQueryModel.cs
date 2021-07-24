@@ -1,6 +1,7 @@
 ﻿namespace LegoM.Models.Products
 {
     using LegoM.Data.Models.Enums;
+    using LegoM.Services.Products;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -23,6 +24,6 @@
 
         public int TotalProducts { get; set; }
 
-       public IEnumerable<ProductListingViewModel> Products { get; set; }
+       public IEnumerable<ProductServiceModel> Products { get; set; }
     }
 }
