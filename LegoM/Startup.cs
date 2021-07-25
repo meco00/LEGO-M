@@ -9,6 +9,7 @@ namespace LegoM
     using Microsoft.AspNetCore.HttpsPolicy;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -46,7 +47,12 @@ namespace LegoM
                 .AddEntityFrameworkStores<LegoMDbContext>();
 
             services
-                .AddControllersWithViews();
+                .AddControllersWithViews(options =>
+                {
+
+                    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+
+                });
 
             services.AddRazorPages()
                 .AddRazorRuntimeCompilation();
