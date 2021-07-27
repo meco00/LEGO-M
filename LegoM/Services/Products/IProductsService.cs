@@ -2,6 +2,7 @@
 namespace LegoM.Services.Products
 {
   using LegoM.Data.Models.Enums;
+    using LegoM.Models.Products;
     using System.Collections.Generic;
 
     public interface IProductsService
@@ -13,6 +14,17 @@ namespace LegoM.Services.Products
             int productsPerPage,
             ProductSorting productSorting);
 
-        IEnumerable<string> AllProductCategories();
+        ProductDetailsServiceModel Details(string Id);
+
+        IEnumerable<ProductServiceModel> ByUser(string userId);
+
+        IEnumerable<string> AllCategories();
+
+        IEnumerable<ProductSubCategoryServiceModel> AllSubCategories();
+
+        bool SubCategoriesExists(IEnumerable<string> subCategoriesIds);
+
+        
+            
     }
 }

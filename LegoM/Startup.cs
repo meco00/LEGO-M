@@ -2,6 +2,7 @@ namespace LegoM
 {
     using LegoM.Data;
     using LegoM.Infrastructure;
+    using LegoM.Services.Merchants;
     using LegoM.Services.Products;
     using LegoM.Services.Statistics;
     using Microsoft.AspNetCore.Builder;
@@ -59,6 +60,7 @@ namespace LegoM
 
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IProductsService, ProductsService>();
+            services.AddTransient<IMerchantService, MerchantService>();
         }
 
 

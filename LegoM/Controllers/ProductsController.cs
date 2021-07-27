@@ -8,6 +8,7 @@
     using LegoM.Data.Models.Enums;
     using LegoM.Infrastructure;
     using LegoM.Models.Products;
+    using LegoM.Services.Merchants;
     using LegoM.Services.Products;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -16,32 +17,29 @@
     public class ProductsController:Controller
     {
         private readonly IProductsService products;
+        private readonly IMerchantService merchants;
         private readonly LegoMDbContext data;
 
 
-        public ProductsController(LegoMDbContext data, IProductsService products)
+        public ProductsController(LegoMDbContext data, IProductsService products, IMerchantService merchants)
         {
             this.data = data;
             this.products = products;
+            this.merchants = merchants;
         }
 
         [Authorize]
         public IActionResult Add()
         {
-            string userMerchantId = GetMerchantId();
-
-            if (userMerchantId == null)
+            if (!this.merchants.IsMerchant(this.User.GetId()))
             {
                 return RedirectToAction(nameof(MerchantsController.Become), "Merchants");
             }
 
 
-            return View(new AddProductFormModel
+            return View(new ProductFormModel
             {
-
-                SubCategories = this.GetSubCategoriesOfCategory(),
-
-
+                SubCategories = this.products.AllSubCategories(),
             });
         }
 
@@ -49,9 +47,9 @@
 
         [HttpPost]
         [Authorize]
-        public IActionResult Add(AddProductFormModel product)
+        public IActionResult Add(ProductFormModel product)
         {
-            string merchantId = GetMerchantId();
+            string merchantId = this.merchants.GetMerchantId(this.User.GetId());
 
             if (merchantId == null)
             {
@@ -68,7 +66,7 @@
                 
                this.ModelState.AddModelError(nameof(product.SubCategoriesIds), "You must select at least 1 SubCategory");
             }
-            else if (!this.data.SubCategories.Any(x=>product.SubCategoriesIds.Contains(x.Id)))
+            else if (!this.products.SubCategoriesExists(product.SubCategoriesIds))
             {
                 this.ModelState.AddModelError(nameof(product.SubCategoriesIds), "SubCategories does not exists.");
             }
@@ -80,7 +78,7 @@
             if (!ModelState.IsValid)
             {
 
-                product.SubCategories = this.GetSubCategoriesOfCategory();
+                product.SubCategories = this.products.AllSubCategories();
 
                 return View(product);
             }
@@ -100,9 +98,10 @@
 
             foreach (var subCategoryId in product.SubCategoriesIds.Distinct())
             {
-                var subCategory = this.data.SubCategories.FirstOrDefault(x => x.Id == subCategoryId);
 
-                if (subCategory== null)
+                var isSubCategoryExists = this.products.SubCategoriesExists(new string[] { subCategoryId});
+
+                if (!isSubCategoryExists)
                 {
                     continue;
                 }
@@ -110,7 +109,7 @@
                 productToImport.ProductsSubCategories.Add(new ProductSubCategory
                 {
                     Product = productToImport,
-                    SubCategory = subCategory
+                    SubCategoryId = subCategoryId
                 });
             }
 
@@ -118,7 +117,7 @@
 
             data.SaveChanges();
 
-            return RedirectToAction(nameof(All));
+            return RedirectToAction(nameof(Mine));
 
         }
 
@@ -131,7 +130,7 @@
            ProductsQueryModel.ProductsPerPage,
            query.ProductSorting);
 
-            var productCategories = this.products.AllProductCategories();
+            var productCategories = this.products.AllCategories();
 
             query.Products = queryResult.Products;
             query.Categories = productCategories;
@@ -141,23 +140,25 @@
             return this.View(query);
         }
 
-        private string GetMerchantId()
+
+        [Authorize]
+        public IActionResult Mine()
         {
-            return this.data.Merchants
-                .Where(x => x.UserId == this.User.GetId())
-                .Select(x => x.Id)
-                .FirstOrDefault();
+            var myProducts=this.products.ByUser(this.User.GetId());
+
+            return this.View(myProducts);
+
         }
 
-        private IEnumerable<ProductSubCategoryViewModel> GetSubCategoriesOfCategory()
-       => this.data
-            .SubCategories
-              .Select(x => new ProductSubCategoryViewModel
-              {
-                  Id = x.Id,
-                  Name = x.Name
-              })
-                .ToList();
+        [Authorize]
+        public IActionResult Edit(string Id)
+        {
+
+        }
+
+       
+
+     
 
 
     }

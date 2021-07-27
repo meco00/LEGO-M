@@ -61,24 +61,8 @@
 }
 
 
-<div class="row">
-    @foreach (var product in Model.Products)
-    {
-        <div class="col-md-4">
-            <div class="card mb-3">
-                <img class="card-img-top" src="https://m.media-amazon.com/images/I/61DUuwuvuML._AC_SL1500_.jpg" alt="@product.Condition @product.Title ">
-                <div class="card-body text-center">
-                    <p class="card-text">@product.Condition</p>
-                    <h5 class="card-title">@product.Title</h5>
-                    <p class="card-text">@product.Price</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
+<partial name="_ProductsPartial" model="@Model.Products" />
 
-        </div>
-
-    }
-</div>
 
 @{ 
     var previousPage = Model.CurrentPage - 1;

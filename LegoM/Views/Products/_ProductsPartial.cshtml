@@ -1,0 +1,26 @@
+﻿@model IEnumerable<ProductServiceModel>
+
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <img class="card-img-top" src="https://m.media-amazon.com/images/I/61DUuwuvuML._AC_SL1500_.jpg" alt="@product.Condition @product.Title ">
+                <div class="card-body text-center">
+                    <p class="card-text">@product.Condition</p>
+                    <h5 class="card-title">@product.Title</h5>
+                    <p class="card-text">@product.Price</p>
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary">Details</a>
+                    @if (ViewBag.AllowProductEdit == true)
+                    {
+                        <a asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning">Edit</a>
+                        <a asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Delete</a>
+
+                    }
+                </div>
+            </div>
+
+        </div>
+
+    }
+</div>

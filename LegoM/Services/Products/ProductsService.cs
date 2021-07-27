@@ -1,7 +1,9 @@
 ﻿namespace LegoM.Services.Products
 {
   using LegoM.Data;
+    using LegoM.Data.Models;
     using LegoM.Data.Models.Enums;
+    using LegoM.Models.Products;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
@@ -9,6 +11,7 @@
     public class ProductsService : IProductsService
     {
         private readonly LegoMDbContext data;
+
 
         public ProductsService(LegoMDbContext data)
         => this.data = data;
@@ -63,17 +66,12 @@
 
             var totalProducts = productsQuery.Count();
 
-            var products = productsQuery
-                .Skip((currentPage - 1) * productsPerPage)
-                .Take(productsPerPage)
-                .Select(x => new ProductServiceModel()
-                {
-                    Id = x.Id,
-                    Title = x.Title,
-                    Price = x.Price,
-                    Condition = x.ProductCondition.ToString()
-                })
-                .ToList();
+            var products = GetProducts(
+                 productsQuery
+                  .Skip((currentPage - 1) * productsPerPage)
+                    .Take(productsPerPage)
+                );
+                
 
             var productCategories = this.data.Categories.Select(x => x.Name).Distinct().ToList();
 
@@ -86,12 +84,45 @@
             };
         }
 
-        public IEnumerable<string> AllProductCategories()
+        public IEnumerable<string> AllCategories()
         => this.data
             .Categories
             .Select(x => x.Name)
             .Distinct()
             .OrderBy(ca=>ca)
             .ToList();
+
+        public IEnumerable<ProductServiceModel> ByUser(string userId)
+        => GetProducts(
+            this.data
+                    .Products
+                      .Where(x => x.Merchant.UserId == userId)
+            );
+            
+
+
+        private static IEnumerable<ProductServiceModel> GetProducts(IQueryable<Product> productsQuery)
+         => productsQuery
+            .Select(x => new ProductServiceModel()
+             {
+                 Id = x.Id,
+                 Title = x.Title,
+                 Price = x.Price,
+                 Condition = x.ProductCondition.ToString()
+             })
+              .ToList();
+
+        public IEnumerable<ProductSubCategoryServiceModel> AllSubCategories()
+        => this.data
+            .SubCategories
+              .Select(x => new ProductSubCategoryServiceModel
+              {
+                  Id = x.Id,
+                  Name = x.Name
+              })
+                .ToList();
+
+        public bool SubCategoriesExists(IEnumerable<string> subCategoriesIds)
+        => this.data.SubCategories.Any(x => subCategoriesIds.Contains(x.Id));
     }
 }

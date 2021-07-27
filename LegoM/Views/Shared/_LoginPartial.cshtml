@@ -1,13 +1,29 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject IMerchantService merchantService
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Merchants" asp-action="Become">Become Merchant</a>
-        </li>
+
+        var userId = this.User.GetId();
+
+        var isUserMerchant = merchantService.IsMerchant(userId);
+
+
+        @if (isUserMerchant)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Mine">My Products</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Merchants" asp-action="Become">Become Merchant</a>
+            </li>
+        }
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account</a>
         </li>

@@ -1,13 +1,14 @@
 ﻿namespace LegoM.Models.Products
 {
     using LegoM.Data.Models.Enums;
+    using LegoM.Services.Products;
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using static Data.DataConstants;
 
-    public class AddProductFormModel
+    public class ProductFormModel
     {
         [Required]
         [StringLength(ProductTittleMaxLength,MinimumLength = ProductTittleMinLength,ErrorMessage = "The field {0} must be between {1} and {2} characters long")]
@@ -38,7 +39,7 @@
 
         public bool AgreeOnTermsOfPolitics { get; set; }
 
-        public IEnumerable<ProductSubCategoryViewModel> SubCategories { get; set; }
+        public IEnumerable<ProductSubCategoryServiceModel> SubCategories { get; set; }
 
 
     }

@@ -1,8 +1,8 @@
-﻿namespace LegoM.Models.Products
+﻿namespace LegoM.Services.Products
 {
 
 
-    public class ProductSubCategoryViewModel
+    public class ProductSubCategoryServiceModel
     {
         public string Id { get; set; }
 
