@@ -14,9 +14,31 @@ namespace LegoM.Services.Products
             int productsPerPage,
             ProductSorting productSorting);
 
+        string Create(string title,
+                string description,
+                decimal price,
+                byte quantity,
+                ProductCondition productCondition,
+                DeliveryTake productDelivery,
+                string merchantId,
+                IEnumerable<string> subCategoriesIds);
+
+        bool Edit(
+               string Id,
+               string title,
+               string description,
+               decimal price,
+               byte quantity,
+               ProductCondition productCondition,
+               DeliveryTake productDelivery,
+               string merchantId,
+               IEnumerable<string> subCategoriesIds);
+
         ProductDetailsServiceModel Details(string Id);
 
         IEnumerable<ProductServiceModel> ByUser(string userId);
+
+        bool ProductIsByMerchant(string id, string merchantId);
 
         IEnumerable<string> AllCategories();
 

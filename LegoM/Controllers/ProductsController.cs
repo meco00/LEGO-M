@@ -31,7 +31,7 @@
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.merchants.IsMerchant(this.User.GetId()))
+            if (!this.merchants.IsMerchant(this.User.Id()))
             {
                 return RedirectToAction(nameof(MerchantsController.Become), "Merchants");
             }
@@ -49,7 +49,7 @@
         [Authorize]
         public IActionResult Add(ProductFormModel product)
         {
-            string merchantId = this.merchants.GetMerchantId(this.User.GetId());
+            string merchantId = this.merchants.IdByUser(this.User.Id());
 
             if (merchantId == null)
             {
@@ -83,39 +83,14 @@
                 return View(product);
             }
 
-
-            var productToImport = new Product()
-            {
-                Title = product.Title,
-                Description = product.Description,
-                Price = product.Price,
-                Quantity = product.Quantity,
-                ProductCondition = product.Condition.Value,
-                DeliveryTake = product.Delivery.Value,
-                PublishedOn=DateTime.UtcNow,
-                MerchantId=merchantId
-            };
-
-            foreach (var subCategoryId in product.SubCategoriesIds.Distinct())
-            {
-
-                var isSubCategoryExists = this.products.SubCategoriesExists(new string[] { subCategoryId});
-
-                if (!isSubCategoryExists)
-                {
-                    continue;
-                }
-
-                productToImport.ProductsSubCategories.Add(new ProductSubCategory
-                {
-                    Product = productToImport,
-                    SubCategoryId = subCategoryId
-                });
-            }
-
-            data.Products.Add(productToImport);
-
-            data.SaveChanges();
+            this.products.Create(product.Title,
+                product.Description,
+                product.Price,
+                product.Quantity,
+                product.Condition.Value,
+                product.Delivery.Value,
+                merchantId,
+                product.SubCategoriesIds);
 
             return RedirectToAction(nameof(Mine));
 
@@ -144,7 +119,7 @@
         [Authorize]
         public IActionResult Mine()
         {
-            var myProducts=this.products.ByUser(this.User.GetId());
+            var myProducts=this.products.ByUser(this.User.Id());
 
             return this.View(myProducts);
 
@@ -153,7 +128,89 @@
         [Authorize]
         public IActionResult Edit(string Id)
         {
+            var userId = this.User.Id();
 
+
+            if (!this.merchants.IsMerchant(this.User.Id()))
+            {
+                return RedirectToAction(nameof(MerchantsController.Become), "Merchants");
+            }
+
+            var product = this.products.Details(Id);
+
+            if (product.UserId!=userId)
+            {
+                return Unauthorized();
+            }
+
+
+
+            return View(new ProductFormModel
+            {
+                Title=product.Title,
+                Description=product.Description,
+                Quantity=product.Quantity,
+                Price=product.Price,
+                Condition=Enum.Parse<ProductCondition>(product.Condition),
+                Delivery=Enum.Parse<DeliveryTake>(product.Delivery),
+                SubCategoriesIds=product.SubCategoriesIds,
+                SubCategories = this.products.AllSubCategories(),
+            });
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Edit(string Id,ProductFormModel product)
+        {
+            string merchantId = this.merchants.IdByUser(this.User.Id());
+
+            if (merchantId == null)
+            {
+                return RedirectToAction(nameof(MerchantsController.Become), "Merchants");
+            }
+
+            if (!product.SubCategoriesIds.Any())
+            {
+
+                this.ModelState.AddModelError(nameof(product.SubCategoriesIds), "You must select at least 1 SubCategory");
+            }
+            else if (!this.products.SubCategoriesExists(product.SubCategoriesIds))
+            {
+                this.ModelState.AddModelError(nameof(product.SubCategoriesIds), "SubCategories does not exists.");
+            }
+            else if (product.SubCategoriesIds.Count() > 10)
+            {
+                this.ModelState.AddModelError(nameof(product.SubCategoriesIds), "Product can participate only in 10 SubCategories");
+            }
+
+            if (!ModelState.IsValid)
+            {
+
+                product.SubCategories = this.products.AllSubCategories();
+
+                return View(product);
+            }
+
+            if (!this.products.ProductIsByMerchant(Id,merchantId))
+            {
+                return BadRequest();
+            }
+
+          this.products.Edit(
+                Id,
+                product.Title,
+                product.Description,
+                product.Price,
+                product.Quantity,
+                product.Condition.Value,
+                product.Delivery.Value,
+                merchantId,
+                product.SubCategoriesIds);
+
+           
+
+            return RedirectToAction(nameof(Mine));
         }
 
        

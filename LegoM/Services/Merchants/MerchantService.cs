@@ -13,7 +13,7 @@
             this.data = data;
         }
 
-        public string GetMerchantId(string userId)
+        public string IdByUser(string userId)
         => this.data.Merchants
                 .Where(x => x.UserId == userId)
                 .Select(x => x.Id)

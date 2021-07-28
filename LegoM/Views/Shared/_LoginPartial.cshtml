@@ -7,7 +7,7 @@
     @if (SignInManager.IsSignedIn(User))
     {
 
-        var userId = this.User.GetId();
+        var userId = this.User.Id();
 
         var isUserMerchant = merchantService.IsMerchant(userId);
 

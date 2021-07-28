@@ -4,6 +4,6 @@
     {
         public bool IsMerchant(string userId);
 
-        string GetMerchantId(string userId);
+        string IdByUser(string userId);
     }
 }

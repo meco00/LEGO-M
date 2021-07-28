@@ -42,7 +42,7 @@
                 return View(merchant);
             }
 
-            var userId = this.User.GetId();
+            var userId = this.User.Id();
 
             var merchantData = new Merchant
             {
@@ -59,7 +59,7 @@
         }
 
         private bool IsUserMerchant()
-       => this.data.Merchants.Any(x => x.UserId == this.User.GetId());
+       => this.data.Merchants.Any(x => x.UserId == this.User.Id());
 
 
     }
