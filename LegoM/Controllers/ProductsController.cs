@@ -31,7 +31,7 @@
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.merchants.IsMerchant(this.User.Id()))
+            if (!this.merchants.IsMerchant(this.User.Id()) && !this.User.IsAdmin())
             {
                 return RedirectToAction(nameof(MerchantsController.Become), "Merchants");
             }
@@ -51,12 +51,14 @@
         {
             string merchantId = this.merchants.IdByUser(this.User.Id());
 
-            if (merchantId == null)
+            var isUserAdmin = this.User.IsAdmin();
+
+            if (merchantId == null && !isUserAdmin)
             {
                 return RedirectToAction(nameof(MerchantsController.Become), "Merchants");
             }
 
-            if (!product.AgreeOnTermsOfPolitics)
+            if (!product.AgreeOnTermsOfPolitics && !isUserAdmin)
             {
                 this.ModelState.AddModelError(nameof(product.AgreeOnTermsOfPolitics), "You must agree before submiting.");
             }
@@ -92,7 +94,7 @@
                 merchantId,
                 product.SubCategoriesIds);
 
-            return RedirectToAction(nameof(Mine));
+            return RedirectToAction(nameof(All));
 
         }
 
@@ -121,6 +123,11 @@
         {
             var myProducts=this.products.ByUser(this.User.Id());
 
+            if (User.IsAdmin())
+            {
+                return RedirectToAction(nameof(All)); 
+            }
+
             return this.View(myProducts);
 
         }
@@ -130,15 +137,17 @@
         {
             var userId = this.User.Id();
 
+            var isUserAdmin = this.User.IsAdmin();
 
-            if (!this.merchants.IsMerchant(this.User.Id()))
+
+            if (!this.merchants.IsMerchant(userId) && !isUserAdmin)
             {
                 return RedirectToAction(nameof(MerchantsController.Become), "Merchants");
             }
 
             var product = this.products.Details(Id);
 
-            if (product.UserId!=userId)
+            if (product.UserId!=userId && !isUserAdmin)
             {
                 return Unauthorized();
             }
@@ -165,7 +174,9 @@
         {
             string merchantId = this.merchants.IdByUser(this.User.Id());
 
-            if (merchantId == null)
+            var isUserAdmin = this.User.IsAdmin();
+
+            if (merchantId == null&& !isUserAdmin)
             {
                 return RedirectToAction(nameof(MerchantsController.Become), "Merchants");
             }
@@ -192,7 +203,7 @@
                 return View(product);
             }
 
-            if (!this.products.ProductIsByMerchant(Id,merchantId))
+            if (!this.products.ProductIsByMerchant(Id,merchantId)&& !isUserAdmin)
             {
                 return BadRequest();
             }
@@ -210,7 +221,7 @@
 
            
 
-            return RedirectToAction(nameof(Mine));
+            return RedirectToAction(nameof(All));
         }
 
        

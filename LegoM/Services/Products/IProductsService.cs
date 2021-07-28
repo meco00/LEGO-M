@@ -1,8 +1,7 @@
 ﻿
 namespace LegoM.Services.Products
 {
-  using LegoM.Data.Models.Enums;
-    using LegoM.Models.Products;
+    using LegoM.Data.Models.Enums;
     using System.Collections.Generic;
 
     public interface IProductsService

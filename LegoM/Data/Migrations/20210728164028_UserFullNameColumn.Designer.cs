@@ -4,19 +4,21 @@ using LegoM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LegoM.Data.Migrations
 {
     [DbContext(typeof(LegoMDbContext))]
-    partial class LegoMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210728164028_UserFullNameColumn")]
+    partial class UserFullNameColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.8")
+                .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("LegoM.Data.Models.Category", b =>
@@ -84,6 +86,7 @@ namespace LegoM.Data.Migrations
                         .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("MerchantId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Price")
@@ -373,7 +376,8 @@ namespace LegoM.Data.Migrations
                     b.HasOne("LegoM.Data.Models.Merchant", "Merchant")
                         .WithMany("Products")
                         .HasForeignKey("MerchantId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Merchant");
                 });

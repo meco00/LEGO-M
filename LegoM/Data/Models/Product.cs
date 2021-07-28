@@ -5,18 +5,18 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using static DataConstants;
+    using static DataConstants.Product;
 
     public class Product
     {
         public string Id { get; init; } = Guid.NewGuid().ToString();
 
         [Required]
-        [MaxLength(ProductTittleMaxLength)]
+        [MaxLength(TittleMaxLength)]
         public string Title { get; set; }
 
         [Required]
-        [MaxLength(ProductDescriptionMaxLength)]
+        [MaxLength(DescriptionMaxLength)]
         public string Description { get; set; }
 
         public decimal Price { get; set; }
@@ -36,7 +36,6 @@
 
         public DateTime? DeletedOn { get; set; }
 
-        [Required]
         public string MerchantId { get; set; }
 
         public Merchant Merchant { get; set; }

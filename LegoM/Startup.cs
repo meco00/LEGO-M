@@ -1,6 +1,7 @@
 namespace LegoM
 {
     using LegoM.Data;
+    using LegoM.Data.Models;
     using LegoM.Infrastructure;
     using LegoM.Services.Merchants;
     using LegoM.Services.Products;
@@ -15,7 +16,7 @@ namespace LegoM
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-
+  
 
     public class Startup
     {
@@ -37,7 +38,7 @@ namespace LegoM
                 .AddDatabaseDeveloperPageExceptionFilter();
 
             services
-                .AddDefaultIdentity<IdentityUser>(options =>
+                .AddDefaultIdentity<User>(options =>
                   {
                       options.Password.RequireDigit = false;
                       options.Password.RequireLowercase = false;
@@ -45,6 +46,7 @@ namespace LegoM
                       options.Password.RequireUppercase = false;
 
                   })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<LegoMDbContext>();
 
             services

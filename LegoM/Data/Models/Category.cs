@@ -4,14 +4,14 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using static DataConstants;
+    using static DataConstants.Category;
 
     public class Category
     {
         public string Id { get; init; } = Guid.NewGuid().ToString();
 
         [Required]
-        [MaxLength(CategoryNameMaxLength)]
+        [MaxLength(NameMaxLength)]
         public string Name { get; set; }
 
         public bool isDeleted { get; set; }

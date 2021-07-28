@@ -1,9 +1,7 @@
-﻿using LegoM.Data;
-using System.Linq;
-
-namespace LegoM.Services.Statistics
+﻿namespace LegoM.Services.Statistics
 {
-
+    using LegoM.Data;
+    using System.Linq;
 
     public class StatisticsService : IStatisticsService
     {

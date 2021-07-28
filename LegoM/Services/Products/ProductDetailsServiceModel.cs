@@ -1,6 +1,5 @@
 ﻿namespace LegoM.Services.Products
 {
-
   using System.Collections.Generic;
 
     public class ProductDetailsServiceModel:ProductServiceModel

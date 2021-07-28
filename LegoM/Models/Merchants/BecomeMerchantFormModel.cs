@@ -4,17 +4,17 @@
 using LegoM.Data;
 using System.ComponentModel.DataAnnotations;
 
-    using static Data.DataConstants;
+    using static Data.DataConstants.Merchant;
 
     public class BecomeMerchantFormModel
     {
         [Required]
-        [StringLength(MerchantNameMaxLength,MinimumLength =MerchantNameMinLength)]
+        [StringLength(NameMaxLength,MinimumLength = NameMinLength)]
         public string Name { get; set; }
 
         [Display(Name="Phone Number")]
         [Required]
-        [StringLength(MerchantTelephoneNumberMaxLength, MinimumLength = MerchantTelephoneNumberMinLength)]
+        [StringLength(TelephoneNumberMaxLength, MinimumLength = TelephoneNumberMinLength)]
         public string TelephoneNumber { get; set; }
     }
 }

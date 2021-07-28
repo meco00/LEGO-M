@@ -1,6 +1,5 @@
 ﻿namespace LegoM.Services.Merchants
 {
-
     using LegoM.Data;
     using System.Linq;
 

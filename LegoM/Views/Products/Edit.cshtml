@@ -6,4 +6,9 @@
 }
 
 
-<partial name="_CarForm" model="@Model" />
+<partial name="_CarFormPartial" model="@Model" />
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

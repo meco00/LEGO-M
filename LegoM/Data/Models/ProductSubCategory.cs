@@ -1,7 +1,5 @@
 ﻿namespace LegoM.Data.Models
 {
-
-
     public class ProductSubCategory
     {
         public string ProductId { get; set; }

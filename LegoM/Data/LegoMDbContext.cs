@@ -1,14 +1,10 @@
 ﻿namespace LegoM.Data
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using LegoM.Data.Models;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
-    public class LegoMDbContext : IdentityDbContext
+    public class LegoMDbContext : IdentityDbContext<User>
     {
         public LegoMDbContext(DbContextOptions<LegoMDbContext> options)
             : base(options)
@@ -53,7 +49,7 @@
               .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Merchant>()
-                .HasOne<IdentityUser>()
+                .HasOne<User>()
                 .WithOne()
                 .HasForeignKey<Merchant>(x=>x.UserId)
                 .OnDelete(DeleteBehavior.Restrict);

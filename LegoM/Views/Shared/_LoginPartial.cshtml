@@ -1,6 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using LegoM.Data.Models
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @inject IMerchantService merchantService
 
 <ul class="navbar-nav">
@@ -11,14 +13,16 @@
 
         var isUserMerchant = merchantService.IsMerchant(userId);
 
+        var userIsAdmin = this.User.IsAdmin();
 
-        @if (isUserMerchant)
+
+        @if (isUserMerchant&&!userIsAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Mine">My Products</a>
             </li>
         }
-        else
+        else if (!userIsAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Merchants" asp-action="Become">Become Merchant</a>

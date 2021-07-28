@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace LegoM.Data.Migrations
+﻿namespace LegoM.Data.Migrations
 {
+  using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class MerchantsTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

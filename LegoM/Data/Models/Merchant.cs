@@ -4,18 +4,18 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using static DataConstants;
+    using static DataConstants.Merchant;
 
     public class Merchant
     {
         public string Id { get; init; } = Guid.NewGuid().ToString();
 
         [Required]
-        [MaxLength(MerchantNameMaxLength)]
+        [MaxLength(NameMaxLength)]
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(MerchantTelephoneNumberMaxLength)]
+        [MaxLength(TelephoneNumberMaxLength)]
         public string TelephoneNumber { get; set; }
 
         [Required]
