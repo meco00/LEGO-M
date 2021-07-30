@@ -20,5 +20,7 @@
 
         public virtual ICollection<SubCategory> SubCategories { get; set; }
 
+        public virtual ICollection<Product> Products { get; set; }
+
     }
 }

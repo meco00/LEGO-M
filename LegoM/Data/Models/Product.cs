@@ -40,7 +40,17 @@
 
         public Merchant Merchant { get; set; }
 
-        public virtual ICollection<ProductSubCategory> ProductsSubCategories { get; set; } = new List<ProductSubCategory>();
+        [Required]
+        public string CategoryId { get; set; }
+
+        public Category Category { get; set; }
+
+        [Required]
+        public string SubCategoryId { get; set; }
+
+        public SubCategory SubCategory { get; set; }
+
+       
 
         //public virtual ICollection<Question> Questions { get; set; }
 

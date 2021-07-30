@@ -17,15 +17,11 @@
 
         public DbSet<SubCategory> SubCategories { get; set; }
 
-        public DbSet<ProductSubCategory> ProductsSubCategories { get; set; }
-
         public DbSet<Merchant> Merchants { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<ProductSubCategory>()
-                     .HasKey(c => new { c.ProductId, c.SubCategoryId });
 
             builder
               .Entity<SubCategory>()
@@ -33,15 +29,15 @@
               .WithMany(x => x.SubCategories)
               .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<SubCategory>()
-                .HasMany(x => x.ProductsSubCategories)
-                .WithOne(x => x.SubCategory)
+            builder.Entity<Product>()
+                .HasOne(x => x.SubCategory)
+                .WithMany(x => x.Products)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Product>()
-                .HasMany(x => x.ProductsSubCategories)
-                .WithOne(x => x.Product)
-                .OnDelete(DeleteBehavior.Restrict);
+             .HasOne(x => x.Category)
+             .WithMany(x => x.Products)
+             .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Product>()
               .HasOne(x => x.Merchant)
@@ -51,9 +47,8 @@
             builder.Entity<Merchant>()
                 .HasOne<User>()
                 .WithOne()
-                .HasForeignKey<Merchant>(x=>x.UserId)
+                .HasForeignKey<Merchant>(x => x.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
-
 
 
             base.OnModelCreating(builder);

@@ -17,10 +17,12 @@ namespace LegoM.Services.Products
                 string description,
                 decimal price,
                 byte quantity,
+                string categoryId,
+                string subCategoryId,
                 ProductCondition productCondition,
                 DeliveryTake productDelivery,
-                string merchantId,
-                IEnumerable<string> subCategoriesIds);
+                string merchantId
+                );
 
         bool Edit(
                string Id,
@@ -28,10 +30,12 @@ namespace LegoM.Services.Products
                string description,
                decimal price,
                byte quantity,
+               string categoryId,
+               string subCategoryId,
                ProductCondition productCondition,
                DeliveryTake productDelivery,
-               string merchantId,
-               IEnumerable<string> subCategoriesIds);
+               string merchantId
+               );
 
         ProductDetailsServiceModel Details(string Id);
 
@@ -39,11 +43,16 @@ namespace LegoM.Services.Products
 
         bool ProductIsByMerchant(string id, string merchantId);
 
-        IEnumerable<string> AllCategories();
+        IEnumerable<string> Categories();
+
+        IEnumerable<ProductCategoryServiceModel> AllCategories();
 
         IEnumerable<ProductSubCategoryServiceModel> AllSubCategories();
 
-        bool SubCategoriesExists(IEnumerable<string> subCategoriesIds);
+        bool CategoryExists(string categoryId);
+
+        bool SubCategoryExists(string subCategoryId,string categoryId);
+
 
         
             

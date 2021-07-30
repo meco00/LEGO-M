@@ -39,6 +39,8 @@
         {
             var data = services.GetRequiredService<LegoMDbContext>();
 
+            
+
             if (data.Categories.Any())
             {
                 return;
@@ -78,12 +80,34 @@
                         {
                             Name="Ученически раници и чанти"
                         },
+                       
+                    }
+                },
+                    new Category()
+                {
+                    Name="Спорт",
+                    SubCategories=new[]
+                    {
+                        new SubCategory()
+                        {
+                            Name="Футбол"
+                        },
+                         new SubCategory()
+                        {
+                            Name="Волейбол"
+                        },
                            new SubCategory()
                         {
-                            Name="Други"
+                            Name="Федербал"
                         },
+                           new SubCategory()
+                        {
+                            Name="Бокс"
+                        },
+
                     }
-                }
+                },
+
 
             });
 

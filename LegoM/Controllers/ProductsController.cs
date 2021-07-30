@@ -39,7 +39,8 @@
 
             return View(new ProductFormModel
             {
-                SubCategories = this.products.AllSubCategories(),
+                Categories = this.products.AllCategories(),
+                SubCategories = this.products.AllSubCategories()
             });
         }
 
@@ -62,24 +63,19 @@
             {
                 this.ModelState.AddModelError(nameof(product.AgreeOnTermsOfPolitics), "You must agree before submiting.");
             }
-
-            if (!product.SubCategoriesIds.Any())
+            if (!this.products.CategoryExists(product.CategoryId))
             {
-                
-               this.ModelState.AddModelError(nameof(product.SubCategoriesIds), "You must select at least 1 SubCategory");
+                this.ModelState.AddModelError(nameof(product.CategoryId), "Category does not exists.");
             }
-            else if (!this.products.SubCategoriesExists(product.SubCategoriesIds))
+            else if (!this.products.SubCategoryExists(product.SubCategoryId,product.CategoryId))
             {
-                this.ModelState.AddModelError(nameof(product.SubCategoriesIds), "SubCategories does not exists.");
-            }
-            else if (product.SubCategoriesIds.Count() > 10)
-            {
-                this.ModelState.AddModelError(nameof(product.SubCategoriesIds), "Product can participate only in 10 SubCategories");
+                this.ModelState.AddModelError(nameof(product.SubCategoryId), "SubCategory is not valid.");
             }
 
             if (!ModelState.IsValid)
             {
 
+                product.Categories = this.products.AllCategories();
                 product.SubCategories = this.products.AllSubCategories();
 
                 return View(product);
@@ -89,10 +85,12 @@
                 product.Description,
                 product.Price,
                 product.Quantity,
+                product.CategoryId,
+                product.SubCategoryId,
                 product.Condition.Value,
                 product.Delivery.Value,
-                merchantId,
-                product.SubCategoriesIds);
+                merchantId
+                );
 
             return RedirectToAction(nameof(All));
 
@@ -100,19 +98,19 @@
 
         public IActionResult All([FromQuery]ProductsQueryModel query)
         {
-           var queryResult= this.products.All(
-           query.Category,
-           query.SearchTerm,
-           query.CurrentPage,
-           ProductsQueryModel.ProductsPerPage,
-           query.ProductSorting);
+            var queryResult = this.products.All(
+            query.Category,
+            query.SearchTerm,
+            query.CurrentPage,
+            ProductsQueryModel.ProductsPerPage,
+            query.ProductSorting);
 
-            var productCategories = this.products.AllCategories();
+            var productCategories = this.products.Categories();
 
             query.Products = queryResult.Products;
             query.Categories = productCategories;
             query.TotalProducts = queryResult.TotalProducts;
-                
+
 
             return this.View(query);
         }
@@ -156,14 +154,16 @@
 
             return View(new ProductFormModel
             {
-                Title=product.Title,
-                Description=product.Description,
-                Quantity=product.Quantity,
-                Price=product.Price,
-                Condition=Enum.Parse<ProductCondition>(product.Condition),
-                Delivery=Enum.Parse<DeliveryTake>(product.Delivery),
-                SubCategoriesIds=product.SubCategoriesIds,
-                SubCategories = this.products.AllSubCategories(),
+                Title = product.Title,
+                Description = product.Description,
+                Quantity = product.Quantity,
+                Price = product.Price,
+                Condition = Enum.Parse<ProductCondition>(product.Condition),
+                Delivery = Enum.Parse<DeliveryTake>(product.Delivery),
+                CategoryId = product.CategoryId,
+                SubCategoryId = product.SubCategoryId,
+                Categories = this.products.AllCategories(),
+                SubCategories = this.products.AllSubCategories()
             });
         }
 
@@ -181,32 +181,31 @@
                 return RedirectToAction(nameof(MerchantsController.Become), "Merchants");
             }
 
-            if (!product.SubCategoriesIds.Any())
+            if (!this.products.ProductIsByMerchant(Id, merchantId) && !isUserAdmin)
             {
+                return BadRequest();
+            }
 
-                this.ModelState.AddModelError(nameof(product.SubCategoriesIds), "You must select at least 1 SubCategory");
-            }
-            else if (!this.products.SubCategoriesExists(product.SubCategoriesIds))
+
+            if (!this.products.CategoryExists(product.CategoryId))
             {
-                this.ModelState.AddModelError(nameof(product.SubCategoriesIds), "SubCategories does not exists.");
+                this.ModelState.AddModelError(nameof(product.CategoryId), "Category does not exists.");
             }
-            else if (product.SubCategoriesIds.Count() > 10)
+            else if (!this.products.SubCategoryExists(product.SubCategoryId, product.CategoryId))
             {
-                this.ModelState.AddModelError(nameof(product.SubCategoriesIds), "Product can participate only in 10 SubCategories");
+                this.ModelState.AddModelError(nameof(product.SubCategoryId), "SubCategory is not valid.");
             }
 
             if (!ModelState.IsValid)
             {
 
+                product.Categories = this.products.AllCategories();
                 product.SubCategories = this.products.AllSubCategories();
 
                 return View(product);
             }
 
-            if (!this.products.ProductIsByMerchant(Id,merchantId)&& !isUserAdmin)
-            {
-                return BadRequest();
-            }
+           
 
           this.products.Edit(
                 Id,
@@ -214,10 +213,11 @@
                 product.Description,
                 product.Price,
                 product.Quantity,
+                product.CategoryId,
+                product.SubCategoryId,
                 product.Condition.Value,
                 product.Delivery.Value,
-                merchantId,
-                product.SubCategoriesIds);
+                merchantId);
 
            
 

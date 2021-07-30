@@ -1,9 +1,7 @@
 ﻿namespace LegoM.Services.Products
 {
-    public class ProductSubCategoryServiceModel
+    public class ProductSubCategoryServiceModel: ProductCategoryServiceModel
     {
-        public string Id { get; set; }
-
-        public string Name { get; set; }
+        public string CategoryId { get; set; }
     }
 }

@@ -23,6 +23,6 @@
 
         public Category Category { get; set; }
 
-        public virtual ICollection<ProductSubCategory> ProductsSubCategories { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

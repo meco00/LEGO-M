@@ -34,23 +34,21 @@
             if (!string.IsNullOrEmpty(category))
             {
                 productsQuery = productsQuery
-                    .Where(x => x.ProductsSubCategories.Any(x => x.SubCategory.Category.Name == category));
+                    .Where(x => x.Category.Name.Contains(category));
             }
 
             if (!string.IsNullOrEmpty(searchTerm))
             {
 
                 productsQuery = productsQuery
-                    .Include(x => x.ProductsSubCategories)
-                    .ThenInclude(x => x.SubCategory)
-                    .ThenInclude(x => x.Category)
-                    .ToList()
+                   
+                    
 
-                    .Where(x => x.ProductsSubCategories.Any(sb => sb.SubCategory.Name.ToLower().Contains(searchTerm.ToLower()))
-                    || x.ProductsSubCategories.Any(sb => sb.SubCategory.Category.Name.ToLower().Contains(searchTerm.ToLower()))
+                    .Where(x => x.SubCategory.Name.ToLower().Contains(searchTerm.ToLower())
+                    || x.Category.Name.ToLower().Contains(searchTerm.ToLower())
                     || x.Title.ToLower().Contains(searchTerm.ToLower())
-                    || (x.Title + " " + x.ProductCondition.ToString()).ToLower().Contains(searchTerm.ToLower())
-                    || x.Description.ToLower().Contains(searchTerm.ToLower())).AsQueryable();
+                    || (x.Category.Name + " " + x.SubCategory.Name).ToLower().Contains(searchTerm.ToLower())
+                    || x.Description.ToLower().Contains(searchTerm.ToLower()));
 
             }
 
@@ -89,13 +87,14 @@
         }
 
         public string Create(string title,
-            string description,
-            decimal price,
-            byte quantity, 
-            ProductCondition productCondition,
-            DeliveryTake productDelivery,
-            string merchantId, 
-            IEnumerable<string> subCategoriesIds)
+                string description,
+                decimal price,
+                byte quantity,
+                string categoryId,
+                string subCategoryId,
+                ProductCondition productCondition,
+                DeliveryTake productDelivery,
+                string merchantId)
         {
             var productData = new Product()
             {
@@ -103,34 +102,23 @@
                 Description = description,
                 Price = price,
                 Quantity = quantity,
+                CategoryId=categoryId,
+                SubCategoryId=subCategoryId,
                 ProductCondition = productCondition,
                 DeliveryTake = productDelivery,
                 PublishedOn = DateTime.UtcNow,
                 MerchantId = merchantId
             };
 
-            foreach (var subCategoryId in subCategoriesIds.Distinct())
-            {
 
-                var isSubCategoryExists = this.SubCategoriesExists(new string[] { subCategoryId });
-
-                if (!isSubCategoryExists)
-                {
-                    continue;
-                }
-
-                productData.ProductsSubCategories.Add(new ProductSubCategory
-                {
-                    Product = productData,
-                    SubCategoryId = subCategoryId
-                });
-            }
 
             data.Products.Add(productData);
 
             data.SaveChanges();
 
             return productData.Id;
+
+            
         }
 
         public bool Edit(
@@ -139,16 +127,16 @@
           string description,
           decimal price,
           byte quantity,
+          string categoryId,
+          string subCategoryId,
           ProductCondition productCondition,
           DeliveryTake productDelivery,
-          string merchantId,
-          IEnumerable<string> subCategoriesIds)
+          string merchantId
+          )
         {
-            var productData = this.data.Products
-                .Include(x=>x.ProductsSubCategories)
-                .FirstOrDefault(x=>x.Id==Id);
+            var productData = this.data.Products.FirstOrDefault(x => x.Id == Id);
 
-            if (productData==null)
+            if (productData == null)
             {
                 return false;
             }
@@ -159,48 +147,15 @@
             productData.Quantity = quantity;
             productData.ProductCondition = productCondition;
             productData.DeliveryTake = productDelivery;
-            productData.PublishedOn = DateTime.UtcNow;
-
-            var productSubCategories = productData.ProductsSubCategories.Select(x => x.SubCategoryId).ToList();
-
-            bool isInputSubCategoriesEqual = Enumerable.SequenceEqual(productSubCategories, subCategoriesIds);
-
-            ;
-
-            if (isInputSubCategoriesEqual)
-            {
-                data.SaveChanges();
-
-                return true;
-            }
-
-            data.ProductsSubCategories.RemoveRange(productData.ProductsSubCategories);
-
-            foreach (var subCategoryId in subCategoriesIds.Distinct())
-            {
-
-                var isSubCategoryExists = this.SubCategoriesExists(new string[] { subCategoryId });
-
-                if (!isSubCategoryExists)
-                {
-                    continue;
-                }
-
-                productData.ProductsSubCategories.Add(new ProductSubCategory
-                {
-                    Product = productData,
-                    SubCategoryId = subCategoryId
-                });
-            }
-
-          
+            productData.CategoryId = categoryId;
+            productData.SubCategoryId = subCategoryId;
 
             data.SaveChanges();
 
             return true;
         }
 
-        public IEnumerable<string> AllCategories()
+        public IEnumerable<string> Categories()
         => this.data
             .Categories
             .Select(x => x.Name)
@@ -228,18 +183,21 @@
              })
               .ToList();
 
-        public IEnumerable<ProductSubCategoryServiceModel> AllSubCategories()
+        public IEnumerable<ProductCategoryServiceModel> AllCategories()
         => this.data
-            .SubCategories
-              .Select(x => new ProductSubCategoryServiceModel
+            .Categories
+              .Select(x => new ProductCategoryServiceModel
               {
                   Id = x.Id,
                   Name = x.Name
               })
                 .ToList();
 
-        public bool SubCategoriesExists(IEnumerable<string> subCategoriesIds)
-        => this.data.SubCategories.Any(x => subCategoriesIds.Contains(x.Id));
+        public bool SubCategoryExists(string subCategoryId, string categoryId)
+        => this.data.SubCategories.Any(x => x.Id==subCategoryId && x.CategoryId==categoryId);
+
+        public bool CategoryExists(string categoryId)
+        => this.data.Categories.Any(x => x.Id == categoryId);
 
         public ProductDetailsServiceModel Details(string Id)
         => this.data.Products
@@ -250,14 +208,14 @@
                 Title = x.Title,
                 Price = x.Price,
                 Quantity=x.Quantity,
+                CategoryId=x.CategoryId,
+                SubCategoryId=x.SubCategoryId,
                 Delivery=x.DeliveryTake.ToString(),
                 Condition = x.ProductCondition.ToString(),
                 Description=x.Description,
                 MerchantId=x.MerchantId,
                 MerchantName=x.Merchant.Name,
                 UserId=x.Merchant.UserId,
-                SubCategoriesIds=x.ProductsSubCategories.Select(x => x.SubCategoryId).ToList()
-
                                                           
             })
             .FirstOrDefault();
@@ -265,5 +223,16 @@
         public bool ProductIsByMerchant(string id, string merchantId)
         => this.data.Products
             .Any(x => x.Id == id && x.MerchantId == merchantId);
-    }
+
+        public IEnumerable<ProductSubCategoryServiceModel> AllSubCategories()
+        => this.data
+            .SubCategories
+              .Select(x => new ProductSubCategoryServiceModel
+              {
+                  Id = x.Id,
+                  CategoryId=x.CategoryId,
+                  Name = x.Name
+    })
+                .ToList();
+}
 }

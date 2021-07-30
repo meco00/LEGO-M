@@ -16,6 +16,8 @@
 
         public string UserId{ get; init; }
 
-        public IEnumerable<string> SubCategoriesIds { get; init; }
+        public string CategoryId { get;init;}
+
+        public string SubCategoryId { get;init;}
     }
 }

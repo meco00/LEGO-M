@@ -23,10 +23,13 @@
         [Range(QuantityMinLength,byte.MaxValue)]
         public byte Quantity { get; init; }
 
+        [Required]
+        [Display(Name = "Category")]
+        public string CategoryId { get; set; }
 
         [Required]
-        [Display(Name = "SubCategories")]
-        public IEnumerable<string> SubCategoriesIds { get; init; } = new List<string>();
+        [Display(Name = "SubCategory")]
+        public string SubCategoryId { get; set; }
 
         [Required(ErrorMessage = "Select an item from the list.")]
         [EnumDataType(typeof(ProductCondition))]
@@ -37,6 +40,8 @@
         public DeliveryTake? Delivery { get; set; }
 
         public bool AgreeOnTermsOfPolitics { get; set; }
+
+        public IEnumerable<ProductCategoryServiceModel> Categories { get; set; }
 
         public IEnumerable<ProductSubCategoryServiceModel> SubCategories { get; set; }
 
