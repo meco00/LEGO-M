@@ -21,9 +21,8 @@ namespace LegoM
     public class Startup
     {
         public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        => Configuration = configuration;
+        
 
         public IConfiguration Configuration { get; }
 
@@ -88,6 +87,15 @@ namespace LegoM
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
             {
+
+                // /{area}/{controller}/{action}{id?}
+
+                endpoints.MapControllerRoute(
+                    name:"Areas",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                    );
+
+
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });
