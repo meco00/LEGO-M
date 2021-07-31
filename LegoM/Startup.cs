@@ -59,6 +59,8 @@ namespace LegoM
             services.AddRazorPages()
                 .AddRazorRuntimeCompilation();
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IProductsService, ProductsService>();
             services.AddTransient<IMerchantService, MerchantService>();
@@ -88,14 +90,9 @@ namespace LegoM
                 .UseEndpoints(endpoints =>
             {
 
-                // /{area}/{controller}/{action}{id?}
-
-                endpoints.MapControllerRoute(
-                    name:"Areas",
-                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-                    );
 
 
+                endpoints.MapDefaultAreaRoute();
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });

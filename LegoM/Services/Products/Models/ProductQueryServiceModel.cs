@@ -1,4 +1,4 @@
-﻿namespace LegoM.Services.Products
+﻿namespace LegoM.Services.Products.Models
 {
   using System.Collections.Generic;
 

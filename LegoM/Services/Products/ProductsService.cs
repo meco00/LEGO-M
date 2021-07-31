@@ -1,10 +1,11 @@
 ﻿namespace LegoM.Services.Products
 {
-  using LegoM.Data;
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+    using LegoM.Data;
     using LegoM.Data.Models;
     using LegoM.Data.Models.Enums;
-    using LegoM.Models.Products;
-    using Microsoft.EntityFrameworkCore;
+    using LegoM.Services.Products.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -12,12 +13,19 @@
     public class ProductsService : IProductsService
     {
         private readonly LegoMDbContext data;
+        private readonly IConfigurationProvider mapper;
 
 
-        public ProductsService(LegoMDbContext data)
-        => this.data = data;
 
-       
+        public ProductsService(LegoMDbContext data, IMapper mapper)
+        {
+            this.data = data;
+            this.mapper = mapper.ConfigurationProvider;
+        }
+
+
+
+
 
 
         public ProductQueryServiceModel All(string category,
@@ -202,22 +210,7 @@
         public ProductDetailsServiceModel Details(string Id)
         => this.data.Products
             .Where(x => x.Id == Id)
-            .Select(x => new ProductDetailsServiceModel
-            {
-                Id = x.Id,
-                Title = x.Title,
-                Price = x.Price,
-                Quantity=x.Quantity,
-                CategoryId=x.CategoryId,
-                SubCategoryId=x.SubCategoryId,
-                Delivery=x.DeliveryTake.ToString(),
-                Condition = x.ProductCondition.ToString(),
-                Description=x.Description,
-                MerchantId=x.MerchantId,
-                MerchantName=x.Merchant.Name,
-                UserId=x.Merchant.UserId,
-                                                          
-            })
+            .ProjectTo<ProductDetailsServiceModel>(this.mapper)          
             .FirstOrDefault();
 
         public bool ProductIsByMerchant(string id, string merchantId)

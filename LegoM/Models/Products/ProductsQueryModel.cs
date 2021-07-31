@@ -1,7 +1,7 @@
 ﻿namespace LegoM.Models.Products
 {
     using LegoM.Data.Models.Enums;
-    using LegoM.Services.Products;
+    using LegoM.Services.Products.Models;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 

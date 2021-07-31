@@ -4,6 +4,7 @@
     using LegoM.Data.Models.Enums;
     using LegoM.Models.Api.Products;
     using LegoM.Services.Products;
+    using LegoM.Services.Products.Models;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;

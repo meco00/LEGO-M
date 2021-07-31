@@ -2,10 +2,12 @@
 {
     using System.Diagnostics;
     using System.Linq;
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using LegoM.Data;
     using LegoM.Models;
     using LegoM.Models.Home;
-    using LegoM.Services.Products;
+    using LegoM.Services.Products.Models;
     using LegoM.Services.Statistics;
     using Microsoft.AspNetCore.Mvc;
 
@@ -15,10 +17,13 @@
 
         private readonly IStatisticsService statistics;
 
-        public HomeController(LegoMDbContext data, IStatisticsService statistics)
+        private readonly IMapper mapper;
+
+        public HomeController(LegoMDbContext data, IStatisticsService statistics, IMapper mapper)
         {
             this.data = data;
             this.statistics = statistics;
+            this.mapper = mapper;
         }
 
         public IActionResult Index() 
@@ -27,13 +32,7 @@
 
             var products = this.data.Products
                .OrderByDescending(x => x.PublishedOn)
-               .Select(x => new ProductServiceModel()
-               {
-                   Id = x.Id,
-                   Title = x.Title,
-                   Price = x.Price,
-                   Condition = x.ProductCondition.ToString()
-               })
+               .ProjectTo<ProductServiceModel>(this.mapper.ConfigurationProvider)               
                .Take(3)
                .ToList();
 

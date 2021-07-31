@@ -1,7 +1,7 @@
 ﻿namespace LegoM.Models.Home
 {
    
-    using LegoM.Services.Products;
+    using LegoM.Services.Products.Models;
     using System.Collections.Generic;
 
    public class IndexViewModel

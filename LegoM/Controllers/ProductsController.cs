@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using AutoMapper;
     using LegoM.Data;
     using LegoM.Data.Models;
     using LegoM.Data.Models.Enums;
@@ -18,14 +19,17 @@
     {
         private readonly IProductsService products;
         private readonly IMerchantService merchants;
+        private readonly IMapper mapper;
+
         private readonly LegoMDbContext data;
 
 
-        public ProductsController(LegoMDbContext data, IProductsService products, IMerchantService merchants)
+        public ProductsController(LegoMDbContext data, IProductsService products, IMerchantService merchants, IMapper mapper)
         {
             this.data = data;
             this.products = products;
             this.merchants = merchants;
+            this.mapper = mapper;
         }
 
         [Authorize]
@@ -150,21 +154,16 @@
                 return Unauthorized();
             }
 
+            var productForm = this.mapper.Map<ProductFormModel>(product);
+
+            productForm.Categories = this.products.AllCategories();
+            productForm.SubCategories = this.products.AllSubCategories();
 
 
-            return View(new ProductFormModel
-            {
-                Title = product.Title,
-                Description = product.Description,
-                Quantity = product.Quantity,
-                Price = product.Price,
-                Condition = Enum.Parse<ProductCondition>(product.Condition),
-                Delivery = Enum.Parse<DeliveryTake>(product.Delivery),
-                CategoryId = product.CategoryId,
-                SubCategoryId = product.SubCategoryId,
-                Categories = this.products.AllCategories(),
-                SubCategories = this.products.AllSubCategories()
-            });
+            ;
+
+
+            return View(productForm);
         }
 
 
