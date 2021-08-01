@@ -12,6 +12,8 @@
             this.data = data;
         }
 
+        
+
         public string IdByUser(string userId)
         => this.data.Merchants
                 .Where(x => x.UserId == userId)

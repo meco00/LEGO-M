@@ -94,6 +94,13 @@
             };
         }
 
+        public IEnumerable<ProductServiceModel> Latest()
+       => this.data.Products
+              .OrderByDescending(x => x.PublishedOn)
+              .ProjectTo<ProductServiceModel>(this.mapper)
+              .Take(3)
+              .ToList();
+
         public string Create(string title,
                 string description,
                 decimal price,
@@ -227,5 +234,7 @@
                   Name = x.Name
     })
                 .ToList();
-}
+
+       
+    }
 }

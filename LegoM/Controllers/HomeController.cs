@@ -1,40 +1,28 @@
 ﻿namespace LegoM.Controllers
 {
-    using System.Diagnostics;
-    using System.Linq;
     using AutoMapper;
-    using AutoMapper.QueryableExtensions;
-    using LegoM.Data;
-    using LegoM.Models;
     using LegoM.Models.Home;
-    using LegoM.Services.Products.Models;
+    using LegoM.Services.Products;
     using LegoM.Services.Statistics;
     using Microsoft.AspNetCore.Mvc;
+    using System.Linq;
 
     public class HomeController : Controller
     {
-        private readonly LegoMDbContext data;
-
         private readonly IStatisticsService statistics;
+        private readonly IProductsService products;
 
-        private readonly IMapper mapper;
-
-        public HomeController(LegoMDbContext data, IStatisticsService statistics, IMapper mapper)
+        public HomeController(IStatisticsService statistics, IProductsService products)
         {
-            this.data = data;
             this.statistics = statistics;
-            this.mapper = mapper;
+            this.products = products;
         }
 
         public IActionResult Index() 
         {
-
-
-            var products = this.data.Products
-               .OrderByDescending(x => x.PublishedOn)
-               .ProjectTo<ProductServiceModel>(this.mapper.ConfigurationProvider)               
-               .Take(3)
-               .ToList();
+            var products = this.products
+                .Latest()
+                .ToList();
 
             var totalStatistics = this.statistics.Total();
 
@@ -42,14 +30,14 @@
             return this.View(new IndexViewModel
             {
                 TotalProducts = totalStatistics.TotalProducts,
-                TotalUsers=totalStatistics.TotalUsers,
-                TotalProductsSold=totalStatistics.TotalProductsSold,
-                Products=products
-            }) ;
+                TotalUsers = totalStatistics.TotalUsers,
+                TotalProductsSold = totalStatistics.TotalProductsSold,
+                Products = products
+            }); 
         }
-        
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 
-        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+       
+
+        public IActionResult Error() => View();
     }
 }

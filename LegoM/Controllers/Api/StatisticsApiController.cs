@@ -14,7 +14,7 @@ namespace LegoM.Controllers.Api
 
         private readonly IStatisticsService statistics;
 
-        public StatisticsApiController( IStatisticsService statistics)
+        public StatisticsApiController(IStatisticsService statistics)
         => this.statistics = statistics;
 
 

@@ -14,6 +14,8 @@ namespace LegoM.Services.Products
             int productsPerPage,
             ProductSorting productSorting);
 
+        IEnumerable<ProductServiceModel> Latest();
+
         string Create(string title,
                 string description,
                 decimal price,

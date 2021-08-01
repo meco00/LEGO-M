@@ -12,6 +12,6 @@
 
         public int TotalProductsSold{ get; set; }
 
-        public List<ProductServiceModel> Products {get;set;}
+        public IList<ProductServiceModel> Products {get;set;}
     }
 }
