@@ -28,13 +28,14 @@ else
             {
                 var car = Model[i];
 
-                <div class="carousel-item @(i==0 ? "active" : string.Empty)">
-                    <img class="d-block w-100" src="https://frankfurt.apollo.olxcdn.com/v1/files/cghd8htkjxtb2-BG/image;s=1000x1000" width="400" height="700" alt="@car.Title">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h1><a class="btn btn-primary mb-3" asp-controller="Products" asp-action="Details" asp-route-id="@car.Id">@car.Title - @car.Condition</a></h1>
-                        <h2 class="text-danger">@car.Price</h2>
-                    </div>
+            <div class="carousel-item @(i==0 ? "active" : string.Empty)">
+                <img class="d-block w-100 mb-5" src="@car.MainImageUrl" alt="@car.Title">         
+                <div class="carousel-caption d-none d-md-block">
+                    <a class="btn btn-primary" asp-controller="Products" asp-action="Details" asp-route-id="@car.Id"><h2>@car.Title - @car.Condition</h2></a>
+                    <h1 class="text-danger">@car.Price</h1>
+
                 </div>
+            </div>
 
 
             }

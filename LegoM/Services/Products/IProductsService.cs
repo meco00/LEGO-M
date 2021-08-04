@@ -18,10 +18,13 @@ namespace LegoM.Services.Products
 
         string Create(string title,
                 string description,
+                string firstImageUrl,
+                string secondImageUrl,
+                string thirdImageUrl,
                 decimal price,
                 byte quantity,
-                string categoryId,
-                string subCategoryId,
+                int categoryId,
+                int subCategoryId,
                 ProductCondition productCondition,
                 DeliveryTake productDelivery,
                 string merchantId
@@ -31,10 +34,13 @@ namespace LegoM.Services.Products
                string Id,
                string title,
                string description,
+               string firstImageUrl,
+               string secondImageUrl,
+               string thirdImageUrl,
                decimal price,
                byte quantity,
-               string categoryId,
-               string subCategoryId,
+               int categoryId,
+               int subCategoryId,
                ProductCondition productCondition,
                DeliveryTake productDelivery,
                string merchantId
@@ -52,9 +58,9 @@ namespace LegoM.Services.Products
 
         IEnumerable<ProductSubCategoryServiceModel> AllSubCategories();
 
-        bool CategoryExists(string categoryId);
+        bool CategoryExists(int categoryId);
 
-        bool SubCategoryExists(string subCategoryId,string categoryId);
+        bool SubCategoryExists(int subCategoryId, int categoryId);
 
 
         

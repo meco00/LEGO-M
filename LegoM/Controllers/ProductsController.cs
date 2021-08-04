@@ -12,8 +12,11 @@
     using LegoM.Services.Merchants;
     using LegoM.Services.Products;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+
+    using static WebConstants;
 
     public class ProductsController:Controller
     {
@@ -87,6 +90,9 @@
 
             this.products.Create(product.Title,
                 product.Description,
+                product.FirstImageUrl,
+                product.SecondImageUrl,
+                product.ThirdImageUr,
                 product.Price,
                 product.Quantity,
                 product.CategoryId,
@@ -95,6 +101,8 @@
                 product.Delivery.Value,
                 merchantId
                 );
+
+            TempData[GlobalMessageKey] = "Sucessfully added product!";
 
             return RedirectToAction(nameof(All));
 
@@ -210,6 +218,9 @@
                 Id,
                 product.Title,
                 product.Description,
+                product.FirstImageUrl,
+                product.SecondImageUrl,
+                product.ThirdImageUr,
                 product.Price,
                 product.Quantity,
                 product.CategoryId,
@@ -218,14 +229,26 @@
                 product.Delivery.Value,
                 merchantId);
 
-           
+
+            TempData[GlobalMessageKey] = "Sucessfully edited product!";
 
             return RedirectToAction(nameof(All));
         }
 
-       
 
-     
+        public IActionResult Details(string id)
+        {
+            var product = this.products.Details(id);
+
+
+
+
+            return this.View(product);
+
+        }
+
+
+
 
 
     }

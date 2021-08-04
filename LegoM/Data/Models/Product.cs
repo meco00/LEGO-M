@@ -38,19 +38,21 @@
 
         public string MerchantId { get; set; }
 
-        public Merchant Merchant { get; set; }
+        public virtual Merchant Merchant { get; set; }
 
-        [Required]
-        public string CategoryId { get; set; }
+        
+        public int CategoryId { get; set; }
 
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
 
-        [Required]
-        public string SubCategoryId { get; set; }
+        
+        public int SubCategoryId { get; set; }
 
-        public SubCategory SubCategory { get; set; }
+        public virtual SubCategory SubCategory { get; set; }
 
-       
+        public virtual ICollection<ProductImage> Images { get; set; } 
+          = new HashSet<ProductImage>();
+
 
         //public virtual ICollection<Question> Questions { get; set; }
 
@@ -60,6 +62,6 @@
 
         //public virtual ICollection<Report> Reports { get; set; }
 
-        //public virtual ICollection<Picture> Pictures { get; set; }
+
     }
 }

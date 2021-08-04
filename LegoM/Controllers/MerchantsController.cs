@@ -9,6 +9,8 @@
     using System.Linq;
     using System.Security.Claims;
 
+    using static WebConstants;
+
     public class MerchantsController:Controller
     {
         private readonly LegoMDbContext data;
@@ -54,6 +56,8 @@
             data.Merchants.Add(merchantData);
 
             data.SaveChanges();
+
+            TempData[GlobalMessageKey] = "Thank you for becoming Merchant.";
 
             return RedirectToAction("All", "Products");
         }

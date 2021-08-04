@@ -8,7 +8,7 @@
 
     public class SubCategory
     {
-        public string Id { get; init; } = Guid.NewGuid().ToString();
+        public int Id { get; init; }
 
         [Required]
         [MaxLength(NameMaxLength)]
@@ -19,9 +19,9 @@
         public DateTime? DeletedOn { get; set; }
 
         [Required]
-        public string CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
     }

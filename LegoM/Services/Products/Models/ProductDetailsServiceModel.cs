@@ -14,6 +14,10 @@
 
         public string MerchantName{ get; init; }
 
+        public string SecondImageUrl { get; init; }
+
+        public string ThirdImageUrl { get; init; }
+
         public string UserId{ get; init; }
 
         public string CategoryId { get;init;}

@@ -23,19 +23,33 @@
         [Range(QuantityMinLength,byte.MaxValue)]
         public byte Quantity { get; init; }
 
+
         [Required]
+        [Display(Name = "First Image Url")]
+        [Url]
+        public string FirstImageUrl { get; set; }
+
+        [Display(Name = "Second Image Url(Optional)")]
+        [Url]
+        public string SecondImageUrl { get; set; }
+
+        [Display(Name = "Third Image Url(Optional)")]
+        [Url]
+        public string ThirdImageUr { get; set; }
+
+        [Required(ErrorMessage = "Please select an Category from the list.")]
         [Display(Name = "Category")]
-        public string CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select an subCategory from the list.")]
         [Display(Name = "SubCategory")]
-        public string SubCategoryId { get; set; }
+        public int SubCategoryId { get; set; }
 
-        [Required(ErrorMessage = "Select an item from the list.")]
+        [Required(ErrorMessage = "Please select an condition from the list.")]
         [EnumDataType(typeof(ProductCondition))]
         public ProductCondition? Condition { get; set; }
 
-        [Required(ErrorMessage = "Select an item from the list.")]
+        [Required(ErrorMessage = "Please select an delivery taker from the list.")]
         [EnumDataType(typeof(DeliveryTake))]
         public DeliveryTake? Delivery { get; set; }
 

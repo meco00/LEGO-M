@@ -6,6 +6,7 @@
     using LegoM.Data.Models;
     using LegoM.Data.Models.Enums;
     using LegoM.Services.Products.Models;
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -103,10 +104,13 @@
 
         public string Create(string title,
                 string description,
+                string firstImageUrl,
+                string secondImageUrl,
+                string thirdImageUrl,
                 decimal price,
                 byte quantity,
-                string categoryId,
-                string subCategoryId,
+                int categoryId,
+                int subCategoryId,
                 ProductCondition productCondition,
                 DeliveryTake productDelivery,
                 string merchantId)
@@ -122,8 +126,26 @@
                 ProductCondition = productCondition,
                 DeliveryTake = productDelivery,
                 PublishedOn = DateTime.UtcNow,
-                MerchantId = merchantId
-            };
+                MerchantId = merchantId,
+               
+            };          
+
+            foreach (var imageUrl in new List<string>() { firstImageUrl,secondImageUrl,thirdImageUrl})
+            {
+                if (imageUrl !=null)
+                {
+                    productData.Images.Add(new ProductImage()
+                    {
+                        ProductId = productData.Id,
+                        ImageUrl = imageUrl
+                    });
+                }
+
+            }
+
+
+            ;
+
 
 
 
@@ -140,16 +162,19 @@
           string Id,
           string title,
           string description,
+          string firstImageUrl,
+          string secondImageUrl,
+          string thirdImageUrl,
           decimal price,
           byte quantity,
-          string categoryId,
-          string subCategoryId,
+          int categoryId,
+          int subCategoryId,
           ProductCondition productCondition,
           DeliveryTake productDelivery,
           string merchantId
           )
         {
-            var productData = this.data.Products.FirstOrDefault(x => x.Id == Id);
+            var productData = this.data.Products.Include(x=>x.Images).FirstOrDefault(x => x.Id == Id);
 
             if (productData == null)
             {
@@ -164,6 +189,43 @@
             productData.DeliveryTake = productDelivery;
             productData.CategoryId = categoryId;
             productData.SubCategoryId = subCategoryId;
+
+          var mainImage=productData.Images.FirstOrDefault();
+
+            if (mainImage.ImageUrl != firstImageUrl)
+            {
+                mainImage.ImageUrl = firstImageUrl;
+            }
+
+            if (secondImageUrl != null)
+            {
+                var secondImage = productData.Images.Where(x=>x.isDeleted==false).Skip(1).Take(1).FirstOrDefault();
+
+                if (secondImage==null)
+                {
+                    productData.Images.Add(new ProductImage() { ProductId = productData.Id, ImageUrl = secondImageUrl });
+                }
+                else if (secondImage.ImageUrl != secondImageUrl)
+                {
+                    secondImage.ImageUrl = secondImageUrl;
+                }
+            }
+            if (thirdImageUrl != null)
+            {
+                var thirdImage = productData.Images.Where(x => x.isDeleted == false).Skip(2).Take(1).FirstOrDefault();
+
+                if (thirdImage == null)
+                {
+                    productData.Images.Add(new ProductImage() { ProductId = productData.Id, ImageUrl = thirdImageUrl });
+                }
+                else if (thirdImage.ImageUrl != thirdImageUrl)
+                {
+                    thirdImage.ImageUrl = thirdImageUrl;
+                }
+            }
+
+            ;
+
 
             data.SaveChanges();
 
@@ -194,7 +256,8 @@
                  Id = x.Id,
                  Title = x.Title,
                  Price = x.Price,
-                 Condition = x.ProductCondition.ToString()
+                 Condition = x.ProductCondition.ToString(),
+                 MainImageUrl=x.Images.Select(x=>x.ImageUrl).FirstOrDefault()
              })
               .ToList();
 
@@ -208,10 +271,10 @@
               })
                 .ToList();
 
-        public bool SubCategoryExists(string subCategoryId, string categoryId)
+        public bool SubCategoryExists(int subCategoryId, int categoryId)
         => this.data.SubCategories.Any(x => x.Id==subCategoryId && x.CategoryId==categoryId);
 
-        public bool CategoryExists(string categoryId)
+        public bool CategoryExists(int categoryId)
         => this.data.Categories.Any(x => x.Id == categoryId);
 
         public ProductDetailsServiceModel Details(string Id)

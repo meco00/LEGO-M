@@ -2,6 +2,6 @@
 {
     public class ProductSubCategoryServiceModel: ProductCategoryServiceModel
     {
-        public string CategoryId { get; set; }
+        public int CategoryId { get; set; }
     }
 }
