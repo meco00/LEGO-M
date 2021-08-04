@@ -60,6 +60,7 @@ namespace LegoM
                 .AddRazorRuntimeCompilation();
 
             services.AddAutoMapper(typeof(Startup));
+            services.AddMemoryCache();
 
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IProductsService, ProductsService>();

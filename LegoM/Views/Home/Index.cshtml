@@ -1,11 +1,11 @@
-﻿@model IndexViewModel
+﻿@model List<ProductServiceModel>
 
 @{
     ViewData["Title"] = "Home";
 }
 
 
-@if (!Model.Products.Any())
+@if (!Model.Any())
 {
     <div class="jumbotron">
         <h1 class="display-4">Welcome to Lego-M World</h1>
@@ -24,9 +24,9 @@ else
 
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            @for (int i = 0; i < Model.Products.Count(); i++)
+            @for (int i = 0; i < Model.Count(); i++)
             {
-                var car = Model.Products[i];
+                var car = Model[i];
 
                 <div class="carousel-item @(i==0 ? "active" : string.Empty)">
                     <img class="d-block w-100" src="https://frankfurt.apollo.olxcdn.com/v1/files/cghd8htkjxtb2-BG/image;s=1000x1000" width="400" height="700" alt="@car.Title">
