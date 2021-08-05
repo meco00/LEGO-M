@@ -9,6 +9,7 @@ namespace LegoM.Services.Products
     {
         ProductQueryServiceModel All(
             string category,
+            string subCategory,
             string searchTerm,
             int currentPage,
             int productsPerPage,
@@ -62,8 +63,13 @@ namespace LegoM.Services.Products
 
         bool SubCategoryExists(int subCategoryId, int categoryId);
 
+        bool SubCategoryParticipateInCategory(string category, string subCategory);
 
-        
-            
+        bool isSubCategoryValid(string category, string subCategory);
+
+
+
+
+
     }
 }

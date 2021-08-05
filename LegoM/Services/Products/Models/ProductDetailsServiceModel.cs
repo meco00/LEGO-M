@@ -22,6 +22,10 @@
 
         public string CategoryId { get;init;}
 
+        public string CategoryName { get; set; }
+
         public string SubCategoryId { get;init;}
+
+        public string SubCategoryName { get;init;}
     }
 }

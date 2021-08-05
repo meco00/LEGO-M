@@ -18,16 +18,21 @@
 
         public ProductsApiController(LegoMDbContext data,IProductsService products)
         => this.products = products;
-        
+
 
         [HttpGet]
         public ActionResult<ProductQueryServiceModel> All([FromQuery] AllProductsApiRequestModel query)
         => this.products.All(
-           query.Category,
-           query.SearchTerm,
-           query.CurrentPage,
-           query.ProductsPerPage,
-           query.ProductSorting);
+             query.Category,
+             query.SubCategory,
+             query.SearchTerm,
+             query.CurrentPage,
+             query.ProductsPerPage,
+             query.ProductSorting);
+
+
+           
+        
 
 
          

@@ -1,7 +1,7 @@
 ﻿@model ProductsQueryModel
 
 
-@{ 
+@{
     ViewBag.Title = "All Products";
 }
 
@@ -18,76 +18,88 @@
 
     <div class="row mb-5">
 
-    <div class="form-group col-md-4">
-    <label asp-for="Category"></label>
-    <select asp-for="Category" class="form-control">
-        <option value="">All</option>
-        @foreach (var category in Model.Categories)
-        {
-            <option value="@category">@category</option>
-        }
-    </select>
-    <span asp-validation-for="Category" class="small text-danger"></span>
-
-       </div>
-
-    <div class="form-group col-md-4">
-        <div class="form-group">
-            <label asp-for="ProductSorting"></label>
-            <select asp-for="ProductSorting" class="form-control" asp-items="Html.GetEnumSelectList<ProductSorting>()">
-                <option selected="selected" value="">Please select</option>
+        <div class="form-group col-md-2">
+            <label asp-for="Category"></label>
+            <select asp-for="Category" id="selectcat" class="form-control">
+                <option value="" class="rhth">All</option>
+                @foreach (var productCategory in Model.Categories)
+                {
+                    <option class="@productCategory.Id" value="@productCategory.Name">@productCategory.Name</option>
+                }
             </select>
-            <span asp-validation-for="ProductSorting" class="small text-danger"></span>
+            <span asp-validation-for="Category" class="small text-danger"></span>
+        </div>
+        <div class="form-group col-md-2">
+            <label asp-for="SubCategory"></label>
+            <select asp-for="SubCategory" id="selectprod" class="form-control">
+                <option value="" class="rhth23">All</option>
+                @foreach (var productSubCategory in Model.SubCategories)
+                {
+                    <option value="@productSubCategory.Name" class="selectors @productSubCategory.CategoryId">@productSubCategory.Name</option>
+                }
+               
+            </select>
+            <span asp-validation-for="SubCategory" class="small text-danger"></span>
+        </div>
+
+
+        <div class="form-group col-md-3">
+            <div class="form-group">
+                <label asp-for="ProductSorting"></label>
+                <select asp-for="ProductSorting" class="form-control" asp-items="Html.GetEnumSelectList<ProductSorting>()">
+                    <option selected="selected" value="">Please select</option>
+                </select>
+                <span asp-validation-for="ProductSorting" class="small text-danger"></span>
+            </div>
+
+        </div>
+
+        <div class="form-group col-md-3">
+            <div class="form-group">
+                <label asp-for="SearchTerm"></label>
+                <input asp-for="SearchTerm" class="form-control">
+                <span asp-validation-for="SearchTerm" class="small text-danger"></span>
+            </div>
         </div>
 
     </div>
-
-    <div class="form-group col-md-4">
-        <div class="form-group">
-            <label asp-for="SearchTerm"></label>
-            <input asp-for="SearchTerm" class="form-control">
-            <span asp-validation-for="SearchTerm" class="small text-danger"></span>
-        </div>
-    </div>
-
-   </div>
 
 </form>
 
 @if (!Model.Products.Any())
 {
     <h2 class="text-center">No products was found with the given criteria !</h2>
-		 
+
 }
 
 
 <partial name="_ProductsPartial" model="@Model.Products" />
 
 
-@{ 
+@{
     var previousPage = Model.CurrentPage - 1;
     if (previousPage < 1)
     {
         previousPage = 1;
     }
 
-    var maxPage= Math.Ceiling((double)Model.TotalProducts / ProductsQueryModel.ProductsPerPage);
+    var maxPage = Math.Ceiling((double)Model.TotalProducts / ProductsQueryModel.ProductsPerPage);
 }
 
 <div class="row">
     <div class="col-md-6">
-        <a class="btn btn-primary @(Model.CurrentPage==1 ? "disabled":string.Empty)" 
-           asp-controller="Products" 
-           asp-action="All" 
+        <a class="btn btn-primary @(Model.CurrentPage==1 ? "disabled":string.Empty)"
+           asp-controller="Products"
+           asp-action="All"
            asp-route-category="@Model.Category"
            asp-route-searchTerm="@Model.SearchTerm"
            asp-route-productSorting="@Model.ProductSorting"
            asp-route-currentPage="@previousPage"><<</a>
-    </div> 
+    </div>
     <div class="col-md-6">
-        <a class="btn btn-primary float-right @(Model.CurrentPage==maxPage || !Model.Products.Any()  ? "disabled" : string.Empty)" 
-           asp-controller="Products" 
-           asp-action="All" 
+        <a class="btn btn-primary float-right @(Model.CurrentPage==maxPage || !Model.Products.Any()  ? "disabled" : string.Empty)"
+           asp-controller="Products"
+           asp-action="All"
            asp-route-category="@Model.Category"
            asp-route-searchTerm="@Model.SearchTerm"
            asp-route-productSorting="@Model.ProductSorting"
@@ -95,3 +107,32 @@
     </div>
 </div>
 
+
+@section Scripts {
+
+   
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.3.2.js"
+            integrity="sha256-BDmtN+79VRrkfamzD16UnAoJP8zMitAz093tvZATdiE="
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var allOptions = $('#selectprod option')
+            $('#selectcat').change(function () {
+                $('#selectprod option').remove()
+                var classN = $('#selectcat option:selected').prop('class');
+                var opts = allOptions.filter('.' + classN);
+                $.each(opts, function (i, j) {
+                    $(j).appendTo('#selectprod');
+                });
+            });
+        });
+
+
+
+    </script>
+}

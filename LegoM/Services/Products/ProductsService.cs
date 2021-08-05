@@ -29,7 +29,9 @@
 
 
 
-        public ProductQueryServiceModel All(string category,
+        public ProductQueryServiceModel All(
+            string category,
+            string subCategory,
             string searchTerm,
             int currentPage,
             int productsPerPage,
@@ -42,9 +44,24 @@
 
             if (!string.IsNullOrEmpty(category))
             {
+                if (!string.IsNullOrEmpty(subCategory) && 
+                    this.SubCategoryParticipateInCategory(category,subCategory))
+                {
+
+                    productsQuery = productsQuery
+                   .Where(x => x.Category.Name.Contains(category) && x.SubCategory.Name.Contains(subCategory));
+
+                }
+                else
+                {
+
                 productsQuery = productsQuery
-                    .Where(x => x.Category.Name.Contains(category));
+                .Where(x => x.Category.Name.Contains(category));
+
+                }
             }
+           
+          
 
             if (!string.IsNullOrEmpty(searchTerm))
             {
@@ -86,12 +103,14 @@
 
             var productCategories = this.data.Categories.Select(x => x.Name).Distinct().ToList();
 
+
             return new ProductQueryServiceModel
             {
                 Products = products,
                 CurrentPage = currentPage,
                 ProductsPerPage = productsPerPage,
-                TotalProducts=totalProducts
+                TotalProducts = totalProducts,
+
             };
         }
 
@@ -273,6 +292,21 @@
 
         public bool SubCategoryExists(int subCategoryId, int categoryId)
         => this.data.SubCategories.Any(x => x.Id==subCategoryId && x.CategoryId==categoryId);
+
+        public bool SubCategoryParticipateInCategory(string category,string subCategory)
+         => this.data.SubCategories.Any(x => x.Name == subCategory && x.Category.Name == category);
+
+        public bool isSubCategoryValid(string category, string subCategory)
+        => (!string.IsNullOrEmpty(category)
+            && !string.IsNullOrEmpty(subCategory)
+            && this.SubCategoryParticipateInCategory(category, subCategory));
+            
+                
+            
+
+            
+        
+
 
         public bool CategoryExists(int categoryId)
         => this.data.Categories.Any(x => x.Id == categoryId);

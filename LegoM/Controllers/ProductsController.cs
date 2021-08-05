@@ -110,18 +110,28 @@
 
         public IActionResult All([FromQuery]ProductsQueryModel query)
         {
+            
             var queryResult = this.products.All(
             query.Category,
+            query.SubCategory,
             query.SearchTerm,
             query.CurrentPage,
             ProductsQueryModel.ProductsPerPage,
             query.ProductSorting);
 
-            var productCategories = this.products.Categories();
+            ;
+
+            var productCategories = this.products.AllCategories();
+            var productSubCategories = this.products.AllSubCategories();
 
             query.Products = queryResult.Products;
             query.Categories = productCategories;
+            query.SubCategories = productSubCategories;
             query.TotalProducts = queryResult.TotalProducts;
+
+          
+
+           
 
 
             return this.View(query);

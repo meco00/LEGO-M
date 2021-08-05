@@ -9,6 +9,8 @@
 
         public string Category { get; init; }
 
+        public string SubCategory { get; init; }
+
         public string SearchTerm { get; init; }
 
         public int ProductsPerPage { get; set; } = 10;

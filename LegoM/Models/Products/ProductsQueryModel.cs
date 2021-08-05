@@ -11,11 +11,13 @@
 
         public int CurrentPage { get; set; } = 1;
 
-        public string Category { get; init; }
+        public string Category { get; set; }
 
-        public IEnumerable<string> Categories { get; set; }
+        public string SubCategory { get; set; }
 
-        public IEnumerable<string> AllSubCategories { get; set; }
+        public IEnumerable<ProductCategoryServiceModel> Categories { get; set; }
+
+        public IEnumerable<ProductSubCategoryServiceModel> SubCategories { get; set; }
 
         [Display(Name ="Deep Search")]
         public string SearchTerm { get; init; }
