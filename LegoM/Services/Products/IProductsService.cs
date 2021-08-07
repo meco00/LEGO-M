@@ -61,6 +61,8 @@ namespace LegoM.Services.Products
 
         IEnumerable<ProductSubCategoryServiceModel> AllSubCategories();
 
+        bool ProductExists(string Id);
+
         bool CategoryExists(int categoryId);
 
         bool SubCategoryExists(int subCategoryId, int categoryId);

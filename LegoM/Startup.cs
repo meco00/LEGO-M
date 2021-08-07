@@ -5,6 +5,7 @@ namespace LegoM
     using LegoM.Infrastructure;
     using LegoM.Services.Merchants;
     using LegoM.Services.Products;
+    using LegoM.Services.Reviews;
     using LegoM.Services.Statistics;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -65,6 +66,7 @@ namespace LegoM
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IProductsService, ProductsService>();
             services.AddTransient<IMerchantService, MerchantService>();
+            services.AddTransient<IReviewService, ReviewService>();
         }
 
 

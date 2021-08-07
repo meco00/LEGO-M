@@ -71,3 +71,8 @@
 <a asp-action="All" asp-route-category="@Model.Product.CategoryName" asp-route-subCategory="@Model.Product.SubCategoryName"  class=" offset-5 btn btn-primary">More similar products</a>
 
 
+<div class="row mb-3">
+    <h1>Reviews :</h1>
+
+    <a asp-controller="Reviews" asp-action="Add" asp-route-productId="@Model.Product.Id" >Add Review</a>
+</div>

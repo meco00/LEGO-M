@@ -370,6 +370,7 @@
               })
                 .ToList();
 
-
+        public bool ProductExists(string Id)
+        => this.data.Products.Any(x => x.Id == Id);
     }
 }
