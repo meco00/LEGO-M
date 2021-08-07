@@ -110,6 +110,10 @@
 
         public IActionResult All([FromQuery]ProductsQueryModel query)
         {
+            if (!this.products.SubCategoryIsValid(query.SubCategory,query.Category))
+            {
+                return BadRequest();
+            }
             
             var queryResult = this.products.All(
             query.Category,
@@ -248,12 +252,14 @@
 
         public IActionResult Details(string id)
         {
-            var product = this.products.Details(id);
+            var detailsResult = this.products.GetProductAndSimiliarProducts(id);
 
+            if (detailsResult==null)
+            {
+                return NotFound();
+            }
 
-
-
-            return this.View(product);
+            return this.View(detailsResult);
 
         }
 

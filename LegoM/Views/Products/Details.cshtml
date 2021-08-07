@@ -1,22 +1,22 @@
-﻿@model ProductDetailsServiceModel
+﻿@model ProductDetailsAndSimilarProductsServiceModel
 
 
 @{
-    var images = new List<string>() { Model.MainImageUrl, Model.SecondImageUrl, Model.ThirdImageUrl };
+    var images = new List<string>() { Model.Product.MainImageUrl, Model.Product.SecondImageUrl, Model.Product.ThirdImageUrl };
 }
- <h1>@Model.Title, @Model.Condition</h1>
+<h1>@Model.Product.Title, @Model.Product.Condition</h1>
 <div class="mb-5"></div>
 <div class="row">
     <div class="col-md-4">
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            
+
             <div class="carousel-inner">
                 @for (int i = 0; i < images.Count; i++)
                 {
                     var product = images[i];
 
                     <div class="carousel-item @(i==0 ? "active" : string.Empty)">
-                        <img class="d-block w-100 mb-5" src="@product" alt="@Model.Title">
+                        <img class="d-block w-100 mb-5" src="@product" alt="@Model.Product.Title">
                     </div>
 
 
@@ -36,18 +36,27 @@
 
     </div>
     <div class="col-md-4 offset-3">
-        <h5>Category : <a asp-action="All" asp-route-category="@Model.CategoryName">@Model.CategoryName</a></h5>
-        <h5>SubCategory : <a asp-action="All" asp-route-category="@Model.CategoryName" asp-route-subCategory="@Model.SubCategoryName">@Model.SubCategoryName</a></h5>
-        
-        
-       
+        <h5>Category : <a asp-action="All" asp-route-category="@Model.Product.CategoryName">@Model.Product.CategoryName</a></h5>
+        <h5>SubCategory : <a asp-action="All" asp-route-category="@Model.Product.CategoryName" asp-route-subCategory="@Model.Product.SubCategoryName">@Model.Product.SubCategoryName</a></h5>
+
+
+
         <div class="mb-5"></div>
-        <a asp-controller="Products" asp-action="Favourites" asp-route-id="@Model.Id" class="btn btn-danger">Add To Favourites</a>
-        <a asp-controller="Products" asp-action="Favourites" asp-route-id="@Model.Id" class="btn btn-danger">Add To Shopping Bag</a>
+        <a asp-controller="Products" asp-action="Favourites" asp-route-id="@Model.Product.Id" class="btn btn-danger">Add To Favourites</a>
+        <div class="mb-3"></div>
+        <a asp-controller="Products" asp-action="Favourites" asp-route-id="@Model.Product.Id" class="btn btn-danger mr-3">Add To Shopping Bag</a>
     </div>
 
 </div>
 <h1>Description</h1>
-<h2>@Model.Description</h2>
+<h2 class="mb-5">@Model.Product.Description</h2>
+
+
+
+<h2 class="mb-5">Similar Products:</h2>
+
+<partial name="_ProductsPartial" model="@Model.SimilarProducts" />
+
+<a asp-action="All" asp-route-category="@Model.Product.CategoryName" asp-route-subCategory="@Model.Product.SubCategoryName"  class=" offset-5 btn btn-primary">More similar products</a>
 
 

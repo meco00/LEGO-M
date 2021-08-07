@@ -44,8 +44,8 @@
 
             if (!string.IsNullOrEmpty(category))
             {
-                if (!string.IsNullOrEmpty(subCategory) && 
-                    this.SubCategoryParticipateInCategory(category,subCategory))
+                if (!string.IsNullOrEmpty(subCategory) &&
+                    this.SubCategoryParticipateInCategory(subCategory, category))
                 {
 
                     productsQuery = productsQuery
@@ -55,20 +55,20 @@
                 else
                 {
 
-                productsQuery = productsQuery
-                .Where(x => x.Category.Name.Contains(category));
+                    productsQuery = productsQuery
+                    .Where(x => x.Category.Name.Contains(category));
 
                 }
             }
-           
-          
+
+
 
             if (!string.IsNullOrEmpty(searchTerm))
             {
 
                 productsQuery = productsQuery
-                   
-                    
+
+
 
                     .Where(x => x.SubCategory.Name.ToLower().Contains(searchTerm.ToLower())
                     || x.Category.Name.ToLower().Contains(searchTerm.ToLower())
@@ -99,7 +99,7 @@
                   .Skip((currentPage - 1) * productsPerPage)
                     .Take(productsPerPage)
                 );
-                
+
 
             var productCategories = this.data.Categories.Select(x => x.Name).Distinct().ToList();
 
@@ -140,18 +140,18 @@
                 Description = description,
                 Price = price,
                 Quantity = quantity,
-                CategoryId=categoryId,
-                SubCategoryId=subCategoryId,
+                CategoryId = categoryId,
+                SubCategoryId = subCategoryId,
                 ProductCondition = productCondition,
                 DeliveryTake = productDelivery,
                 PublishedOn = DateTime.UtcNow,
                 MerchantId = merchantId,
-               
-            };          
 
-            foreach (var imageUrl in new List<string>() { firstImageUrl,secondImageUrl,thirdImageUrl})
+            };
+
+            foreach (var imageUrl in new List<string>() { firstImageUrl, secondImageUrl, thirdImageUrl })
             {
-                if (imageUrl !=null)
+                if (imageUrl != null)
                 {
                     productData.Images.Add(new ProductImage()
                     {
@@ -174,7 +174,7 @@
 
             return productData.Id;
 
-            
+
         }
 
         public bool Edit(
@@ -193,7 +193,7 @@
           string merchantId
           )
         {
-            var productData = this.data.Products.Include(x=>x.Images).FirstOrDefault(x => x.Id == Id);
+            var productData = this.data.Products.Include(x => x.Images).FirstOrDefault(x => x.Id == Id);
 
             if (productData == null)
             {
@@ -209,7 +209,7 @@
             productData.CategoryId = categoryId;
             productData.SubCategoryId = subCategoryId;
 
-          var mainImage=productData.Images.FirstOrDefault();
+            var mainImage = productData.Images.FirstOrDefault();
 
             if (mainImage.ImageUrl != firstImageUrl)
             {
@@ -218,9 +218,9 @@
 
             if (secondImageUrl != null)
             {
-                var secondImage = productData.Images.Where(x=>x.isDeleted==false).Skip(1).Take(1).FirstOrDefault();
+                var secondImage = productData.Images.Where(x => x.isDeleted == false).Skip(1).Take(1).FirstOrDefault();
 
-                if (secondImage==null)
+                if (secondImage == null)
                 {
                     productData.Images.Add(new ProductImage() { ProductId = productData.Id, ImageUrl = secondImageUrl });
                 }
@@ -256,7 +256,7 @@
             .Categories
             .Select(x => x.Name)
             .Distinct()
-            .OrderBy(ca=>ca)
+            .OrderBy(ca => ca)
             .ToList();
 
         public IEnumerable<ProductServiceModel> ByUser(string userId)
@@ -265,19 +265,49 @@
                     .Products
                       .Where(x => x.Merchant.UserId == userId)
             );
-            
+
+        public ProductDetailsAndSimilarProductsServiceModel GetProductAndSimiliarProducts(string Id)
+        {
+            var product = Details(Id);
+
+            if (product==null)
+            {
+                return null;
+            }
+
+            var productFirstPartOfTitle = product.Title.Split(" ", StringSplitOptions.RemoveEmptyEntries)[0];
+
+
+
+            var similarProducts = GetProducts(
+                 this.data
+                 .Products
+                 .Where(x => x.Category.Name == product.CategoryName &&
+                 x.SubCategory.Name == product.SubCategoryName &&
+                 x.Title.Contains(productFirstPartOfTitle) && x.Title != product.Title)
+                 .Take(5));
+
+
+            return new ProductDetailsAndSimilarProductsServiceModel
+            {
+                Product = product,
+                SimilarProducts = similarProducts
+            };
+
+        }
+
 
 
         private static IEnumerable<ProductServiceModel> GetProducts(IQueryable<Product> productsQuery)
          => productsQuery
             .Select(x => new ProductServiceModel()
-             {
-                 Id = x.Id,
-                 Title = x.Title,
-                 Price = x.Price,
-                 Condition = x.ProductCondition.ToString(),
-                 MainImageUrl=x.Images.Select(x=>x.ImageUrl).FirstOrDefault()
-             })
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Price = x.Price,
+                Condition = x.ProductCondition.ToString(),
+                MainImageUrl = x.Images.Select(x => x.ImageUrl).FirstOrDefault()
+            })
               .ToList();
 
         public IEnumerable<ProductCategoryServiceModel> AllCategories()
@@ -291,21 +321,29 @@
                 .ToList();
 
         public bool SubCategoryExists(int subCategoryId, int categoryId)
-        => this.data.SubCategories.Any(x => x.Id==subCategoryId && x.CategoryId==categoryId);
+        => this.data.SubCategories.Any(x => x.Id == subCategoryId && x.CategoryId == categoryId);
 
-        public bool SubCategoryParticipateInCategory(string category,string subCategory)
+        public bool SubCategoryParticipateInCategory(string subCategory, string category)
          => this.data.SubCategories.Any(x => x.Name == subCategory && x.Category.Name == category);
 
-        public bool isSubCategoryValid(string category, string subCategory)
-        => (!string.IsNullOrEmpty(category)
-            && !string.IsNullOrEmpty(subCategory)
-            && this.SubCategoryParticipateInCategory(category, subCategory));
-            
-                
-            
+        public bool SubCategoryIsValid(string subCategory, string category)
+        {
+            if (!string.IsNullOrEmpty(category) && !string.IsNullOrEmpty(subCategory))
+            {
+                if (!this.SubCategoryParticipateInCategory(subCategory, category))
+                {
+                    return false;
+                }
 
-            
-        
+            }
+            else if (!string.IsNullOrEmpty(subCategory))
+            {
+                return false;
+            }
+
+            return true;
+
+        }
 
 
         public bool CategoryExists(int categoryId)
@@ -314,7 +352,7 @@
         public ProductDetailsServiceModel Details(string Id)
         => this.data.Products
             .Where(x => x.Id == Id)
-            .ProjectTo<ProductDetailsServiceModel>(this.mapper)          
+            .ProjectTo<ProductDetailsServiceModel>(this.mapper)
             .FirstOrDefault();
 
         public bool ProductIsByMerchant(string id, string merchantId)
@@ -327,11 +365,11 @@
               .Select(x => new ProductSubCategoryServiceModel
               {
                   Id = x.Id,
-                  CategoryId=x.CategoryId,
+                  CategoryId = x.CategoryId,
                   Name = x.Name
-    })
+              })
                 .ToList();
 
-       
+
     }
 }

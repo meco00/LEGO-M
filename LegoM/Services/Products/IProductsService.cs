@@ -51,6 +51,8 @@ namespace LegoM.Services.Products
 
         IEnumerable<ProductServiceModel> ByUser(string userId);
 
+        ProductDetailsAndSimilarProductsServiceModel GetProductAndSimiliarProducts(string Id);
+
         bool ProductIsByMerchant(string id, string merchantId);
 
         IEnumerable<string> Categories();
@@ -63,9 +65,9 @@ namespace LegoM.Services.Products
 
         bool SubCategoryExists(int subCategoryId, int categoryId);
 
-        bool SubCategoryParticipateInCategory(string category, string subCategory);
+        bool SubCategoryParticipateInCategory(string subCategory,string category);
 
-        bool isSubCategoryValid(string category, string subCategory);
+        bool SubCategoryIsValid(string subCategory,string category);
 
 
 
