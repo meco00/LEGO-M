@@ -2,11 +2,13 @@
 
 
 @{
-    var images = new List<string>() { Model.Product.MainImageUrl, Model.Product.SecondImageUrl, Model.Product.ThirdImageUrl };
+    var images = new List<string>() { Model.Product.MainImageUrl, Model.Product.SecondImageUrl, Model.Product.ThirdImageUrl  };
+
+    var isProductAvailable = Model.Product.Quantity > 0;
 }
 <h1>@Model.Product.Title, @Model.Product.Condition</h1>
-<div class="mb-5"></div>
-<div class="row">
+
+<div class="row mb-5">
     <div class="col-md-4">
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
 
@@ -35,19 +37,28 @@
         </div>
 
     </div>
-    <div class="col-md-4 offset-3">
+    <div class="col-md-4 offset-2 mt-5">
         <h5>Category : <a asp-action="All" asp-route-category="@Model.Product.CategoryName">@Model.Product.CategoryName</a></h5>
-        <h5>SubCategory : <a asp-action="All" asp-route-category="@Model.Product.CategoryName" asp-route-subCategory="@Model.Product.SubCategoryName">@Model.Product.SubCategoryName</a></h5>
-
-
-
-        <div class="mb-5"></div>
-        <a asp-controller="Products" asp-action="Favourites" asp-route-id="@Model.Product.Id" class="btn btn-danger">Add To Favourites</a>
+        <h5 class="mb-3">SubCategory : <a asp-action="All" asp-route-category="@Model.Product.CategoryName" asp-route-subCategory="@Model.Product.SubCategoryName">@Model.Product.SubCategoryName</a></h5>
+        <h5 class="btn btn-warning">Shipment inspection</h5>
         <div class="mb-3"></div>
-        <a asp-controller="Products" asp-action="Favourites" asp-route-id="@Model.Product.Id" class="btn btn-danger mr-3">Add To Shopping Bag</a>
+        <h5 class="btn btn-outline-@(isProductAvailable ? "primary":"danger")">@(isProductAvailable ? "Available": "Exhausted") </h5>
+
+
+
+    </div>
+    <div class="mb-5"></div>
+
+    <div class="col-md-2 float-right mt-5">
+        <h2 class="mb-3">@(Model.Product.Price+ " лв.")</h2>
+        <a asp-controller="Products" asp-action="Favourites" asp-route-id="@Model.Product.Id" class="btn btn-outline-danger">Add To Favourites</a>
+        <div class="mb-3"></div>
+        <a asp-controller="Products" asp-action="Favourites" asp-route-id="@Model.Product.Id" class="btn btn-info mr-3">Add To Shopping Bag</a>
+
     </div>
 
 </div>
+
 <h1>Description</h1>
 <h2 class="mb-5">@Model.Product.Description</h2>
 

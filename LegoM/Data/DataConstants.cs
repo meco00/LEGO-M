@@ -18,7 +18,7 @@
             public const int TittleMinLength = 5;
 
             public const int DescriptionMaxLength = 1000;
-            public const int DescriptionMinLength = 20;
+            public const int DescriptionMinLength = 10;
 
             public const int QuantityMinLength = 1;
 
@@ -53,7 +53,7 @@
         public const int OrderAreaMaxLength = 20;
         public const int OrderTownMaxLength = 30;
 
-        public const int PictureExtensionMaxLength = 6;
+       
 
 
 
@@ -62,8 +62,18 @@
 
         public const int ReportDescriptionMaxLength = 250;
 
-        public const int ReviewTextMaxLength = 250;
-        public const int ReviewTitleMaxLength = 100;
+        public class Review
+        {
+          public const int ContentMaxLength = 250;
+          public const int ContentMinLength = 10;
+
+          public const int TitleMaxLength = 20;
+          public const int TitleMinLength = 5;
+         
+
+        }
+
+
 
        
 

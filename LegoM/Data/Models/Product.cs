@@ -50,13 +50,14 @@
 
         public virtual SubCategory SubCategory { get; set; }
 
-        public virtual ICollection<ProductImage> Images { get; set; } 
+        public virtual ICollection<ProductImage> Images { get; init; } 
           = new HashSet<ProductImage>();
 
-
+        public virtual ICollection<Review> Reviews { get; init; }
+          = new HashSet<Review>();
         //public virtual ICollection<Question> Questions { get; set; }
 
-        //public virtual ICollection<UserReview> UserReviews { get; set; }
+
 
         //public virtual ICollection<UserProduct> UserProducts { get; set; }
 
