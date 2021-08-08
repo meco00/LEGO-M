@@ -251,13 +251,7 @@
             return true;
         }
 
-        public IEnumerable<string> Categories()
-        => this.data
-            .Categories
-            .Select(x => x.Name)
-            .Distinct()
-            .OrderBy(ca => ca)
-            .ToList();
+        
 
         public IEnumerable<ProductServiceModel> ByUser(string userId)
         => GetProducts(
@@ -288,26 +282,15 @@
 
 
 
-        private static IEnumerable<ProductServiceModel> GetProducts(IQueryable<Product> productsQuery)
+        private  IEnumerable<ProductServiceModel> GetProducts(IQueryable<Product> productsQuery)
          => productsQuery
-            .Select(x => new ProductServiceModel()
-            {
-                Id = x.Id,
-                Title = x.Title,
-                Price = x.Price,
-                Condition = x.ProductCondition.ToString(),
-                MainImageUrl = x.Images.Select(x => x.ImageUrl).FirstOrDefault()
-            })
+            .ProjectTo<ProductServiceModel>(this.mapper)
               .ToList();
 
         public IEnumerable<ProductCategoryServiceModel> AllCategories()
         => this.data
             .Categories
-              .Select(x => new ProductCategoryServiceModel
-              {
-                  Id = x.Id,
-                  Name = x.Name
-              })
+              .ProjectTo<ProductCategoryServiceModel>(this.mapper)
                 .ToList();
 
         public bool SubCategoryExists(int subCategoryId, int categoryId)
@@ -352,12 +335,7 @@
         public IEnumerable<ProductSubCategoryServiceModel> AllSubCategories()
         => this.data
             .SubCategories
-              .Select(x => new ProductSubCategoryServiceModel
-              {
-                  Id = x.Id,
-                  CategoryId = x.CategoryId,
-                  Name = x.Name
-              })
+             .ProjectTo<ProductSubCategoryServiceModel>(this.mapper)
                 .ToList();
 
         public bool ProductExists(string Id)

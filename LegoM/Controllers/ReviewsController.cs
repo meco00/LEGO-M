@@ -1,26 +1,25 @@
 ﻿namespace LegoM.Controllers
 {
-    using LegoM.Data.Models.Enums;
+    using AutoMapper;
     using LegoM.Infrastructure;
     using LegoM.Models.Reviews;
     using LegoM.Services.Products;
     using LegoM.Services.Reviews;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class ReviewsController:Controller
     {
         private readonly IProductsService products;
         private readonly IReviewService reviews;
 
-        public ReviewsController(IProductsService products, IReviewService reviews)
+        private readonly IMapper mapper;
+
+        public ReviewsController(IProductsService products, IReviewService reviews, IMapper mapper)
         {
             this.products = products;
             this.reviews = reviews;
+            this.mapper = mapper;
         }
 
         [Authorize]
@@ -29,6 +28,14 @@
             if (!this.products.ProductExists(productId))
             {
                 return BadRequest();
+            }
+
+            var review = this.reviews.ReviewByUser(productId, this.User.Id());
+
+            if (review !=null)
+            {
+                return RedirectToAction("Details",new { id=review.Id, information=review.Information});
+
             }
 
             return View();
@@ -52,9 +59,14 @@
 
             }
 
-            if (this.reviews.ReviewAlreadyExistsForUser(productId,this.User.Id()))
+            ;
+
+
+            var reviewModel = this.reviews.ReviewByUser(productId, this.User.Id());
+
+            if (reviewModel != null)
             {
-                return RedirectToAction("Details");
+                return RedirectToAction("Details", new { id = reviewModel.Id, information = reviewModel.Information });
 
             }
 
@@ -118,14 +130,9 @@
                 return BadRequest();
             }
 
-            return this.View(new ReviewFormModel
-            {
-                Title = review.Title,
-                Rating = (ReviewType)review.Rating,
-                Content = review.Content
+            var reviewFormModel = this.mapper.Map<ReviewFormModel>(review);
 
-
-            });
+            return this.View(reviewFormModel);
 
         }
 
@@ -164,6 +171,46 @@
 
         }
 
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            if (!this.reviews.ReviewIsByUser(id, this.User.Id()))
+            {
+                return BadRequest();
+            }
+
+
+
+           return this.View();
+
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Delete(int id,ReviewDeleteFormModel deleteModel)
+        {
+            ;
+            if (!this.reviews.ReviewIsByUser(id, this.User.Id()))
+            {
+                return BadRequest();
+            }
+
+            if (!deleteModel.SureToDelete)
+            {
+                return RedirectToAction(nameof(Mine));
+            }
+
+          var isDeleted = this.reviews.Delete(id);
+
+            if (!isDeleted)
+            {
+                return BadRequest();
+            }
+
+            this.TempData[WebConstants.GlobalMessageKey] = "Succesfully deleted review.";
+
+            return RedirectToAction(nameof(Mine));
+        }
 
         
 

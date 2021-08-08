@@ -29,9 +29,11 @@
 
         ProductReviewsStatisticsServiceModel GetStatisticsForProduct(string productId);
 
-        bool ReviewAlreadyExistsForUser(string productId, string userId);
+        ReviewByUserServiceModel ReviewByUser(string productId, string userId);
 
-        bool ReviewIsByUser(int id, string userId);
+        bool ReviewIsByUser(int id, string userId);     
+
+        bool Delete(int id);
 
     }
 }

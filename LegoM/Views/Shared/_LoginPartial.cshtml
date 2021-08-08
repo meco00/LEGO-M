@@ -15,7 +15,9 @@
 
         var userIsAdmin = this.User.IsAdmin();
 
-
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Reviews" asp-action="Mine">My Reviews</a>
+        </li>
         @if (isUserMerchant && !userIsAdmin)
         {
             <li class="nav-item">
@@ -24,9 +26,7 @@
         }
         else if (!userIsAdmin)
         {
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Reviews" asp-action="Mine">My Reviews</a>
-            </li>
+
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Merchants" asp-action="Become">Become Merchant</a>
             </li>

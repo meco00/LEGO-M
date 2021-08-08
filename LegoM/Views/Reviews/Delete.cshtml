@@ -1,0 +1,20 @@
+﻿@model ReviewDeleteFormModel
+
+@{ 
+    ViewBag.Title = "Delete Review";
+}
+
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 ofset-xl-3 col-xl-6">
+        <h2 class="heading-margin text-center">@ViewBag.Title</h2>
+        <form method="post">
+            <div class="form-check">
+                <input asp-for="@Model.SureToDelete" />
+                <label asp-for="@Model.SureToDelete">Are you sure to Delete this Review !</label>
+            </div>
+            <input class="btn btn-danger float-right" type="submit" value="Delete" />
+            <a asp-controller="Reviews" asp-action="Mine" class="btn btn-outline-primary float-right mr-3">Back</a>
+        </form>
+    </div>
+</div>
