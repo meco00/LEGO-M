@@ -14,6 +14,7 @@
             string title
             );
 
+        ReviewDetailsServiceModel Details(int id);
 
         IEnumerable<ReviewServiceModel> All(string productId);
 

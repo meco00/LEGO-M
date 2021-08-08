@@ -74,6 +74,26 @@
         }
 
 
+        public IActionResult Details(int id,string information)
+        {
+            ;
+
+            var review = this.reviews.Details(id);
+
+            if (review==null || review.GetInformation() != information)
+            {
+                return NotFound();
+            }
+
+            
+
+            return this.View(review);
+
+        }
+
+        
+
+
 
 
     }

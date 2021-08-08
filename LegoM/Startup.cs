@@ -1,5 +1,6 @@
 namespace LegoM
 {
+    using LegoM.Controllers;
     using LegoM.Data;
     using LegoM.Data.Models;
     using LegoM.Infrastructure;
@@ -96,6 +97,10 @@ namespace LegoM
 
 
                 endpoints.MapDefaultAreaRoute();
+
+                endpoints.MapReviewsDetailsRoute();
+               
+
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });

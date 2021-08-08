@@ -1,0 +1,34 @@
+﻿@model ReviewDetailsServiceModel
+
+<div class="row mb-3">
+    <div class="col-md-3">
+        <img src="@Model.ProductImage" alt="@Model.ProductTitle" class="img-thumbnail">
+
+    </div>
+    <div class="col-md-4">
+        <h4>Review for :</h4>
+        <a asp-controller="Products" asp-action="Details" asp-route-id="@Model.ProductId"><h5>@Model.ProductTitle</h5></a>
+</div>
+    <div class="col-md-2">
+        <h3>@(Model.ProductPrice+" лв.")</h3>
+        
+    </div>
+    <div class="col-md-2">
+        <a asp-controller="Products" asp-action="Details" asp-route-id="@Model.ProductId" asp-route-information="" class="btn btn-outline-info">See more</a>
+    </div>
+
+</div>
+
+<hr />
+
+<div class="row mt-5">
+    <div class="col-md-2 mt-3">
+        <h5>@Model.UserName</h5>
+        <span>@Model.PublishedOn</span>
+    </div>
+    <div class="col-md-8 ml-5">
+        <h3>@Model.Title</h3>
+        <h5>Rating: @Model.Rating </h5>
+        <p >@Model.Content</p>
+    </div>
+</div>

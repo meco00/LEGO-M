@@ -1,7 +1,9 @@
 ﻿namespace LegoM.Services.Reviews.Models
 {
-    public class ReviewServiceModel
+    public class ReviewServiceModel:IReviewModel
     {
+        public int Id { get; set; }
+
         public string Title { get; set; }
 
         public string Content { get; set; }

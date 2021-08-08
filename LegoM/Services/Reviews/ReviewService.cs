@@ -23,6 +23,7 @@
         => this.data.Reviews.Where(x => x.ProductId == productId).OrderByDescending(x => x.PublishedOn)
             .Select(x => new ReviewServiceModel
             {
+                Id=x.Id,
                 Title = x.Title,
                 Content = x.Content,
                 UserName = x.User.FullName,
@@ -58,6 +59,26 @@
 
             
         }
+
+        public ReviewDetailsServiceModel Details(int id)
+        => this.data.Reviews.Where(x => x.Id == id)
+            .Select(x => new ReviewDetailsServiceModel
+            {
+                Title=x.Title,
+                Rating=(int)x.Rating,
+                Content=x.Content,
+                UserName=x.User.UserName,
+                PublishedOn=x.PublishedOn.ToString("MM MMM yyy"),
+                ProductImage=x.Product.Images.Select(x=>x.ImageUrl).FirstOrDefault(),
+                ProductId=x.ProductId,
+                ProductPrice=x.Product.Price.ToString("f2"),
+                ProductTitle=x.Product.Title,
+            })
+            .FirstOrDefault();
+
+
+            
+        
 
         public ProductReviewsStatisticsServiceModel GetStatisticsForProduct(string productId)
         {
