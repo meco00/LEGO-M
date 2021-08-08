@@ -51,7 +51,9 @@ namespace LegoM.Services.Products
 
         IEnumerable<ProductServiceModel> ByUser(string userId);
 
-        ProductDetailsAndSimilarProductsServiceModel GetProductAndSimiliarProducts(string Id);
+
+
+        IEnumerable<ProductServiceModel> GetSimilarProducts(string Id);
 
         bool ProductIsByMerchant(string id, string merchantId);
 

@@ -266,7 +266,7 @@
                       .Where(x => x.Merchant.UserId == userId)
             );
 
-        public ProductDetailsAndSimilarProductsServiceModel GetProductAndSimiliarProducts(string Id)
+        public IEnumerable<ProductServiceModel> GetSimilarProducts(string Id)
         {
             var product = Details(Id);
 
@@ -277,23 +277,13 @@
 
             var productFirstPartOfTitle = product.Title.Split(" ", StringSplitOptions.RemoveEmptyEntries)[0];
 
-
-
-            var similarProducts = GetProducts(
+            return GetProducts(
                  this.data
                  .Products
                  .Where(x => x.Category.Name == product.CategoryName &&
                  x.SubCategory.Name == product.SubCategoryName &&
                  x.Title.Contains(productFirstPartOfTitle) && x.Title != product.Title)
                  .Take(5));
-
-
-            return new ProductDetailsAndSimilarProductsServiceModel
-            {
-                Product = product,
-                SimilarProducts = similarProducts
-            };
-
         }
 
 

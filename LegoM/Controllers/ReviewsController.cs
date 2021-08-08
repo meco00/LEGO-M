@@ -42,7 +42,6 @@
             {
                 return BadRequest();
             }
-
            
             ;
 
@@ -51,6 +50,14 @@
                 return this.View(review);
 
             }
+
+            if (this.reviews.ReviewAlreadyExistsForUser(productId,this.User.Id()))
+            {
+                return RedirectToAction("Details");
+
+            }
+
+
 
 
             this.reviews.Create(
@@ -63,8 +70,10 @@
 
             this.TempData[WebConstants.GlobalMessageKey] = "Succesfully created review to product";
 
-            return RedirectToAction("Details", "Products" , new {id=productId });
+            return RedirectToAction(nameof(ProductsController.Details), "Products" , new {id=productId });
         }
+
+
 
 
     }
