@@ -174,6 +174,11 @@
 
             var product = this.products.Details(Id);
 
+            if (product==null)
+            {
+                return NotFound();
+            }
+
             if (product.UserId!=userId && !isUserAdmin)
             {
                 return Unauthorized();

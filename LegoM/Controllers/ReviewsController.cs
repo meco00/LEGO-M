@@ -1,5 +1,6 @@
 ﻿namespace LegoM.Controllers
 {
+    using LegoM.Data.Models.Enums;
     using LegoM.Infrastructure;
     using LegoM.Models.Reviews;
     using LegoM.Services.Products;
@@ -90,6 +91,79 @@
             return this.View(review);
 
         }
+
+        [Authorize]
+        public IActionResult Mine()
+        {
+            ;
+            var myReviews = this.reviews.ByUser(this.User.Id());
+
+
+            return this.View(myReviews);
+        }
+
+
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var review = this.reviews.Details(id);
+
+            if (review == null)
+            {
+                return NotFound();
+            }
+
+            if (review.UserId != this.User.Id())
+            {
+                return BadRequest();
+            }
+
+            return this.View(new ReviewFormModel
+            {
+                Title = review.Title,
+                Rating = (ReviewType)review.Rating,
+                Content = review.Content
+
+
+            });
+
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Edit(int id,ReviewFormModel review)
+        {
+
+            ;
+
+
+            if (!(ModelState.IsValid))
+            {
+                return this.View(review);
+
+            }
+
+            if (!this.reviews.ReviewIsByUser(id,this.User.Id()))
+            {
+                return BadRequest();
+            }
+
+            var isReviewEdited = this.reviews.Edit
+                (id, 
+                review.Rating.Value, 
+                review.Content, 
+                review.Title
+                );
+
+            if (!isReviewEdited)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction(nameof(ReviewsController.Mine), "Reviews");
+
+        }
+
 
         
 

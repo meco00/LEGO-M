@@ -32,14 +32,23 @@
             })
             .ToList();
 
+        public IEnumerable<ReviewListingServiceModel> ByUser(string userId)
+        => this.data.Reviews.Where(x => x.UserId == userId).Select(x => new ReviewListingServiceModel
+        {
+            Id=x.Id,
+            Title = x.Title,
+            Content = x.Content,
+            Rating = (int)x.Rating,
+            PublishedOn = x.PublishedOn.ToString("MM MMM yyy"),
+            ProductId=x.ProductId,
+            ProductTitle=x.Product.Title,
+            ProductImage= x.Product.Images.Select(x => x.ImageUrl).FirstOrDefault(),
+
+        }).ToList();
+
         public void Create(string productId,string userId, ReviewType rating, string content, string title)
         {
-            if (title==null)
-            {
-                title = rating.ToString();
-            }
-
-
+            title = ValidateTitle(rating, title);
 
             var review = new Review
             {
@@ -48,7 +57,7 @@
                 Title = title,
                 ProductId = productId,
                 UserId = userId,
-                PublishedOn=DateTime.UtcNow
+                PublishedOn = DateTime.UtcNow
 
             };
 
@@ -57,8 +66,10 @@
 
             this.data.SaveChanges();
 
-            
+
         }
+
+        
 
         public ReviewDetailsServiceModel Details(int id)
         => this.data.Reviews.Where(x => x.Id == id)
@@ -68,6 +79,7 @@
                 Rating=(int)x.Rating,
                 Content=x.Content,
                 UserName=x.User.UserName,
+                UserId=x.UserId,
                 PublishedOn=x.PublishedOn.ToString("MM MMM yyy"),
                 ProductImage=x.Product.Images.Select(x=>x.ImageUrl).FirstOrDefault(),
                 ProductId=x.ProductId,
@@ -76,9 +88,29 @@
             })
             .FirstOrDefault();
 
+        public bool Edit(int id, ReviewType rating, string content, string title)
+        {
 
-            
-        
+            var review = this.data.Reviews.FirstOrDefault(x => x.Id == id);
+
+            if (review==null)
+            {
+                return false;
+            }
+
+            title = ValidateTitle(rating, title);
+
+
+            review.Title = title;
+            review.Rating = rating;
+            review.Content = content;
+
+            this.data.SaveChanges();
+
+            return true;
+
+
+        }
 
         public ProductReviewsStatisticsServiceModel GetStatisticsForProduct(string productId)
         {
@@ -114,5 +146,20 @@
 
         public bool ReviewAlreadyExistsForUser(string productId, string userId)
         => this.data.Reviews.Any(x => x.ProductId == productId && x.UserId == userId);
+
+        private static string ValidateTitle(ReviewType rating, string title)
+        {
+            if (title == null)
+            {
+                title = rating.ToString();
+            }
+
+            return title;
+        }
+
+        public bool ReviewIsByUser(int id, string userId)
+        =>this.data.Reviews.Any(x=>x.Id==id&&x.UserId==userId);
     }
+
+   
 }
