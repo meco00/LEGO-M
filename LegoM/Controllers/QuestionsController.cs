@@ -90,6 +90,42 @@
 
         }
 
+        [Authorize]
+        public IActionResult Mine()
+        {
+            ;
+            
+            var questions = this.questions.Mine(this.User.Id());
+
+
+            return this.View(questions);
+
+        }
+
+
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            ;
+
+            if (!this.questions.QuestionIsByUser(id,this.User.Id()))
+            {
+                return NotFound();
+            }
+
+          var isSuccesfullyDeleted = this.questions.Delete(id);
+
+            if (!isSuccesfullyDeleted)
+            {
+                return BadRequest();
+            }
+
+
+            return RedirectToAction(nameof(Mine));
+
+        }
+
+
 
 
 

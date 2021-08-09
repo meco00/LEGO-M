@@ -1,0 +1,33 @@
+﻿@model IEnumerable<QuestionListingServiceModel>
+
+@{
+    ViewBag.Title = "My Questions";
+}
+
+<h1 class="text-center">@ViewBag.Title</h1>
+
+<div class="mb-5"></div>
+
+<hr />
+
+@foreach (var question in Model)
+{
+    <div class="row mt-5">
+        <div class="col m-md-2">
+            <img src="@question.ProductImage" alt="@question.ProductTitle" class="img-thumbnail">
+            <a asp-controller="Products" asp-action="Details" asp-route-id="@question.ProductId"><span>@question.ProductTitle</span></a>
+        </div>
+        <div class="col-md-6 ml-5">
+            <span>@question.PublishedOn</span>         
+            <p>@question.Content</p>
+        </div>
+        <div class="col-md-2">
+            <a asp-controller="Questions" asp-action="Details" asp-route-id="@question.Id" asp-route-information="@(question.GetInformation())" class="btn btn-warning">Details</a>
+            <a asp-controller="Questions" asp-action="Delete" asp-route-id="@question.Id" class="btn btn-danger">Delete</a>
+        </div>
+
+    </div>
+
+    <hr />
+
+}

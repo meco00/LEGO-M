@@ -110,7 +110,7 @@
                 <span>@question.PublishedOn</span>
             </div>
             <div class="col-md-4 mt-2">
-                <a asp-controller="Reviews" asp-action="Details" asp-route-id="@question.Id" asp-route-information="@(question.GetInformation())"><h5>@question.Content</h5></a>
+                <a asp-controller="Questions" asp-action="Details" asp-route-id="@question.Id" asp-route-information="@(question.GetInformation())"><h5>@question.Content</h5></a>
             </div>
         </div>
 

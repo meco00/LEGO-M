@@ -7,22 +7,22 @@
 
     public class QuestionDetailsServiceModel:IQuestionModel
     {
-        public string Title { get;}
+        public string Content { get; init; }
 
-        public string UserName { get; }
+        public string UserName { get; init; }
 
-        public string PublishedOn { get; }
+        public string PublishedOn { get; init; }
 
-        public string ProductId { get;}
+        public string ProductId { get; init; }
 
-        public string ProductTitle { get; }
+        public string ProductTitle { get; init; }
 
-        public string ProductImage { get; }
+        public string ProductImage { get; init; }
 
-        public string ProductPrice { get;}
+        public string ProductPrice { get; init; }
 
-        public int ProductCondition { get; }
+        public int ProductCondition { get; init; }
 
-        public string ProductPublishedOn { get; }
+        public string ProductPublishedOn { get; init; }
     }
 }
