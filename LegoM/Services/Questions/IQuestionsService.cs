@@ -12,6 +12,8 @@
             string content
             );
 
+        bool QuestionExists(int id);
+
         bool QuestionIsByUser(int id, string userId);
 
         bool Delete(int id);
@@ -19,6 +21,8 @@
         QuestionDetailsServiceModel Details(int id);
 
         QuestionByUserServiceModel QuestionByUser(string productId, string userId);
+
+        QuestionByUserServiceModel QuestionById(int id);
 
         IEnumerable<QuestionListingServiceModel> Mine(string userId);
 

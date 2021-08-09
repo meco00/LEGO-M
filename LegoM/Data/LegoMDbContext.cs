@@ -25,6 +25,8 @@
 
         public DbSet<Question> Questions { get; set; }
 
+        public DbSet<Answer> Answers { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -89,6 +91,23 @@
                 .WithMany(x => x.Questions)
                 .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+         
+
+
+            builder.Entity<Answer>()
+               .HasOne(x => x.User)
+               .WithMany(x => x.Answers)
+               .HasForeignKey(x => x.UserId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Answer>()
+              .HasOne(x => x.Question)
+              .WithMany(x => x.Answers)
+              .HasForeignKey(x => x.QuestionId)
+              .OnDelete(DeleteBehavior.Cascade);
+
+
 
             base.OnModelCreating(builder);
         }

@@ -8,7 +8,7 @@
 
     public class Review
     {
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         [Required]
         public ReviewType Rating { get; set; }

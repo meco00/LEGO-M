@@ -1,8 +1,8 @@
-﻿@model QuestionFormModel
+﻿@model AnswerFormModel
 
 
 @{
-    ViewBag.Title = "Add Question";
+    ViewBag.Title = "Add Answer";
 }
 
 <div class="row">
@@ -15,7 +15,6 @@
                 <span asp-validation-for="Content" class="small text-danger"></span>
             </div>
             <input class="btn btn-primary float-right" type="submit" value="Save" />
-            <a asp-controller="Questions" asp-action="Mine" class="btn btn-outline-primary float-right mr-3">Back</a>
         </form>
 
     </div>

@@ -1,5 +1,6 @@
 ﻿namespace LegoM.Services.Questions.Models
 {
+    using LegoM.Services.Answers.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -7,6 +8,8 @@
 
     public class QuestionDetailsServiceModel:IQuestionModel
     {
+        public int Id { get; set; }
+
         public string Content { get; init; }
 
         public string UserName { get; init; }
@@ -23,6 +26,8 @@
 
         public int ProductCondition { get; init; }
 
-        public string ProductPublishedOn { get; init; }
+        public int AnswersCount { get; init; }
+
+        public IEnumerable<AnswerServiceModel> Answers { get; set; }
     }
 }

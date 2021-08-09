@@ -80,10 +80,18 @@
 
         }
 
+        public class Answer 
+        {
+            public const int ContentMaxLength = 200;
+            public const int ContentMinLength = 10;
+        }
 
-       
 
-       
+
+
+
+
+
 
     }
 }

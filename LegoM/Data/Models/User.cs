@@ -15,5 +15,8 @@
 
         public virtual ICollection<Question> Questions { get; set; }
          = new HashSet<Question>();
+
+        public virtual ICollection<Answer> Answers { get; set; }
+        = new HashSet<Answer>();
     }
 }

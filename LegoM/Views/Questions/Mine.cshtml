@@ -20,6 +20,7 @@
         <div class="col-md-6 ml-5">
             <span>@question.PublishedOn</span>         
             <p>@question.Content</p>
+            <h5 class="mt-3">Answers (@question.AnswersCount)</h5>
         </div>
         <div class="col-md-2">
             <a asp-controller="Questions" asp-action="Details" asp-route-id="@question.Id" asp-route-information="@(question.GetInformation())" class="btn btn-warning">Details</a>

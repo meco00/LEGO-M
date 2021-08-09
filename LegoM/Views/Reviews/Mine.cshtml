@@ -17,13 +17,14 @@
             <img src="@review.ProductImage" alt="@review.ProductTitle" class="img-thumbnail">
             <a asp-controller="Products" asp-action="Details" asp-route-id="@review.ProductId"><span>@review.ProductTitle</span></a>
         </div>
-        <div class="col-md-6 ml-5">
+        <div class="col-md-4 ml-5">
             <span>@review.PublishedOn</span>
             <h3>@review.Title</h3>
             <h5>Rating: @review.Rating </h5>
             <p>@review.Content</p>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4 mt-3">
+            <a asp-controller="Reviews" asp-action="Details" asp-route-id="@review.Id" asp-route-information="@(review.GetInformation())" class="btn btn-primary">Details</a>
             <a asp-controller="Reviews" asp-action="Edit" asp-route-id="@review.Id" class="btn btn-warning">Edit</a>
             <a asp-controller="Reviews" asp-action="Delete" asp-route-id="@review.Id" class="btn btn-danger">Delete</a>
         </div>

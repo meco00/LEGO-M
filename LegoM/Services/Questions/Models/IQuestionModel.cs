@@ -9,7 +9,7 @@
     {
          int ProductCondition { get; }
 
-         string ProductPublishedOn { get; }
+         int AnswersCount { get; }
 
          string PublishedOn { get; }
     }

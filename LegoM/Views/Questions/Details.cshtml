@@ -1,5 +1,10 @@
 ﻿@model QuestionDetailsServiceModel
 
+@{ 
+    ViewBag.Title = "Question Details";
+}
+
+
 <div class="row mb-3">
     <div class="col-md-3">
         <img src="@Model.ProductImage" alt="@Model.ProductTitle" class="img-thumbnail">
@@ -21,14 +26,30 @@
 
 <hr />
 
-<div class="row mt-5">
-    <div class="col-md-2 mt-3">
+<div class="row mt-5 mb-5">
+    <div class="col-md-2">
         <h5>@Model.UserName</h5>
         <span>@Model.PublishedOn</span>
     </div>
-    <div class="col-md-8 ml-5">     
+    <div class="col-md-8 ml-5">
         <h4>@Model.Content</h4>
+        <a asp-controller="Answers" asp-action="Add" asp-route-id="@Model.Id" class="mt-3">Add Answer</a>
     </div>
 </div>
 
-<hr />
+<hr class="ml-5" />
+
+@foreach (var answer in Model.Answers)
+{
+    <div class="row ml-5 mt-5 mb-5">
+        <div class="col-md-2">
+            <h5>@answer.UserName</h5>
+            <span>@answer.PublishedOn</span>
+        </div>
+        <div class="col-md-8 ml-5">
+            <h5>@answer.Content</h5>
+        </div>
+    </div>
+
+    <hr class="ml-5" />
+}

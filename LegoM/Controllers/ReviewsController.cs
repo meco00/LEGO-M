@@ -74,9 +74,6 @@
 
             }
 
-
-
-
             this.reviews.Create(
                 Id,
                 this.User.Id(),

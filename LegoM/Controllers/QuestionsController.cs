@@ -2,6 +2,7 @@
 {
     using LegoM.Infrastructure;
     using LegoM.Models.Questions;
+    using LegoM.Services.Answers;
     using LegoM.Services.Products;
     using LegoM.Services.Questions;
     using Microsoft.AspNetCore.Authorization;
@@ -11,11 +12,13 @@
     {
         private readonly IProductsService products;
         private readonly IQuestionsService questions;
+        private readonly IAnswerService answers;
 
-        public QuestionsController(IProductsService products, IQuestionsService questions)
+        public QuestionsController(IProductsService products, IQuestionsService questions, IAnswerService answers)
         {
             this.products = products;
             this.questions = questions;
+            this.answers = answers;
         }
 
         [Authorize]
@@ -68,6 +71,7 @@
                 this.User.Id(),
                 question.Content);
 
+            this.TempData[WebConstants.GlobalMessageKey] = "Succesfully created question to product";
 
             return RedirectToAction(nameof(ProductsController.Details), "Products", new { id = Id });
 
@@ -85,6 +89,7 @@
             }
 
 
+            question.Answers = this.answers.AnswersOfQuestion(id);
 
             return this.View(question);
 
@@ -120,6 +125,7 @@
                 return BadRequest();
             }
 
+            this.TempData[WebConstants.GlobalMessageKey] = "Succesfully deleted question";
 
             return RedirectToAction(nameof(Mine));
 

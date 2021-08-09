@@ -4,14 +4,16 @@ using LegoM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LegoM.Data.Migrations
 {
     [DbContext(typeof(LegoMDbContext))]
-    partial class LegoMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210809172951_AnswersTable")]
+    partial class AnswersTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +32,6 @@ namespace LegoM.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("PublishedOn")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
@@ -492,7 +491,7 @@ namespace LegoM.Data.Migrations
                     b.HasOne("LegoM.Data.Models.Question", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("LegoM.Data.Models.User", "User")

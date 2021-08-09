@@ -111,6 +111,8 @@
             </div>
             <div class="col-md-4 mt-2">
                 <a asp-controller="Questions" asp-action="Details" asp-route-id="@question.Id" asp-route-information="@(question.GetInformation())"><h5>@question.Content</h5></a>
+                <a asp-controller="Questions" asp-action="Details" asp-route-id="@question.Id" asp-route-information="@(question.GetInformation())"><span>Answers (@question.AnswersCount)</span></a> 
+                <a asp-controller="Answers" asp-action="Add" asp-route-id="@question.Id" class="ml-3" >Add Answer</a>
             </div>
         </div>
 

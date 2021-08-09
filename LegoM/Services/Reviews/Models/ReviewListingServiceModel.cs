@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class ReviewListingServiceModel
+    public class ReviewListingServiceModel:IReviewModel
     {
         public int Id { get; set; }
 

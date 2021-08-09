@@ -11,7 +11,7 @@
         => String.Concat(model.Title + "-" + model.Rating + "-" + model.PublishedOn);
 
         public static string GetInformation(this IQuestionModel model)
-        => String.Concat(model.ProductCondition + "-" + model.ProductPublishedOn + "-" + model.PublishedOn);
+        => String.Concat(model.ProductCondition + "-" + model.PublishedOn + "-" + model.AnswersCount);
 
         //String.Concat(((int)(x.Product.ProductCondition)).ToString() + "-" + 
         //    x.Product.PublishedOn.ToString("MM MMM yyy") + "-" +

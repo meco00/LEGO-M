@@ -16,6 +16,6 @@
 
         public int ProductCondition { get; set; }
 
-        public string ProductPublishedOn { get; set; }
+        public int AnswersCount { get; init; }
     }
 }

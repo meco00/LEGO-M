@@ -10,11 +10,9 @@
         {
             get
             {
-                var mapperConfiguration = new MapperConfiguration(cfg =>
-                  cfg.AddProfile<MappingProfile>()
-                  );
 
-                return new Mapper(mapperConfiguration);
+
+                return null;
             }
         }
     }
