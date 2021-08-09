@@ -23,6 +23,8 @@
 
         public DbSet<Review> Reviews { get; set; }
 
+        public DbSet<Question> Questions { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -73,6 +75,18 @@
             builder.Entity<Review>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.Reviews)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Question>()
+               .HasOne(x => x.Product)
+               .WithMany(x => x.Questions)
+               .HasForeignKey(x => x.ProductId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Question>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.Questions)
                 .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 

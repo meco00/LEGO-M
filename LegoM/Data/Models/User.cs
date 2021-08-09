@@ -12,5 +12,8 @@
 
         public virtual ICollection<Review> Reviews { get; init; }
         = new HashSet<Review>();
+
+        public virtual ICollection<Question> Questions { get; set; }
+         = new HashSet<Question>();
     }
 }

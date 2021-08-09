@@ -57,8 +57,7 @@
 
 
 
-        public const int QuestionTextMaxLength = 200;
-        public const int QuestionTextMinLength = 10;
+       
 
         public const int ReportDescriptionMaxLength = 250;
 
@@ -73,6 +72,13 @@
 
         }
 
+        public class Question
+        {
+            public const int ContentMaxLength = 200;
+            public const int ContentMinLength = 10;
+
+
+        }
 
 
        

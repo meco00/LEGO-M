@@ -11,6 +11,7 @@
     using LegoM.Models.Products;
     using LegoM.Services.Merchants;
     using LegoM.Services.Products;
+    using LegoM.Services.Questions;
     using LegoM.Services.Reviews;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
@@ -24,18 +25,20 @@
         private readonly IProductsService products;
         private readonly IMerchantService merchants;
         private readonly IReviewService reviews;
+        private readonly IQuestionsService questions;
         private readonly IMapper mapper;
 
         private readonly LegoMDbContext data;
 
 
-        public ProductsController(LegoMDbContext data, IProductsService products, IMerchantService merchants, IMapper mapper, IReviewService reviews)
+        public ProductsController(LegoMDbContext data, IProductsService products, IMerchantService merchants, IMapper mapper, IReviewService reviews, IQuestionsService questions)
         {
             this.data = data;
             this.products = products;
             this.merchants = merchants;
             this.mapper = mapper;
             this.reviews = reviews;
+            this.questions = questions;
         }
 
         [Authorize]
@@ -273,12 +276,15 @@
 
             var reviewsStatistics = this.reviews.GetStatisticsForProduct(id);
 
-            return this.View(new ProductDetailsReviewsViewModel
+            var questions = this.questions.AllOfProduct(id);
+
+            return this.View(new ProductDetailsModel
             { 
                 Product=product,
                 SimilarProducts=similarProducts,
+                ProductReviewsStatistics= reviewsStatistics,
                 Reviews=reviews,
-                ProductReviewsStatistics= reviewsStatistics
+                Questions=questions
             });
 
         }

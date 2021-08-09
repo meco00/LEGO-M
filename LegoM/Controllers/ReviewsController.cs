@@ -23,14 +23,16 @@
         }
 
         [Authorize]
-        public IActionResult Add(string productId)
+        public IActionResult Add(string Id)
         {
-            if (!this.products.ProductExists(productId))
+            ;
+
+            if (!this.products.ProductExists(Id))
             {
                 return BadRequest();
             }
 
-            var review = this.reviews.ReviewByUser(productId, this.User.Id());
+            var review = this.reviews.ReviewByUser(Id, this.User.Id());
 
             if (review !=null)
             {
@@ -44,9 +46,11 @@
 
         [Authorize]
         [HttpPost]
-        public IActionResult Add(string productId,ReviewFormModel review)
+        public IActionResult Add(string Id,ReviewFormModel review)
         {
-            if (!this.products.ProductExists(productId))
+            ;
+
+            if (!this.products.ProductExists(Id))
             {
                 return BadRequest();
             }
@@ -62,7 +66,7 @@
             ;
 
 
-            var reviewModel = this.reviews.ReviewByUser(productId, this.User.Id());
+            var reviewModel = this.reviews.ReviewByUser(Id, this.User.Id());
 
             if (reviewModel != null)
             {
@@ -74,7 +78,7 @@
 
 
             this.reviews.Create(
-                productId,
+                Id,
                 this.User.Id(),
                 review.Rating.Value,
                 review.Content,
@@ -83,7 +87,7 @@
 
             this.TempData[WebConstants.GlobalMessageKey] = "Succesfully created review to product";
 
-            return RedirectToAction(nameof(ProductsController.Details), "Products" , new {id=productId });
+            return RedirectToAction(nameof(ProductsController.Details), "Products" , new {id=Id });
         }
 
 

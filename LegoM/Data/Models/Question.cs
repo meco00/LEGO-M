@@ -1,21 +1,16 @@
 ﻿namespace LegoM.Data.Models
 {
-    using LegoM.Data.Models.Enums;
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Threading.Tasks;
 
-    using static DataConstants.Review;
+    using static DataConstants.Question;
 
-    public class Review
+    public class Question
     {
         public int Id { get; set; }
-
-        [Required]
-        public ReviewType Rating { get; set; }
-
-        [Required]
-        [MaxLength(TitleMaxLength)]
-        public string Title { get; set; }
 
         [Required]
         [MaxLength(ContentMaxLength)]
@@ -32,7 +27,5 @@
         public string UserId { get; set; }
 
         public virtual User User { get; set; }
-
-
     }
 }
