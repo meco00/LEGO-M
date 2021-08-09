@@ -33,7 +33,7 @@
 
             if (question != null)
             {
-                return RedirectToAction("Details", new { id = question.Id, information = question.Information });
+                return RedirectToAction("Details", new { id = question.Id, information = question.GetInformation() });
 
             }
 
@@ -62,7 +62,7 @@
 
             if (questionModel != null)
             {
-                return RedirectToAction("Details", new { id = questionModel.Id, information = questionModel.Information });
+                return RedirectToAction("Details", new { id = questionModel.Id, information = questionModel.GetInformation() });
 
             }
 

@@ -5,13 +5,13 @@
 }
 
 
-<div class="row mb-3">
+<div class="row mb-3 mt-5">
     <div class="col-md-3">
         <img src="@Model.ProductImage" alt="@Model.ProductTitle" class="img-thumbnail">
 
     </div>
     <div class="col-md-4">
-        <h4>Review for :</h4>
+        <h4>Question for :</h4>
         <a asp-controller="Products" asp-action="Details" asp-route-id="@Model.ProductId"><h5>@Model.ProductTitle</h5></a>
     </div>
     <div class="col-md-2">

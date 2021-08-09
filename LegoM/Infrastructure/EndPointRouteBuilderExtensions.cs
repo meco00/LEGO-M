@@ -25,5 +25,17 @@
                   }
                 );
 
+        public static void MapQuestionsDetailsRoute(this IEndpointRouteBuilder endpoints)
+           => endpoints.MapControllerRoute
+               (
+                 name: "Question Details",
+                 pattern: "/Questions/Details/{id}/{information}",
+                 defaults: new
+                 {
+                     controller = typeof(QuestionsController).GetControllerName(),
+                     action = nameof(QuestionsController.Details)
+                 }
+               );
+
     }
 }

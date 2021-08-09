@@ -4,7 +4,8 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
     using static DataConstants.Product;
 
     public class Product
@@ -49,6 +50,35 @@
         public int SubCategoryId { get; set; }
 
         public virtual SubCategory SubCategory { get; set; }
+
+        [NotMapped]
+        public  string MainImageUrl
+        {
+            get
+            {
+                return Images.Select(x => x.ImageUrl).FirstOrDefault();
+            }
+
+           
+        }
+
+        [NotMapped]
+        public string SecondImageUrl
+        {
+            get
+            {
+                return Images.Skip(1).Take(1).Select(x => x.ImageUrl).FirstOrDefault();
+            }
+        }
+
+        [NotMapped]
+        public string ThirdImageUrl
+        {
+            get
+            {
+                return Images.Skip(2).Take(1).Select(x => x.ImageUrl).FirstOrDefault();
+            }
+        }
 
         public virtual ICollection<ProductImage> Images { get; init; } 
           = new HashSet<ProductImage>();

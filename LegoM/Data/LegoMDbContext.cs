@@ -1,5 +1,6 @@
 ﻿namespace LegoM.Data
 {
+    using LegoM.Data.Configuration;
     using LegoM.Data.Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,15 @@
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
+
+            builder.ApplyConfiguration(new ProductEntityConfiguration());
+
+            builder.ApplyConfiguration(new ReviewEntityConfiguration());
+
+            builder.ApplyConfiguration(new QuestionEntityConfiguration());
+
+            builder.ApplyConfiguration(new AnswerEntityConfiguration());
+
             builder
               .Entity<SubCategory>()
               .HasOne(x => x.Category)
@@ -38,23 +48,6 @@
               .HasForeignKey(x => x.CategoryId)
               .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<Product>()
-                .HasOne(x => x.SubCategory)
-                .WithMany(x => x.Products)
-                .HasForeignKey(x => x.SubCategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Product>()
-             .HasOne(x => x.Category)
-             .WithMany(x => x.Products)
-             .HasForeignKey(x => x.CategoryId)
-             .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Product>()
-              .HasOne(x => x.Merchant)
-              .WithMany(x => x.Products)
-              .HasForeignKey(x => x.MerchantId)
-              .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Merchant>()
                 .HasOne<User>()
@@ -68,44 +61,14 @@
                 .HasForeignKey(x => x.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<Review>()
-                .HasOne(x => x.Product)
-                .WithMany(x => x.Reviews)
-                .HasForeignKey(x => x.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
+          
 
-            builder.Entity<Review>()
-                .HasOne(x => x.User)
-                .WithMany(x => x.Reviews)
-                .HasForeignKey(x => x.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Question>()
-               .HasOne(x => x.Product)
-               .WithMany(x => x.Questions)
-               .HasForeignKey(x => x.ProductId)
-               .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Question>()
-                .HasOne(x => x.User)
-                .WithMany(x => x.Questions)
-                .HasForeignKey(x => x.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+        
 
          
 
 
-            builder.Entity<Answer>()
-               .HasOne(x => x.User)
-               .WithMany(x => x.Answers)
-               .HasForeignKey(x => x.UserId)
-               .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Answer>()
-              .HasOne(x => x.Question)
-              .WithMany(x => x.Answers)
-              .HasForeignKey(x => x.QuestionId)
-              .OnDelete(DeleteBehavior.Cascade);
+           
 
 
 

@@ -36,7 +36,7 @@
 
             if (review !=null)
             {
-                return RedirectToAction("Details",new { id=review.Id, information=review.Information});
+                return RedirectToAction("Details",new { id=review.Id, information=review.GetInformation()});
 
             }
 
@@ -70,7 +70,7 @@
 
             if (reviewModel != null)
             {
-                return RedirectToAction("Details", new { id = reviewModel.Id, information = reviewModel.Information });
+                return RedirectToAction("Details", new { id = reviewModel.Id, information = reviewModel.GetInformation() });
 
             }
 

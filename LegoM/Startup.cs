@@ -103,6 +103,7 @@ namespace LegoM
                 endpoints.MapDefaultAreaRoute();
 
                 endpoints.MapReviewsDetailsRoute();
+                endpoints.MapQuestionsDetailsRoute();
                
 
                 endpoints.MapDefaultControllerRoute();

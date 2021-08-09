@@ -62,7 +62,7 @@
 
             
             
-            return RedirectToAction("Details","Questions", new { id = questionModel.Id, information = questionModel.Information });
+            return RedirectToAction("Details","Questions", new { id = questionModel.Id, information = questionModel.GetInformation() });
 
             
         }

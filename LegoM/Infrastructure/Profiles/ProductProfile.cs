@@ -21,7 +21,7 @@
 
             this.CreateMap<Product, ProductServiceModel>()
             .ForMember(p => p.Condition, pd => pd.MapFrom(x => x.ProductCondition.ToString()))
-            .ForMember(p => p.MainImageUrl, pd => pd.MapFrom(x => x.Images.Where(x => x.isDeleted == false).Select(x => x.ImageUrl).FirstOrDefault()));
+            .ForMember(p => p.MainImageUrl, pd => pd.MapFrom(x => x.Images.Select(x => x.ImageUrl).FirstOrDefault()));
 
             this.CreateMap<Product, ProductDetailsServiceModel>()
             .ForMember(p => p.Condition, pd => pd.MapFrom(x => x.ProductCondition.ToString()))

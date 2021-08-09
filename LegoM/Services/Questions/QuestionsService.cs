@@ -1,5 +1,7 @@
 ﻿namespace LegoM.Services.Questions
 {
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using LegoM.Data;
     using LegoM.Data.Models;
     using LegoM.Services.Questions.Models;
@@ -12,23 +14,18 @@
     public class QuestionsService : IQuestionsService
     {
         private readonly LegoMDbContext data;
+        private readonly IConfigurationProvider mapper;
 
-        public QuestionsService(LegoMDbContext data)
+        public QuestionsService(LegoMDbContext data, IMapper mapper)
         {
             this.data = data;
+            this.mapper = mapper.ConfigurationProvider;
         }
 
         public IEnumerable<QuestionServiceModel> AllOfProduct(string productId)
-        => this.data.Questions.Where(x => x.ProductId == productId)
-            .Select(x => new QuestionServiceModel
-            {
-                Id = x.Id,
-                Content = x.Content,
-                UserName = x.User.FullName,
-                PublishedOn = x.PublishedOn.ToString("MM MMM yyy"),
-                ProductCondition =(int)x.Product.ProductCondition,
-                AnswersCount=x.Answers.Count()
-            })
+        => this.data.Questions
+            .Where(x => x.ProductId == productId)
+            .ProjectTo<QuestionServiceModel>(mapper)
             .ToList() ;
 
         public void Create(string productId, string userId, string content)
@@ -65,53 +62,27 @@
         }
 
         public QuestionDetailsServiceModel Details(int id)
-        => this.data.Questions.Where(x=>x.Id==id).Select(x => new QuestionDetailsServiceModel
-        {
-            Id=x.Id,
-            Content=x.Content,
-            UserName=x.User.FullName,
-            PublishedOn=x.PublishedOn.ToString("MM MMM yyy"),
-            ProductId=x.ProductId,
-            ProductTitle=x.Product.Title,
-            ProductPrice=x.Product.Price.ToString("F2"),
-            ProductCondition=(int)x.Product.ProductCondition,
-            AnswersCount = x.Answers.Count(),
-            ProductImage = x.Product.Images.Select(x => x.ImageUrl).FirstOrDefault()
-
-
-        }).FirstOrDefault();
+        => this.data.Questions
+            .Where(x=>x.Id==id)
+            .ProjectTo<QuestionDetailsServiceModel>(mapper)
+            .FirstOrDefault();
 
         public IEnumerable<QuestionListingServiceModel> Mine(string userId)
-        => this.data.Questions.Where(x => x.UserId == userId).Select(x => new QuestionListingServiceModel
-        {
-            Id = x.Id,
-            Content = x.Content,
-            PublishedOn = x.PublishedOn.ToString("MM MMM yyy"),
-            ProductId = x.ProductId,
-            ProductTitle = x.Product.Title,
-            ProductCondition = (int)x.Product.ProductCondition,
-            AnswersCount = x.Answers.Count(),
-            ProductImage = x.Product.Images.Select(x => x.ImageUrl).FirstOrDefault()
-
-        }).ToList();
+        => this.data.Questions
+            .Where(x => x.UserId == userId)
+            .ProjectTo<QuestionListingServiceModel>(mapper)
+            .ToList();
 
         public QuestionByUserServiceModel QuestionById(int id)
          => this.data.Questions.Where(x => x.Id == id)
-            .Select(x => new QuestionByUserServiceModel
-            {
-                Id = x.Id,
-                Information = String.Concat(((int)(x.Product.ProductCondition)).ToString() + "-" + x.PublishedOn.ToString("MM MMM yyy") + "-" + x.Answers.Count())
-
-            }).FirstOrDefault();
+            .ProjectTo<QuestionByUserServiceModel>(mapper)
+            .FirstOrDefault();
 
         public QuestionByUserServiceModel QuestionByUser(string productId, string userId)
-        => this.data.Questions.Where(x => x.ProductId == productId && x.UserId == userId)
-            .Select(x => new QuestionByUserServiceModel
-            {
-                Id = x.Id,
-                Information = String.Concat(((int)(x.Product.ProductCondition)).ToString() + "-"  + x.PublishedOn.ToString("MM MMM yyy") + "-" + x.Answers.Count())
-
-            }).FirstOrDefault();
+        => this.data.Questions
+            .Where(x => x.ProductId == productId && x.UserId == userId)
+            .ProjectTo<QuestionByUserServiceModel>(mapper)
+            .FirstOrDefault();
 
         public bool QuestionExists(int id)
         => this.data.Questions.Any(x => x.Id == id);

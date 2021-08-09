@@ -5,10 +5,14 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class QuestionByUserServiceModel
+    public class QuestionByUserServiceModel:IQuestionModel
     {
         public int Id { get; set; }
 
-        public string Information { get; set; }
+        public int ProductCondition { get; set; }
+
+        public int AnswersCount { get; set; }
+
+        public string PublishedOn { get; set; }
     }
 }
