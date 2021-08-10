@@ -27,9 +27,13 @@
 
         IEnumerable<ReviewServiceModel> All(string productId);
 
-        ProductReviewsStatisticsServiceModel GetStatisticsForProduct(string productId);
+        ReviewsProductStatisticsServiceModel GetStatisticsForProduct(string productId);
 
         ReviewByUserServiceModel ReviewByUser(string productId, string userId);
+
+        ReviewByUserServiceModel ReviewById(int id );
+
+        bool ReviewExists(int id);
 
         bool ReviewIsByUser(int id, string userId);     
 

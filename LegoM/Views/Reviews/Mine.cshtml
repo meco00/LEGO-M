@@ -22,6 +22,7 @@
             <h3>@review.Title</h3>
             <h5>Rating: @review.Rating </h5>
             <p>@review.Content</p>
+            <h5 class="mt-3">Comments (@review.TotalComments)</h5>
         </div>
         <div class="col-md-4 mt-3">
             <a asp-controller="Reviews" asp-action="Details" asp-route-id="@review.Id" asp-route-information="@(review.GetInformation())" class="btn btn-primary">Details</a>

@@ -22,5 +22,7 @@
         public string ProductTitle { get; set; }
 
         public string ProductImage { get; set; }
+
+        public int TotalComments { get; set; }
     }
 }

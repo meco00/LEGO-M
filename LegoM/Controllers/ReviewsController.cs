@@ -3,6 +3,7 @@
     using AutoMapper;
     using LegoM.Infrastructure;
     using LegoM.Models.Reviews;
+    using LegoM.Services.Comments;
     using LegoM.Services.Products;
     using LegoM.Services.Reviews;
     using Microsoft.AspNetCore.Authorization;
@@ -12,14 +13,16 @@
     {
         private readonly IProductsService products;
         private readonly IReviewService reviews;
+        private readonly ICommentService comments;
 
         private readonly IMapper mapper;
 
-        public ReviewsController(IProductsService products, IReviewService reviews, IMapper mapper)
+        public ReviewsController(IProductsService products, IReviewService reviews,ICommentService comments,IMapper mapper)
         {
             this.products = products;
             this.reviews = reviews;
             this.mapper = mapper;
+            this.comments = comments;
         }
 
         [Authorize]
@@ -99,6 +102,7 @@
                 return NotFound();
             }
 
+            review.Comments = this.comments.CommentsOfReview(id);
             
 
             return this.View(review);

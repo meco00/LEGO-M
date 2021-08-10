@@ -15,7 +15,7 @@
 
         public IEnumerable<ProductServiceModel> SimilarProducts { get; init; }
 
-        public ProductReviewsStatisticsServiceModel ProductReviewsStatistics { get; set; }
+        public ReviewsProductStatisticsServiceModel ProductReviewsStatistics { get; set; }
 
         public IEnumerable<ReviewServiceModel> Reviews { get; set; }
 

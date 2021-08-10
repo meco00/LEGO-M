@@ -2,6 +2,7 @@
 {
     using LegoM.Data.Models.Enums;
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using static DataConstants.Review;
@@ -33,6 +34,7 @@
 
         public virtual User User { get; set; }
 
-
+        public virtual ICollection<Comment> Comments { get; set; }
+         = new HashSet<Comment>();
     }
 }

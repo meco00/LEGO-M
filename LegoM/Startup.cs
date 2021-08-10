@@ -5,6 +5,7 @@ namespace LegoM
     using LegoM.Data.Models;
     using LegoM.Infrastructure;
     using LegoM.Services.Answers;
+    using LegoM.Services.Comments;
     using LegoM.Services.Merchants;
     using LegoM.Services.Products;
     using LegoM.Services.Questions;
@@ -72,6 +73,7 @@ namespace LegoM
             services.AddTransient<IReviewService, ReviewService>();
             services.AddTransient<IQuestionsService, QuestionsService>();
             services.AddTransient<IAnswerService, AnswerService>();
+            services.AddTransient<ICommentService, CommentService>();
         }
 
 

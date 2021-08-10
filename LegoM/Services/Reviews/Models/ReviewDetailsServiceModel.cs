@@ -1,5 +1,6 @@
 ﻿namespace LegoM.Services.Reviews.Models
 {
+    using LegoM.Services.Comments.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -7,6 +8,8 @@
 
     public class ReviewDetailsServiceModel:IReviewModel
     {
+        public int Id { get; set; }
+
         public string Title { get; set; }
 
         public int Rating { get; set; }
@@ -27,7 +30,9 @@
 
         public string ProductPrice { get; set; }
 
+        public IEnumerable<CommentServiceModel> Comments { get; set; }
 
-        
+
+
     }
 }

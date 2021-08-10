@@ -26,6 +26,8 @@
 
         public DbSet<Question> Questions { get; set; }
 
+        public DbSet<Comment> Comments { get; set; }
+
         public DbSet<Answer> Answers { get; set; }
 
 
@@ -61,14 +63,26 @@
                 .HasForeignKey(x => x.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-          
+            builder.Entity<Comment>()
+                .HasOne(x => x.Review)
+                .WithMany(x => x.Comments)
+                .HasForeignKey(x => x.ReviewId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-        
 
-         
+            builder.Entity<Comment>()
+              .HasOne(x => x.User)
+              .WithMany(x => x.Comments)
+              .HasForeignKey(x => x.UserId)
+              .OnDelete(DeleteBehavior.Restrict);
 
 
-           
+
+
+
+
+
+
 
 
 

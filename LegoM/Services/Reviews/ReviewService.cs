@@ -63,6 +63,7 @@
         .ToList();
 
 
+
         public bool Edit(int id, ReviewType rating, string content, string title)
         {
 
@@ -104,7 +105,7 @@
             return true;
         }
 
-        public ProductReviewsStatisticsServiceModel GetStatisticsForProduct(string productId)
+        public ReviewsProductStatisticsServiceModel GetStatisticsForProduct(string productId)
         {
 
             var reviews = this.All(productId);
@@ -124,7 +125,7 @@
             var twoStarRatings = reviews.Where(x => x.Rating == 2).Count();
             var oneStarRatings = reviews.Where(x => x.Rating == 1).Count();
 
-            return new ProductReviewsStatisticsServiceModel
+            return new ReviewsProductStatisticsServiceModel
             {
                 Rating = rating,
                 TotalReviews = reviewsCount,
@@ -142,6 +143,12 @@
             .ProjectTo<ReviewByUserServiceModel>(mapper)
             .FirstOrDefault();
 
+        public ReviewByUserServiceModel ReviewById(int id)
+         => this.data.Reviews
+            .Where(x => x.Id == id)
+            .ProjectTo<ReviewByUserServiceModel>(mapper)
+            .FirstOrDefault();
+
         private static string ValidateTitle(ReviewType rating, string title)
         {
             if (title == null)
@@ -155,7 +162,11 @@
         public bool ReviewIsByUser(int id, string userId)
         => this.data.Reviews.Any(x => x.Id == id && x.UserId == userId);
 
-       
+        public bool ReviewExists(int id)
+        => this.data.Reviews.Any(x => x.Id == id);
+
+
+
     }
 
 

@@ -1,5 +1,7 @@
 ﻿namespace LegoM.Services.Answers
 {
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using LegoM.Data;
     using LegoM.Data.Models;
     using LegoM.Services.Answers.Models;
@@ -11,9 +13,12 @@
     {
         private LegoMDbContext data { get; set; }
 
-        public AnswerService(LegoMDbContext data)
+        private readonly IConfigurationProvider mapper;
+
+        public AnswerService(LegoMDbContext data, IMapper mapper)
         {
             this.data = data;
+            this.mapper = mapper.ConfigurationProvider;
         }
 
         public void Create(int questionId, string userId, string content)
@@ -34,13 +39,9 @@
         }
 
         public IEnumerable<AnswerServiceModel> AnswersOfQuestion(int questionId)
-        => this.data.Answers.Where(x => x.QuestionId == questionId).OrderByDescending(x => x.PublishedOn)
-            .Select(x => new AnswerServiceModel
-            {
-                Content = x.Content,
-                UserName = x.User.FullName,
-                PublishedOn = x.PublishedOn.ToString("MM MMM yyy")
-            })
+        => this.data.Answers.Where(x => x.QuestionId == questionId)
+            .OrderBy(x => x.PublishedOn)
+            .ProjectTo<AnswerServiceModel>(mapper)
             .ToList();
     }
 }

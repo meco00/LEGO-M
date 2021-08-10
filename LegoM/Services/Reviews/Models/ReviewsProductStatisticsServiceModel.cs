@@ -2,7 +2,7 @@
 {
   
 
-    public class ProductReviewsStatisticsServiceModel
+    public class ReviewsProductStatisticsServiceModel
     {
         public string Rating { get; set; }
 
