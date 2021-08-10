@@ -85,7 +85,7 @@
                 review.Title
                 );
 
-            this.TempData[WebConstants.GlobalMessageKey] = "Succesfully created review to product";
+            this.TempData[WebConstants.GlobalMessageKey] = "Your review was added and it is awaiting for approval!";
 
             return RedirectToAction(nameof(ProductsController.Details), "Products" , new {id=Id });
         }
@@ -172,6 +172,8 @@
                 return BadRequest();
             }
 
+            this.TempData[WebConstants.GlobalMessageKey] = "Your review was edited and it is awaiting for approval!";
+
             return RedirectToAction(nameof(ReviewsController.Mine), "Reviews");
 
         }
@@ -212,7 +214,7 @@
                 return BadRequest();
             }
 
-            this.TempData[WebConstants.GlobalMessageKey] = "Succesfully deleted review.";
+            this.TempData[WebConstants.GlobalMessageKey] = "Your review was added and it is awaiting for approval!";
 
             return RedirectToAction(nameof(Mine));
         }

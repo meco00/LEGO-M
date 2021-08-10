@@ -30,15 +30,18 @@
 
 
         public ProductQueryServiceModel All(
-            string category,
-            string subCategory,
-            string searchTerm,
-            int currentPage,
-            int productsPerPage,
-            ProductSorting productSorting
+            string category = null,
+            string subCategory = null,
+            string searchTerm = null,
+            int currentPage = 1,
+            int productsPerPage = int.MaxValue,
+            ProductSorting productSorting = ProductSorting.Newest,
+            bool isPublicOnly = true
             )
         {
-            var productsQuery = this.data.Products.AsQueryable();
+            var productsQuery = this.data.Products
+                .Where(x=> !isPublicOnly || x.IsPublic)
+                .AsQueryable();
 
             ;
 
@@ -80,15 +83,11 @@
 
             productsQuery = productSorting switch
             {
-
-
                 ProductSorting.NameAlphabetically => productsQuery = productsQuery.OrderBy(x => x.Title),
                 ProductSorting.NameDescending => productsQuery = productsQuery.OrderByDescending(x => x.Title),
                 ProductSorting.PriceAscending => productsQuery = productsQuery.OrderBy(x => x.Price),
                 ProductSorting.PriceDescending => productsQuery = productsQuery.OrderByDescending(x => x.Price),
-                ProductSorting.Newest or _ => productsQuery.OrderByDescending(x => x.PublishedOn)
-
-                //TODO : After implementation of Rating implement sorting by rating criteria too
+                ProductSorting.Newest or _ => productsQuery.OrderByDescending(x => x.PublishedOn)               
 
             };
 
@@ -116,6 +115,7 @@
 
         public IEnumerable<ProductServiceModel> Latest()
        => this.data.Products
+              .Where(x=>x.IsPublic)
               .OrderByDescending(x => x.PublishedOn)
               .ProjectTo<ProductServiceModel>(this.mapper)
               .Take(3)
@@ -132,7 +132,9 @@
                 int subCategoryId,
                 ProductCondition productCondition,
                 DeliveryTake productDelivery,
-                string merchantId)
+                string merchantId,
+                bool IsPublic=false
+            )
         {
             var productData = new Product()
             {
@@ -146,6 +148,7 @@
                 DeliveryTake = productDelivery,
                 PublishedOn = DateTime.UtcNow,
                 MerchantId = merchantId,
+                IsPublic=IsPublic
 
             };
 
@@ -190,7 +193,8 @@
           int subCategoryId,
           ProductCondition productCondition,
           DeliveryTake productDelivery,
-          string merchantId
+          string merchantId,
+          bool IsPublic = false
           )
         {
             var productData = this.data.Products.Include(x => x.Images).FirstOrDefault(x => x.Id == Id);
@@ -208,6 +212,7 @@
             productData.DeliveryTake = productDelivery;
             productData.CategoryId = categoryId;
             productData.SubCategoryId = subCategoryId;
+            productData.IsPublic = IsPublic;
 
             var mainImage = productData.Images.FirstOrDefault();
 
@@ -337,6 +342,18 @@
             .SubCategories
              .ProjectTo<ProductSubCategoryServiceModel>(this.mapper)
                 .ToList();
+
+       public void ChangeVisibility(string id)
+        {
+            var product = this.data.Products.Find(id);
+
+            product.IsPublic = !product.IsPublic;
+
+            this.data.SaveChanges();
+
+
+
+        }
 
         public bool ProductExists(string Id)
         => this.data.Products.Any(x => x.Id == Id);

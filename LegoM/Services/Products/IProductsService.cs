@@ -8,12 +8,13 @@ namespace LegoM.Services.Products
     public interface IProductsService
     {
         ProductQueryServiceModel All(
-            string category,
-            string subCategory,
-            string searchTerm,
-            int currentPage,
-            int productsPerPage,
-            ProductSorting productSorting);
+            string category=null,
+            string subCategory=null,
+            string searchTerm=null,
+            int currentPage = 1,
+            int productsPerPage = int.MaxValue,
+            ProductSorting productSorting = ProductSorting.Newest,
+            bool isPublicOnly = true);
 
         IEnumerable<ProductServiceModel> Latest();
 
@@ -28,7 +29,8 @@ namespace LegoM.Services.Products
                 int subCategoryId,
                 ProductCondition productCondition,
                 DeliveryTake productDelivery,
-                string merchantId
+                string merchantId,
+                bool IsPublic = false
                 );
 
         bool Edit(
@@ -44,7 +46,8 @@ namespace LegoM.Services.Products
                int subCategoryId,
                ProductCondition productCondition,
                DeliveryTake productDelivery,
-               string merchantId
+               string merchantId,
+               bool IsPublic = false
                );
 
         ProductDetailsServiceModel Details(string Id);
@@ -68,6 +71,8 @@ namespace LegoM.Services.Products
         bool SubCategoryParticipateInCategory(string subCategory,string category);
 
         bool SubCategoryIsValid(string subCategory,string category);
+
+        void ChangeVisibility(string id);
 
 
 

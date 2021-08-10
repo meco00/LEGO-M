@@ -33,6 +33,8 @@
 
         public DateTime PublishedOn { get; set; }
 
+        public bool IsPublic { get; set; }
+
         public bool isDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
@@ -50,35 +52,6 @@
         public int SubCategoryId { get; set; }
 
         public virtual SubCategory SubCategory { get; set; }
-
-        [NotMapped]
-        public  string MainImageUrl
-        {
-            get
-            {
-                return Images.Select(x => x.ImageUrl).FirstOrDefault();
-            }
-
-           
-        }
-
-        [NotMapped]
-        public string SecondImageUrl
-        {
-            get
-            {
-                return Images.Skip(1).Take(1).Select(x => x.ImageUrl).FirstOrDefault();
-            }
-        }
-
-        [NotMapped]
-        public string ThirdImageUrl
-        {
-            get
-            {
-                return Images.Skip(2).Take(1).Select(x => x.ImageUrl).FirstOrDefault();
-            }
-        }
 
         public virtual ICollection<ProductImage> Images { get; init; } 
           = new HashSet<ProductImage>();

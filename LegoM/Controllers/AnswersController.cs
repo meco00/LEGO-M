@@ -55,7 +55,7 @@
                 this.User.Id(),
                 answer.Content);
 
-            this.TempData[WebConstants.GlobalMessageKey] = "Succesfully created answer to question";
+            this.TempData[WebConstants.GlobalMessageKey] = "Your answer was added and it is awaiting for approval!";
 
             ;
             var questionModel = this.questions.QuestionById(id);

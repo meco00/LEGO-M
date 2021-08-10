@@ -13,7 +13,7 @@
 
         public StatisticsServiceModel Total()
         {
-            var totalProducts = this.data.Products.Count();
+            var totalProducts = this.data.Products.Count(c=>c.IsPublic);
             var totalUsers = this.data.Users.Count();
 
             return new StatisticsServiceModel

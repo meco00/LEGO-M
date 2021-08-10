@@ -51,7 +51,7 @@
 
             this.comments.Create(id, this.User.Id(), comment.Content);
 
-            this.TempData[WebConstants.GlobalMessageKey] = "Succesfully created comment to question";
+            this.TempData[WebConstants.GlobalMessageKey] = "Your comment was added and it is awaiting for approval!";
 
             var review = this.reviews.ReviewById(id);
 

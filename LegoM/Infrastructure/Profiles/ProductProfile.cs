@@ -8,6 +8,8 @@
     using System;
     using System.Linq;
 
+    using static ProfileConstants;
+
     public class ProductProfile:Profile
     {
         public ProductProfile()
@@ -21,6 +23,8 @@
 
             this.CreateMap<Product, ProductServiceModel>()
             .ForMember(p => p.Condition, pd => pd.MapFrom(x => x.ProductCondition.ToString()))
+            .ForMember(x => x.PublishedOn, cfg => cfg.MapFrom(x => x.PublishedOn.ToString(DateTimeFormat)))
+
             .ForMember(p => p.MainImageUrl, pd => pd.MapFrom(x => x.Images.Select(x => x.ImageUrl).FirstOrDefault()));
 
             this.CreateMap<Product, ProductDetailsServiceModel>()

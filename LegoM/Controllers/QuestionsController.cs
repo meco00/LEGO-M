@@ -71,7 +71,7 @@
                 this.User.Id(),
                 question.Content);
 
-            this.TempData[WebConstants.GlobalMessageKey] = "Succesfully created question to product";
+            this.TempData[WebConstants.GlobalMessageKey] = "Your question was added and it is awaiting for approval!";
 
             return RedirectToAction(nameof(ProductsController.Details), "Products", new { id = Id });
 
@@ -125,7 +125,7 @@
                 return BadRequest();
             }
 
-            this.TempData[WebConstants.GlobalMessageKey] = "Succesfully deleted question";
+            this.TempData[WebConstants.GlobalMessageKey] = "Your question was deleted and it is awaiting for approval!";
 
             return RedirectToAction(nameof(Mine));
 

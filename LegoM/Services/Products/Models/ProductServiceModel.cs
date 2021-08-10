@@ -8,8 +8,12 @@
 
         public string MainImageUrl { get; set; }
 
+        public string PublishedOn { get; set; }
+
         public decimal Price { get; set; }
 
         public string Condition { get; set; }
+
+        public bool IsPublic { get; set; }
     }
 }

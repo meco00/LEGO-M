@@ -1,0 +1,62 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - LegoM</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-light justify-content-between">
+            <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav flex-grow-1 ml-5">
+                    <li class="nav-item">
+                        <a class="navbar-brand mb-0 h5" asp-area="" asp-controller="Home" asp-action="Index">To User Layer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark ml-5" asp-area="" asp-controller="Products" asp-action="All">All Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark ml-5" asp-area="" asp-controller="Products" asp-action="All">All Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark ml-5" asp-area="" asp-controller="Products" asp-action="All">All Products</a>
+                    </li>
+                </ul>
+
+              
+
+
+            </div>
+        </nav>
+
+       
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @if (this.TempData.ContainsKey(WebConstants.GlobalMessageKey))
+            {
+            <div class="alert alert-success text-center" role="alert">@this.TempData[WebConstants.GlobalMessageKey]</div>
+            }
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; @DateTime.UtcNow.Year - LegoM
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

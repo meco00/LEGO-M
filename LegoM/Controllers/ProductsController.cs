@@ -94,23 +94,26 @@
                 return View(product);
             }
 
-            this.products.Create(product.Title,
-                product.Description,
-                product.FirstImageUrl,
-                product.SecondImageUrl,
-                product.ThirdImageUr,
-                product.Price,
-                product.Quantity,
-                product.CategoryId,
-                product.SubCategoryId,
-                product.Condition.Value,
-                product.Delivery.Value,
-                merchantId
-                );
+           var productId = this.products
+                   .Create(product.Title,
+                           product.Description,
+                           product.FirstImageUrl,
+                           product.SecondImageUrl,
+                           product.ThirdImageUr,
+                           product.Price,
+                           product.Quantity,
+                           product.CategoryId,
+                           product.SubCategoryId,
+                           product.Condition.Value,
+                           product.Delivery.Value,
+                           merchantId,
+                           isUserAdmin
 
-            TempData[GlobalMessageKey] = "Sucessfully added product!";
+                           );
 
-            return RedirectToAction(nameof(All));
+            TempData[GlobalMessageKey] = $"Your product was added { (isUserAdmin ? string.Empty : "and is awaiting for approval!") }";
+
+            return RedirectToAction(nameof(Details),new { id= productId});
 
         }
 
@@ -237,7 +240,10 @@
                 return View(product);
             }
 
+            
            
+
+
 
           this.products.Edit(
                 Id,
@@ -252,12 +258,13 @@
                 product.SubCategoryId,
                 product.Condition.Value,
                 product.Delivery.Value,
-                merchantId);
+                merchantId,
+                isUserAdmin);
 
 
-            TempData[GlobalMessageKey] = "Sucessfully edited product!";
+            TempData[GlobalMessageKey] = $"Your product was edited { (isUserAdmin ? string.Empty : "and is awaiting for approval!") } ";
 
-            return RedirectToAction(nameof(All));
+            return RedirectToAction(nameof(Details), new { Id });
         }
 
 
