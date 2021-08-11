@@ -10,7 +10,7 @@
     public class ProductFormModel
     {
         [Required]
-        [StringLength(TittleMaxLength,MinimumLength = TittleMinLength,ErrorMessage = "The field {0} must be between {1} and {2} characters long")]
+        [StringLength(TittleMaxLength,MinimumLength = TittleMinLength,ErrorMessage = "The field {0} must be between {2} and {1} characters long")]
         public string Title { get; init; }
 
         [Required]

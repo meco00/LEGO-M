@@ -29,5 +29,7 @@
         IEnumerable<QuestionListingServiceModel> Mine(string userId);
 
         IEnumerable<QuestionServiceModel> AllOfProduct(string productId);
+
+        IEnumerable<QuestionServiceModel> All();
     }
 }

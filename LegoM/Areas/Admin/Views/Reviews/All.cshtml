@@ -1,6 +1,12 @@
 ﻿@model IEnumerable<ReviewServiceModel>
 
-<h1 class="text-center mt-5 mb-5">All Reviews</h1>
+@{ 
+    ViewBag.Title = "All Reviews";
+}
+
+
+
+<h1 class="text-center mt-5 mb-5">@ViewBag.Title</h1>
 
 <table class="table">
     <thead class="thead-dark">

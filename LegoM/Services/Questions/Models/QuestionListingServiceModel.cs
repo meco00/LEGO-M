@@ -17,5 +17,7 @@
         public int ProductCondition { get; set; }
 
         public int AnswersCount { get; init; }
+
+        public bool IsPublic { get; init; }
     }
 }

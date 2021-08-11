@@ -45,7 +45,13 @@
             .ProjectTo<AnswerServiceModel>(mapper)
             .ToList();
 
-       public void ChangeVisibility(int id)
+       public IEnumerable<AnswerServiceModel> All()
+            => this.data.Answers
+            .OrderBy(x => x.PublishedOn)
+            .ProjectTo<AnswerServiceModel>(mapper)
+            .ToList();
+
+        public void ChangeVisibility(int id)
         {
             var answer = this.data.Answers.Find(id);
 
@@ -57,6 +63,20 @@
             answer.IsPublic = !answer.IsPublic;
 
             this.data.SaveChanges();
+        }
+
+        public bool Delete(int id)
+        {
+            var answer = this.data.Answers.Find(id);
+
+            if (answer==null)
+            {
+                return false;
+            }
+
+            this.data.Answers.Remove(answer);
+
+            return true;
         }
     }
 }

@@ -30,7 +30,7 @@
         {
             ;
 
-            if (!this.products.ProductExists(Id))
+            if (!this.products.IsProductPublic(Id))
             {
                 return BadRequest();
             }
@@ -39,13 +39,15 @@
 
             if (review !=null)
             {
+                if (!review.IsPublic)
+                {
+                    return BadRequest();
+                }
+
                 return RedirectToAction("Details",new { id=review.Id, information=review.GetInformation()});
 
             }
-            if (!review.IsPublic)
-            {
-                return BadRequest();
-            }
+         
 
             return View();
 
@@ -57,7 +59,7 @@
         {
             ;
 
-            if (!this.products.ProductExists(Id))
+            if (!this.products.IsProductPublic(Id))
             {
                 return BadRequest();
             }
@@ -77,14 +79,13 @@
 
             if (reviewModel != null)
             {
+               
+
                 return RedirectToAction("Details", new { id = reviewModel.Id, information = reviewModel.GetInformation() });
 
             }
 
-             if (!reviewModel.IsPublic)
-            {
-                return BadRequest();
-            }
+             
 
             this.reviews.Create(
                 Id,
@@ -94,7 +95,7 @@
                 review.Title
                 );
 
-            this.TempData[WebConstants.GlobalMessageKey] = $"Your review was added { (this.User.IsAdmin() ? string.Empty : "and is awaiting for approval!") } ";
+            this.TempData[WebConstants.GlobalMessageKey] = $"Review was added { (this.User.IsAdmin() ? string.Empty : "and is awaiting for approval!") } ";
 
 
             return RedirectToAction(nameof(ProductsController.Details), "Products" , new {id=Id });
@@ -135,12 +136,15 @@
         {
             ;
 
+
             var review = this.reviews.Details(id);
 
             if (review == null)
             {
                 return NotFound();
             }
+
+
 
             if (!this.reviews.ReviewIsByUser(id, this.User.Id()) && !this.User.IsAdmin())
             {
@@ -167,6 +171,7 @@
 
             }
 
+
             if (!this.reviews.ReviewIsByUser(id,this.User.Id())&& !this.User.IsAdmin())
             {
                 return BadRequest();
@@ -179,7 +184,7 @@
                 review.Rating.Value, 
                 review.Content, 
                 review.Title,
-               IsUserAdmin
+                IsUserAdmin
                 );
 
             if (!isReviewEdited)
@@ -187,7 +192,8 @@
                 return BadRequest();
             }
 
-            this.TempData[WebConstants.GlobalMessageKey] = $"Your review was edited { (IsUserAdmin ? string.Empty : "and is awaiting for approval!") } ";
+            this.TempData[WebConstants.GlobalMessageKey] = $"Review was edited { (IsUserAdmin ? string.Empty : "and is awaiting for approval!") } ";
+
 
             return RedirectToAction(nameof(ReviewsController.Mine), "Reviews");
 

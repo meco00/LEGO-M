@@ -13,6 +13,10 @@
 
         public string UserName { get; set; }
 
+        public bool IsPublic { get; set; }
+
+        public string ProductTitle { get; set; }
+
         public int ProductCondition { get; set; }
 
         public string PublishedOn { get; set; }

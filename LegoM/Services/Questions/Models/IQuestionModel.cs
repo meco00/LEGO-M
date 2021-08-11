@@ -9,7 +9,7 @@
     {
          int ProductCondition { get; }
 
-         int AnswersCount { get; }
+         bool IsPublic { get; }
 
          string PublishedOn { get; }
     }

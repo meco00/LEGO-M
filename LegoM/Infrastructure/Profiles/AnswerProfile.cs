@@ -11,7 +11,7 @@
         public AnswerProfile()
         {
             this.CreateMap<Answer, AnswerServiceModel>()
-                .ForMember(x => x.UserName, cfg => cfg.MapFrom(x => x.User.FullName))
+                .ForMember(x => x.UserName, cfg => cfg.MapFrom(x => x.User.FullName))           
                 .ForMember(x => x.PublishedOn, cfg => cfg.MapFrom(x => x.PublishedOn.ToString(DateTimeFormat)));
 
         }

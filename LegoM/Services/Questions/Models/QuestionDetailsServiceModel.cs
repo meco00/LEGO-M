@@ -29,5 +29,7 @@
         public int AnswersCount { get; init; }
 
         public IEnumerable<AnswerServiceModel> Answers { get; set; }
+
+        public bool IsPublic { get; init; }
     }
 }

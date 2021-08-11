@@ -267,7 +267,7 @@
         => GetProducts(
             this.data
                     .Products
-                      .Where(x => x.Merchant.UserId == userId)
+                      .Where(x => x.Merchant.UserId == userId&& !x.IsDeleted)
             );
 
         public IEnumerable<ProductServiceModel> GetSimilarProducts(string Id)
@@ -423,5 +423,8 @@
             return true;
 
         }
+
+        public bool IsProductPublic(string id)
+        => this.data.Products.Any(x => x.Id == id && x.IsPublic);
     }
 }

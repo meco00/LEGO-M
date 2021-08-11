@@ -13,7 +13,11 @@
 
         IEnumerable<CommentServiceModel> CommentsOfReview(int reviewId);
 
+        IEnumerable<CommentServiceModel> All();
+
         void ChangeVisibility(int id);
+
+        bool Delete(int id);
 
     }
 }

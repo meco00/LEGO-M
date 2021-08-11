@@ -1,0 +1,46 @@
+﻿@model IEnumerable<QuestionServiceModel>
+
+
+@{
+    ViewBag.Title = "All Questions";
+}
+
+
+
+<h1 class="text-center mt-5 mb-5">@ViewBag.Title</h1>
+
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">User</th>
+            <th scope="col">Product</th>
+
+            <th scope="col">Approved</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var question in Model)
+        {
+            <tr>
+                <td scope="col">@question.PublishedOn</td>
+                <td scope="col">@question.UserName</td>
+                <td scope="col">@question.ProductTitle</td>
+
+                <td scope="col">@(question.IsPublic ? "Yes":"No")</td>
+
+
+                <td scope="col">
+                    <a asp-area="" asp-controller="Questions" asp-action="Delete" asp-route-id="@question.Id" class="btn btn-danger float-right ml-3">Delete</a>
+                    <a asp-area="" asp-controller="Questions" asp-action="Details" asp-route-id="@question.Id" asp-route-information="@(question.GetInformation())" class="btn btn-primary float-right ml-3">Details</a>
+                    <a asp-controller="Questions" asp-action="ChangeVisibility" asp-route-id="@question.Id" class="btn btn-info float-right ml-3 ">@(question.IsPublic ? "Hide": "Show")</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

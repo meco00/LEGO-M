@@ -32,12 +32,8 @@
                 return BadRequest();
             }
 
-            var questionModel = this.questions.QuestionById(id);
-
-            if (!questionModel.IsPublic)
-            {
-                return BadRequest();
-            }
+            
+         
 
             return this.View();
         }
@@ -60,10 +56,7 @@
                ;
             var questionModel = this.questions.QuestionById(id);
 
-            if (!questionModel.IsPublic)
-            {
-                return BadRequest();
-            }
+           
 
 
 
@@ -81,6 +74,24 @@
             return RedirectToAction("Details","Questions", new { id = questionModel.Id, information = questionModel.GetInformation() });
 
             
+        }
+
+
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+
+            var isUserAdmin = this.User.IsAdmin();
+
+            if (isUserAdmin)
+            {
+            
+                this.answers.Delete(id);
+
+            }
+
+            return RedirectToAction(nameof(Index), "Home");
+
         }
 
 

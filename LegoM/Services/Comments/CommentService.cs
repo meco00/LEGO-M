@@ -29,6 +29,12 @@
             .ProjectTo<CommentServiceModel>(mapper)
             .ToList();
 
+        public IEnumerable<CommentServiceModel> All()
+        => this.data.Comments
+           .OrderByDescending(x => x.PublishedOn)
+           .ProjectTo<CommentServiceModel>(mapper)
+           .ToList();
+
         public void Create(int reviewId, string userId, string content)
         {
             var comment = new Comment
@@ -45,7 +51,7 @@
             this.data.SaveChanges();
         }
 
-       public  void ChangeVisibility(int id)
+       public void ChangeVisibility(int id)
         {
             var comment = this.data.Comments.Find(id);
 
@@ -57,6 +63,20 @@
             comment.IsPublic = !comment.IsPublic;
 
             this.data.SaveChanges();
+        }
+
+        public bool Delete(int id)
+        {
+            var comment = this.data.Comments.Find(id);
+
+            if (comment == null)
+            {
+                return false;
+            }
+
+            this.data.Comments.Remove(comment);
+
+            return true;
         }
     }
 }

@@ -64,7 +64,7 @@ namespace LegoM.Services.Products
 
         IEnumerable<ProductSubCategoryServiceModel> AllSubCategories();
 
-
+        bool IsProductPublic(string id);
 
         bool ProductExists(string Id);
 

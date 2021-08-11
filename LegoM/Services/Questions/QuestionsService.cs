@@ -28,6 +28,11 @@
             .ProjectTo<QuestionServiceModel>(mapper)
             .ToList() ;
 
+       public  IEnumerable<QuestionServiceModel> All()
+            => this.data.Questions
+            .ProjectTo<QuestionServiceModel>(mapper)
+            .ToList();
+
         public void Create(string productId, string userId, string content)
         {
             var question = new Question
