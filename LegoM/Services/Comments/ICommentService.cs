@@ -13,5 +13,7 @@
 
         IEnumerable<CommentServiceModel> CommentsOfReview(int reviewId);
 
+        void ChangeVisibility(int id);
+
     }
 }

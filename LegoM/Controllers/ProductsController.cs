@@ -270,11 +270,22 @@
 
         public IActionResult Details(string id)
         {
+            string merchantId = this.merchants.IdByUser(this.User.Id());
+
+            var isUserAdmin = this.User.IsAdmin();
+
             var product = this.products.Details(id);
 
             if (product == null)
             {
                 return NotFound();
+            }
+
+            if (!this.products.ProductIsByMerchant(id,merchantId)&&
+                !product.IsPublic&&
+                !isUserAdmin)
+            {
+                return BadRequest();
             }
 
             var similarProducts = this.products.GetSimilarProducts(id);
@@ -295,6 +306,66 @@
             });
 
         }
+
+        [Authorize]
+        public IActionResult Delete(string id)
+        {
+            string merchantId = this.merchants.IdByUser(this.User.Id());
+
+            var isUserAdmin = this.User.IsAdmin();
+
+            if (merchantId == null && !isUserAdmin)
+            {
+                return BadRequest();
+            }
+
+            if (!this.products.ProductIsByMerchant(id, merchantId) && !isUserAdmin)
+            {
+                return BadRequest();
+            }
+
+
+            return View();
+
+
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Delete(string id,ProductDeleteFormModel productDelete)
+        {
+            string merchantId = this.merchants.IdByUser(this.User.Id());
+
+            var isUserAdmin = this.User.IsAdmin();
+
+            if (merchantId == null && !isUserAdmin)
+            {
+                return BadRequest();
+            }
+
+            if (!this.products.ProductIsByMerchant(id, merchantId) && !isUserAdmin)
+            {
+                return BadRequest();
+            }
+
+            if (productDelete.SureToDelete)
+            {
+               this.products.DeleteProduct(id,isUserAdmin);
+            }
+            else
+            {
+                return RedirectToAction(nameof(HomeController.Index),"Home");
+            }                 
+            
+
+            this.TempData[GlobalMessageKey] = $"Your product was deleted { (isUserAdmin ? string.Empty : "and is awaiting for approval!") } ";
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+
+
+
 
 
 

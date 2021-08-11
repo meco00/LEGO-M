@@ -32,6 +32,13 @@
                 return BadRequest();
             }
 
+            var questionModel = this.questions.QuestionById(id);
+
+            if (!questionModel.IsPublic)
+            {
+                return BadRequest();
+            }
+
             return this.View();
         }
 
@@ -50,6 +57,16 @@
                 return this.View(answer);
             }
 
+               ;
+            var questionModel = this.questions.QuestionById(id);
+
+            if (!questionModel.IsPublic)
+            {
+                return BadRequest();
+            }
+
+
+
             this.answers.Create(
                 id,
                 this.User.Id(),
@@ -57,11 +74,10 @@
 
             this.TempData[WebConstants.GlobalMessageKey] = "Your answer was added and it is awaiting for approval!";
 
-            ;
-            var questionModel = this.questions.QuestionById(id);
+         
 
-            
-            
+
+
             return RedirectToAction("Details","Questions", new { id = questionModel.Id, information = questionModel.GetInformation() });
 
             

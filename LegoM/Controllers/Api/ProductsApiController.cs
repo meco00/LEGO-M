@@ -16,7 +16,7 @@
     {
         private readonly IProductsService products;
 
-        public ProductsApiController(LegoMDbContext data,IProductsService products)
+        public ProductsApiController(IProductsService products)
         => this.products = products;
 
 

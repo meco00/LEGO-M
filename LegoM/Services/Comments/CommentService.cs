@@ -24,7 +24,7 @@
         }
 
         public IEnumerable<CommentServiceModel> CommentsOfReview(int reviewId)
-         => this.data.Comments.Where(x => x.ReviewId == reviewId)
+         => this.data.Comments.Where(x => x.ReviewId == reviewId && x.IsPublic)
             .OrderBy(x => x.PublishedOn)
             .ProjectTo<CommentServiceModel>(mapper)
             .ToList();
@@ -36,10 +36,25 @@
                 ReviewId = reviewId,
                 UserId = userId,
                 Content = content,
-                PublishedOn=DateTime.UtcNow
+                PublishedOn=DateTime.UtcNow,
+                IsPublic=false
             };
 
             this.data.Comments.Add(comment);
+
+            this.data.SaveChanges();
+        }
+
+       public  void ChangeVisibility(int id)
+        {
+            var comment = this.data.Comments.Find(id);
+
+            if (comment == null)
+            {
+                return;
+            }
+
+            comment.IsPublic = !comment.IsPublic;
 
             this.data.SaveChanges();
         }

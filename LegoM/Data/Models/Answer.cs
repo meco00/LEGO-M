@@ -13,6 +13,8 @@
         [MaxLength(ContentMaxLength)]
         public string Content { get; set; }
 
+        public bool IsPublic { get; set; }
+
         public DateTime PublishedOn { get; set; }
 
         public int QuestionId { get; set; }

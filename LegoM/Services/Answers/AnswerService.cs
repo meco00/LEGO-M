@@ -11,7 +11,7 @@
 
     public class AnswerService : IAnswerService
     {
-        private LegoMDbContext data { get; set; }
+        private readonly LegoMDbContext data;
 
         private readonly IConfigurationProvider mapper;
 
@@ -29,7 +29,8 @@
                 QuestionId = questionId,
                 UserId = userId,
                 Content = content,
-                PublishedOn=DateTime.UtcNow
+                PublishedOn=DateTime.UtcNow,
+                IsPublic=false
             };
 
             this.data.Answers.Add(answer);
@@ -39,9 +40,23 @@
         }
 
         public IEnumerable<AnswerServiceModel> AnswersOfQuestion(int questionId)
-        => this.data.Answers.Where(x => x.QuestionId == questionId)
+        => this.data.Answers.Where(x => x.QuestionId == questionId&&x.IsPublic)
             .OrderBy(x => x.PublishedOn)
             .ProjectTo<AnswerServiceModel>(mapper)
             .ToList();
+
+       public void ChangeVisibility(int id)
+        {
+            var answer = this.data.Answers.Find(id);
+
+            if (answer == null)
+            {
+                return;
+            }
+
+            answer.IsPublic = !answer.IsPublic;
+
+            this.data.SaveChanges();
+        }
     }
 }

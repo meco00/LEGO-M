@@ -17,9 +17,7 @@
 
         public string ImageUrl { get; set; }
 
-        public bool isDeleted { get; set; }
-
-        public DateTime? DeletedOn { get; set; }
+ 
 
 
     }

@@ -8,6 +8,8 @@
 
         public int Rating { get; set; }
 
+        public bool IsPublic { get; set; }
+
         public string PublishedOn { get; set; }
     }
 }

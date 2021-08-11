@@ -22,6 +22,8 @@
         [MaxLength(ContentMaxLength)]
         public string Content { get; set; }
 
+        public bool IsPublic { get; set; }
+
         public DateTime PublishedOn { get; set; }
 
         [Required]

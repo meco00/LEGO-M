@@ -24,7 +24,7 @@
 
         public IEnumerable<QuestionServiceModel> AllOfProduct(string productId)
         => this.data.Questions
-            .Where(x => x.ProductId == productId)
+            .Where(x => x.ProductId == productId&&x.IsPublic)
             .ProjectTo<QuestionServiceModel>(mapper)
             .ToList() ;
 
@@ -35,7 +35,8 @@
                 Content = content,
                 ProductId = productId,
                 UserId = userId,
-                PublishedOn=DateTime.UtcNow
+                PublishedOn = DateTime.UtcNow,
+                IsPublic = false
                 
             };
 
@@ -89,5 +90,19 @@
 
         public bool QuestionIsByUser(int id, string userId)
         => this.data.Questions.Any(x => x.Id == id && x.UserId == userId);
+
+        public void ChangeVisibility(int id)
+        {
+            var question = this.data.Questions.Find(id);
+
+            if (question == null)
+            {
+                return;
+            }
+
+            question.IsPublic = !question.IsPublic;
+
+            this.data.SaveChanges();
+        }
     }
 }

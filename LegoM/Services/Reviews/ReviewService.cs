@@ -35,7 +35,8 @@
                 Title = title,
                 ProductId = productId,
                 UserId = userId,
-                PublishedOn = DateTime.UtcNow
+                PublishedOn = DateTime.UtcNow,
+                IsPublic=false
 
             };
 
@@ -48,9 +49,14 @@
         }
 
         public IEnumerable<ReviewServiceModel> All(string productId)
-        => this.data.Reviews.Where(x => x.ProductId == productId).OrderByDescending(x => x.PublishedOn)
+        => this.data.Reviews.Where(x => x.ProductId == productId&& x.IsPublic).OrderByDescending(x => x.PublishedOn)
             .ProjectTo<ReviewServiceModel>(mapper)
             .ToList();
+
+        public IEnumerable<ReviewServiceModel> All()
+       => this.data.Reviews.OrderBy(x => x.PublishedOn)
+           .ProjectTo<ReviewServiceModel>(mapper)
+           .ToList();
 
         public ReviewDetailsServiceModel Details(int id)
         => this.data.Reviews.Where(x => x.Id == id)
@@ -64,7 +70,8 @@
 
 
 
-        public bool Edit(int id, ReviewType rating, string content, string title)
+        public bool Edit(int id, ReviewType rating, string content, string title,
+            bool IsPublic=false)
         {
 
             var review = this.data.Reviews.FirstOrDefault(x => x.Id == id);
@@ -80,6 +87,7 @@
             review.Title = title;
             review.Rating = rating;
             review.Content = content;
+            review.IsPublic = IsPublic;
 
             this.data.SaveChanges();
 
@@ -110,7 +118,7 @@
 
             var reviews = this.All(productId);
 
-            if (reviews.Count() == 0)
+            if (!reviews.Any())
             {
                 return null;
             }
@@ -148,6 +156,21 @@
             .Where(x => x.Id == id)
             .ProjectTo<ReviewByUserServiceModel>(mapper)
             .FirstOrDefault();
+
+
+        public void ChangeVisibility(int id)
+        {
+           var review = this.data.Reviews.Find(id);
+
+            if (review==null)
+            {
+                return;
+            }
+
+            review.IsPublic = !review.IsPublic;
+
+            this.data.SaveChanges();
+        }
 
         private static string ValidateTitle(ReviewType rating, string title)
         {

@@ -14,11 +14,11 @@
 
         public class Product
         {
-            public const int TittleMaxLength = 100;
+            public const int TittleMaxLength = 30;
             public const int TittleMinLength = 5;
 
             public const int DescriptionMaxLength = 1000;
-            public const int DescriptionMinLength = 10;
+            public const int DescriptionMinLength = 7;
 
             public const int QuantityMinLength = 1;
 
@@ -67,7 +67,7 @@
           public const int ContentMinLength = 10;
 
           public const int TitleMaxLength = 20;
-          public const int TitleMinLength = 5;
+          public const int TitleMinLength = 3;
          
 
         }

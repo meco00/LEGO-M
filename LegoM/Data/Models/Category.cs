@@ -14,10 +14,6 @@
         [MaxLength(NameMaxLength)]
         public string Name { get; set; }
 
-        public bool isDeleted { get; set; }
-
-        public DateTime? DeletedOn { get; set; }
-
         public virtual ICollection<SubCategory> SubCategories { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }

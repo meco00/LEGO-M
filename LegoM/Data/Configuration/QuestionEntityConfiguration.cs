@@ -14,7 +14,7 @@
                .HasOne(x => x.Product)
                .WithMany(x => x.Questions)
                .HasForeignKey(x => x.ProductId)
-               .OnDelete(DeleteBehavior.Restrict);
+               .OnDelete(DeleteBehavior.Cascade);
 
          builder
                 .HasOne(x => x.User)

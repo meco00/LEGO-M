@@ -50,6 +50,8 @@ namespace LegoM.Services.Products
                bool IsPublic = false
                );
 
+        IEnumerable<ProductDeletedServiceModel> DeletedProducts();
+
         ProductDetailsServiceModel Details(string Id);
 
         IEnumerable<ProductServiceModel> ByUser(string userId);
@@ -62,6 +64,8 @@ namespace LegoM.Services.Products
 
         IEnumerable<ProductSubCategoryServiceModel> AllSubCategories();
 
+
+
         bool ProductExists(string Id);
 
         bool CategoryExists(int categoryId);
@@ -71,6 +75,12 @@ namespace LegoM.Services.Products
         bool SubCategoryParticipateInCategory(string subCategory,string category);
 
         bool SubCategoryIsValid(string subCategory,string category);
+
+        bool DeleteProduct(
+            string id,
+            bool IsAdmin=false);
+
+        bool ReviveProduct(string id);
 
         void ChangeVisibility(string id);
 

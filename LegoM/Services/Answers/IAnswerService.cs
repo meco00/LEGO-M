@@ -12,5 +12,7 @@ namespace LegoM.Services.Answers
             );
 
         IEnumerable<AnswerServiceModel> AnswersOfQuestion(int questionId);
+
+        void ChangeVisibility(int id);
     }
 }

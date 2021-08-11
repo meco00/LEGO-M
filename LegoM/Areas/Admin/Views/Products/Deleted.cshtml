@@ -1,37 +1,38 @@
-﻿@model IEnumerable<ProductServiceModel>
-<h1 class="text-center mt-5 mb-5">All Products</h1>
+﻿@model IEnumerable<ProductDeletedServiceModel>
+
+<h1 class="text-center mt-5 mb-5">Deleted Products</h1>
 
 <table class="table">
     <thead class="thead-dark">
         <tr>
-            <th scope="col">Date</th>
+            <th scope="col">DeletedOn</th>
             <th scope="col">Title</th>
             <th scope="col">Price</th>
             <th scope="col">Condition</th>
-            <th scope="col">Approved</th>
             <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var product in Model)
         {
-            <tr>        
-                <td scope="col">@product.PublishedOn</td>
+            <tr>
+                <td scope="col">@product.DeletedOn</td>
                 <td scope="col">@product.Title</td>
                 <td scope="col">@product.Price</td>
                 <td scope="col">@product.Condition</td>
-                <td scope="col">@(product.IsPublic ? "Yes":"No")</td>
                 
+
 
                 <td scope="col">
                     <a asp-area="" asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger float-right ml-3">Delete</a>
+                    <a asp-area="Admin" asp-controller="Products" asp-action="Revive" asp-route-id="@product.Id" class="btn btn-info float-right ml-3">Revive</a>
                     <a asp-area="" asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning float-right ml-3">Edit</a>
                     <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary float-right ml-3">Details</a>
-                    <a asp-controller="Products" asp-action="ChangeVisibility" asp-route-id="@product.Id" class="btn btn-info float-right ml-3 ">@(product.IsPublic ? "Hide": "Show")</a>
+
 
                 </td>
             </tr>
-        }      
+        }
     </tbody>
 </table>
 

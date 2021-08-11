@@ -204,6 +204,11 @@
                 return false;
             }
 
+            if (productData.IsDeleted)
+            {
+                IsPublic = false;
+            }
+
             productData.Title = title;
             productData.Description = description;
             productData.Price = price;
@@ -212,7 +217,7 @@
             productData.DeliveryTake = productDelivery;
             productData.CategoryId = categoryId;
             productData.SubCategoryId = subCategoryId;
-            productData.IsPublic = IsPublic;
+            productData.IsPublic = IsPublic ;
 
             var mainImage = productData.Images.FirstOrDefault();
 
@@ -223,7 +228,7 @@
 
             if (secondImageUrl != null)
             {
-                var secondImage = productData.Images.Where(x => x.isDeleted == false).Skip(1).Take(1).FirstOrDefault();
+                var secondImage = productData.Images.Skip(1).Take(1).FirstOrDefault();
 
                 if (secondImage == null)
                 {
@@ -236,7 +241,7 @@
             }
             if (thirdImageUrl != null)
             {
-                var thirdImage = productData.Images.Where(x => x.isDeleted == false).Skip(2).Take(1).FirstOrDefault();
+                var thirdImage = productData.Images.Skip(2).Take(1).FirstOrDefault();
 
                 if (thirdImage == null)
                 {
@@ -357,5 +362,66 @@
 
         public bool ProductExists(string Id)
         => this.data.Products.Any(x => x.Id == Id);
+
+        public bool DeleteProduct(
+            string id,
+            bool IsAdmin=false)
+        {
+           var product = this.data.Products.Find(id);
+
+            if (product==null)
+            {
+                return false;
+            }
+
+            if (IsAdmin)
+            {
+                this.data.Products.Remove(product);
+            }
+            else
+            {
+                product.IsDeleted = true;
+                product.IsPublic = false;
+                product.DeletedOn = DateTime.UtcNow;
+
+            }
+
+            this.data.SaveChanges();
+
+            return true;
+        }
+
+        public IEnumerable<ProductDeletedServiceModel> DeletedProducts()
+        => this.data.Products
+            .Where(x => x.IsDeleted)
+            .OrderBy(x => x.DeletedOn)
+            .Select(x => new ProductDeletedServiceModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Condition = x.ProductCondition.ToString(),
+                Price = x.Price,
+                DeletedOn = x.DeletedOn.Value.ToString("dd MM yyyy")
+            })
+            .ToList();
+
+        public bool ReviveProduct(string id)
+        {
+            var product = this.data.Products.Find(id);
+
+            if (product == null)
+            {
+                return false;
+            }
+
+            product.IsDeleted = false;
+            product.DeletedOn = null;
+            product.PublishedOn = DateTime.UtcNow;
+
+            this.data.SaveChanges();
+
+            return true;
+
+        }
     }
 }

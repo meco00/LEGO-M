@@ -12,6 +12,8 @@
             string content
             );
 
+        void ChangeVisibility(int id);
+
         bool QuestionExists(int id);
 
         bool QuestionIsByUser(int id, string userId);

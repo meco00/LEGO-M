@@ -18,7 +18,8 @@
             int id,
             ReviewType rating,
             string content,
-            string title
+            string title,
+            bool IsPublic = false
             );
 
         ReviewDetailsServiceModel Details(int id);
@@ -27,17 +28,22 @@
 
         IEnumerable<ReviewServiceModel> All(string productId);
 
+        IEnumerable<ReviewServiceModel> All();
+
         ReviewsProductStatisticsServiceModel GetStatisticsForProduct(string productId);
 
         ReviewByUserServiceModel ReviewByUser(string productId, string userId);
 
         ReviewByUserServiceModel ReviewById(int id );
 
+        void ChangeVisibility(int id);
+
         bool ReviewExists(int id);
 
         bool ReviewIsByUser(int id, string userId);     
 
         bool Delete(int id);
+
 
     }
 }

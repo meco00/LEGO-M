@@ -18,12 +18,33 @@
 
         public IActionResult ChangeVisibility(string id)
         {
+            ;
             this.products.ChangeVisibility(id);
 
 
            return RedirectToAction(nameof(All));
 
         }
+
+        public IActionResult Deleted()
+        {
+          var products =  this.products.DeletedProducts();
+
+
+            return View(products);
+
+        }
+
+        public IActionResult Revive(string id)
+        {
+            this.products.ReviveProduct(id);
+
+
+            return RedirectToAction(nameof(All));
+
+        }
+
+
     }
 
 }

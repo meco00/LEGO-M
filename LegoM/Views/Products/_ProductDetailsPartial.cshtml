@@ -39,12 +39,16 @@
 
     </div>
     <div class="col-md-4 offset-2 mt-5">
+        @if (this.User.IsAdmin())
+        {
+        <a asp-area="Admin" asp-controller="Products" asp-action="ChangeVisibility" asp-route-id="@Model.Id" class="btn btn-danger mb-3 ">@(Model.IsPublic ? "Hide": "Approve")</a>
+
+        }
         <h5>Category : <a asp-action="All" asp-route-category="@Model.CategoryName">@Model.CategoryName</a></h5>
         <h5 class="mb-3">SubCategory : <a asp-action="All" asp-route-category="@Model.CategoryName" asp-route-subCategory="@Model.SubCategoryName">@Model.SubCategoryName</a></h5>
         <h5 class="btn btn-warning">Shipment inspection</h5>
         <div class="mb-3"></div>
         <h5 class="btn btn-outline-@(isProductAvailable ? "primary":"danger")">@(isProductAvailable ? "Available": "Exhausted")</h5>
-
 
 
     </div>

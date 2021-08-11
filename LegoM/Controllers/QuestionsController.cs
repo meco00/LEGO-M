@@ -125,7 +125,7 @@
                 return BadRequest();
             }
 
-            this.TempData[WebConstants.GlobalMessageKey] = "Your question was deleted and it is awaiting for approval!";
+            this.TempData[WebConstants.GlobalMessageKey] = $"Your question was deleted { (this.User.IsAdmin() ? string.Empty : "and is awaiting for approval!") } ";
 
             return RedirectToAction(nameof(Mine));
 

@@ -61,7 +61,7 @@
                 .HasOne(x => x.Product)
                 .WithMany(x => x.Images)
                 .HasForeignKey(x => x.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Comment>()
                 .HasOne(x => x.Review)
