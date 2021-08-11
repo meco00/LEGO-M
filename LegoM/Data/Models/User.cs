@@ -21,5 +21,8 @@
 
         public virtual ICollection<Answer> Answers { get; set; }
         = new HashSet<Answer>();
+
+        public virtual ICollection<Favourite> Favourites { get; set; }
+       = new HashSet<Favourite>();
     }
 }

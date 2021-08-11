@@ -1,4 +1,4 @@
-﻿namespace LegoM.Services.Statistics
+﻿namespace LegoM.Services.Statistics.Models
 {
     public class StatisticsServiceModel
     {

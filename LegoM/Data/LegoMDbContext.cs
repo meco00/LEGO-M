@@ -30,6 +30,8 @@
 
         public DbSet<Answer> Answers { get; set; }
 
+        public DbSet<Favourite> Favourites { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -42,6 +44,10 @@
             builder.ApplyConfiguration(new QuestionEntityConfiguration());
 
             builder.ApplyConfiguration(new AnswerEntityConfiguration());
+
+            builder.ApplyConfiguration(new CommentEntityConfiguration());
+
+            builder.ApplyConfiguration(new FavouriteEntityConfiguration());
 
             builder
               .Entity<SubCategory>()
@@ -62,24 +68,6 @@
                 .WithMany(x => x.Images)
                 .HasForeignKey(x => x.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            builder.Entity<Comment>()
-                .HasOne(x => x.Review)
-                .WithMany(x => x.Comments)
-                .HasForeignKey(x => x.ReviewId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-
-            builder.Entity<Comment>()
-              .HasOne(x => x.User)
-              .WithMany(x => x.Comments)
-              .HasForeignKey(x => x.UserId)
-              .OnDelete(DeleteBehavior.Restrict);
-
-
-
-
-
 
 
 

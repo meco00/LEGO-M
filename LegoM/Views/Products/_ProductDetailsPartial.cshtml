@@ -56,7 +56,7 @@
 
     <div class="col-md-2 float-right mt-5">
         <h2 class="mb-3">@(Model.Price+ " лв.")</h2>
-        <a asp-controller="Products" asp-action="Favourites" asp-route-id="@Model.Id" class="btn btn-outline-danger">Add To Favourites</a>
+        <a asp-controller="Favourites" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-outline-danger">Add To Favourites</a>
         <div class="mb-3"></div>
         <a asp-controller="Products" asp-action="Favourites" asp-route-id="@Model.Id" class="btn btn-info mr-3">Add To Shopping Bag</a>
 

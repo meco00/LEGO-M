@@ -63,7 +63,8 @@
           = new HashSet<Question>();
 
 
-        //public virtual ICollection<UserProduct> UserProducts { get; set; }
+        public virtual ICollection<Favourite> Favourites { get; set; }
+          = new HashSet<Favourite>();
 
         //public virtual ICollection<Report> Reports { get; set; }
 

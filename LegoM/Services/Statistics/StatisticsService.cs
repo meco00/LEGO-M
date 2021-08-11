@@ -1,6 +1,7 @@
 ﻿namespace LegoM.Services.Statistics
 {
     using LegoM.Data;
+    using LegoM.Services.Statistics.Models;
     using System.Linq;
 
     public class StatisticsService : IStatisticsService

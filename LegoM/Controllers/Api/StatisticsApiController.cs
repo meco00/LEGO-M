@@ -4,6 +4,7 @@ namespace LegoM.Controllers.Api
 {
     using LegoM.Data;
     using LegoM.Services.Statistics;
+    using LegoM.Services.Statistics.Models;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
 

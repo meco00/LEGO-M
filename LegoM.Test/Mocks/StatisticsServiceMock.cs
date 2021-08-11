@@ -1,4 +1,5 @@
 ﻿using LegoM.Services.Statistics;
+using LegoM.Services.Statistics.Models;
 using Moq;
 
 namespace LegoM.Test.Mocks

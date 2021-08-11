@@ -1,6 +1,7 @@
 ﻿namespace LegoM.Infrastructure
 {
     using LegoM.Data.Models;
+    using LegoM.Services.Favourites.Models;
     using LegoM.Services.Questions.Models;
     using LegoM.Services.Reviews.Models;
     using System;
@@ -15,7 +16,7 @@
         public static string GetInformation(this IQuestionModel model)
         => String.Concat(model.ProductCondition + "-" + model.PublishedOn + "-" + model.IsPublic.ToString());
 
-      
+     
 
     }
 }
