@@ -11,5 +11,13 @@
           {
             IsPublic = true
           });
+
+        public static IEnumerable<Product> TenDeletedProducts()
+         => Enumerable.Range(0, 10).Select(i => new Product()
+         {
+             IsDeleted = true,
+             DeletedOn = new System.DateTime(1, 1, 1)
+
+         });
     } 
 }

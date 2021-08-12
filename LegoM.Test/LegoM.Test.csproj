@@ -28,4 +28,8 @@
     <ProjectReference Include="..\LegoM\LegoM.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pipeline\Api\" />
+  </ItemGroup>
+
 </Project>

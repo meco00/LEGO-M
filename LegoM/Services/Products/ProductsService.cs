@@ -39,8 +39,10 @@
             bool isPublicOnly = true
             )
         {
-            var productsQuery = this.data.Products
-                .Where(x=> !isPublicOnly || x.IsPublic)
+           
+
+             var  productsQuery = this.data.Products
+                .Where(x=> (!isPublicOnly || x.IsPublic) && !x.IsDeleted)
                 .AsQueryable();
 
             ;
@@ -148,7 +150,8 @@
                 DeliveryTake = productDelivery,
                 PublishedOn = DateTime.UtcNow,
                 MerchantId = merchantId,
-                IsPublic=IsPublic
+                IsPublic=IsPublic,
+                IsDeleted=false
 
             };
 
@@ -394,7 +397,7 @@
         public IEnumerable<ProductDeletedServiceModel> DeletedProducts()
         => this.data.Products
             .Where(x => x.IsDeleted)
-            .OrderBy(x => x.DeletedOn)
+            .OrderByDescending(x => x.DeletedOn)
             .Select(x => new ProductDeletedServiceModel
             {
                 Id = x.Id,

@@ -1,6 +1,7 @@
 ﻿namespace LegoM.Areas.Admin.Controllers
 {
     using LegoM.Services.Products;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
 
@@ -10,11 +11,24 @@
 
         public ProductsController(IProductsService products)
         => this.products = products;
+
+
         
+        public IActionResult All()
+        {
+           var products = this.products.All(isPublicOnly: false).Products;
+
+           return  View(products);
+        }
+
+        public IActionResult Deleted()
+        {
+          var products =  this.products.DeletedProducts();
 
 
-        public IActionResult All() => View(this.products.All(isPublicOnly: false).Products);
+            return View(products);
 
+        }
 
         public IActionResult ChangeVisibility(string id)
         {
@@ -26,14 +40,6 @@
 
         }
 
-        public IActionResult Deleted()
-        {
-          var products =  this.products.DeletedProducts();
-
-
-            return View(products);
-
-        }
 
         public IActionResult Revive(string id)
         {
