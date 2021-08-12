@@ -1,5 +1,6 @@
 ﻿namespace LegoM.Test.Services
 {
+    using LegoM.Data.Models;
     using LegoM.Services.Merchants;
     using LegoM.Test.Mocks;
     using Xunit;
@@ -50,7 +51,7 @@
 
             var data = DatabaseMock.Instance;
             
-            data.Merchants.Add(new Data.Models.Merchant() { UserId = UserId });
+            data.Merchants.Add(new Merchant() { UserId = UserId });
             data.SaveChanges();
 
             return new MerchantService(data);

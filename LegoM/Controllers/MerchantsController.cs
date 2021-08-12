@@ -59,7 +59,7 @@
 
             TempData[GlobalMessageKey] = "Thank you for becoming Merchant.";
 
-            return RedirectToAction("All", "Products");
+            return RedirectToAction(nameof(ProductsController.All), "Products");
         }
 
         private bool IsUserMerchant()

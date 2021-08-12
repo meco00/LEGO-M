@@ -8,6 +8,8 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using static WebConstants.Cache;
+
     public class HomeController : Controller
     {
         private readonly IProductsService products;
@@ -20,10 +22,8 @@
         }
 
         public IActionResult Index() 
-        {
-            const string latestProductsCache = "LatestProductsCacheKey";
-
-            var latestProducts = this.cache.Get<List<ProductServiceModel>>(latestProductsCache);
+        {  
+            var latestProducts = this.cache.Get<List<ProductServiceModel>>(LatestProductsCacheKey);
 
             if (latestProducts == null)
             {
@@ -34,7 +34,7 @@
                 var cacheOptions = new MemoryCacheEntryOptions()
                     .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
 
-                latestProducts = this.cache.Set(latestProductsCache, products,cacheOptions);
+                latestProducts = this.cache.Set(LatestProductsCacheKey, products,cacheOptions);
             }
 
 

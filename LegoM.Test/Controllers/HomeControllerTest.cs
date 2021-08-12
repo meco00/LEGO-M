@@ -1,114 +1,42 @@
-﻿
-namespace LegoM.Test.Controllers
+﻿namespace LegoM.Test.Controllers
 {
-    using AutoMapper;
-    using LegoM.Controllers;
-    using LegoM.Data.Models;
-    using LegoM.Services.Products;
-    using LegoM.Services.Statistics;
-    using LegoM.Test.Mocks;
-    using Microsoft.AspNetCore.Mvc;
-    using Moq;
-    using System.Linq;
-    using Xunit;
     using FluentAssertions;
-    using MyTested.AspNetCore.Mvc;
-    using Microsoft.Extensions.Caching.Memory;
+    using LegoM.Controllers;
     using LegoM.Services.Products.Models;
+    using MyTested.AspNetCore.Mvc;
     using System.Collections.Generic;
+    using Xunit;
+
+    using static WebConstants.Cache;
+    using static Data.Products;
+    using System;
 
     public class HomeControllerTest
     {
-
         [Fact]
-        public void IndexShouldReturnViewWithCorrectDataAndModel()
-       =>   //Arrange
-
-            MyMvc
-            .Pipeline()
-            .ShouldMap("/")
-
-            //Act
-            .To<HomeController>(c=>c.Index())
-            .Which(controller => controller
-            .WithData(Enumerable.Range(0, 10).Select(p => new Product())))           
-             
-
-            //Assert
+        public void IndexShouldReturnCorrectModelAndView()
+        => MyController<HomeController>
+                  .Instance(controller => controller
+                  .WithData(TenPublicProducts()))
+            .Calling(c => c.Index())
+            .ShouldHave()
+            .MemoryCache(cache=>cache
+            .ContainingEntry(entry=>entry
+                  .WithKey(LatestProductsCacheKey)
+                  .WithAbsoluteExpirationRelativeToNow(TimeSpan.FromMinutes(15))
+                  .WithValueOfType<List<ProductServiceModel>>()))
+            .AndAlso()
             .ShouldReturn()
-            .View(view=>view.WithModelOfType<List<ProductServiceModel>>()
-            .Passing(m=>m.Should().HaveCount(3)));
-
-        [Fact]
-        public void IndexShouldReturnViewWithCorrectModel()
-        {
-            //Arange
-            using var data = DatabaseMock.Instance;
-            var mapper = MapperMock.Instance;
-            var memoryCache = MemoryCacheMock.Instance;
-
-            data.Products.AddRange(
-                Enumerable.Range(0, 10)
-                .Select(i => new Product()));
-
-            data.Users.AddRange(Enumerable.Range(0, 2)
-                .Select(i => new User()));
-
-            data.SaveChanges();
-
-            var productService = new ProductsService(data,mapper);
-            
-
-
-            var homeController = new HomeController(productService,memoryCache);
-
-            //Act
-            var result = homeController.Index();
-
-            //Assert
-            result.Should().NotBeNull()
-                .And
-                .BeAssignableTo<ViewResult>()
-                .Which
-                .Model
-                .As<List<ProductServiceModel>>()
-                .Invoking(model =>
-                {
-                    model.Should().HaveCount(3);
-                   
-
-                })
-                .Invoke();
-
-
-
-          //  Assert.NotNull(result);
-
-          //var viewResult=Assert.IsType<ViewResult>(result);
-
-          //  var model = viewResult.Model;
-
-          //var indexViewModel=Assert.IsType<IndexViewModel>(model);
-
-          //  Assert.Equal(3, indexViewModel.Products.Count);
-          //  Assert.Equal(10, indexViewModel.TotalProducts);
-          //  Assert.Equal(2, indexViewModel.TotalUsers);
-           
-
-        }
-
+            .View(view => view.WithModelOfType<List<ProductServiceModel>>()
+            .Passing(model => model.Should().HaveCount(3)));
 
         [Fact]
         public void ErrorShouldReturnView()
-        {
-            //Arrange
-            var homeController = new HomeController(null,null);
-            //Act
-            var result=homeController.Error();
-
-            //Assert
-            Assert.NotNull(result);
-            Assert.IsType<ViewResult>(result);
-        }
+            => MyController<HomeController>
+            .Instance()
+            .Calling(x => x.Error())
+            .ShouldReturn()
+            .View();
+                  
     }
 }
