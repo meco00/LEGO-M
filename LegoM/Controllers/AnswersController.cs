@@ -24,16 +24,16 @@
 
 
         [Authorize]
-        public IActionResult Add(int id)
+        public IActionResult Add(int id,string information)
         {
-            ;
-            if (!this.questions.QuestionExists(id))
+            var questionModel = this.questions.Details(id);
+
+            if (questionModel == null || questionModel.GetInformation() != information)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            
-         
+
 
             return this.View();
         }

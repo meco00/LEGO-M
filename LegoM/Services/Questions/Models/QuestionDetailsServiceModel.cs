@@ -29,6 +29,7 @@
         public int AnswersCount { get; init; }
 
         public IEnumerable<AnswerServiceModel> Answers { get; set; }
+           = new HashSet<AnswerServiceModel>();
 
         public bool IsPublic { get; init; }
     }

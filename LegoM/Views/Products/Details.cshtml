@@ -74,7 +74,7 @@
             <p>@review.Content</p>
             <div class="mt-3"></div>
             <a asp-controller="Reviews" asp-action="Details" asp-route-id="@review.Id" asp-route-information="@(review.GetInformation())"><span>Comments (@review.TotalComments)</span></a>
-            <a asp-controller="Comments" asp-action="Add" asp-route-id="@review.Id" class="ml-3">Add Comment</a>
+            <a asp-controller="Comments" asp-action="Add" asp-route-id="@review.Id" asp-route-information="@(review.GetInformation())" class="ml-3">Add Comment</a>
         </div>       
     </div>
 
@@ -115,7 +115,7 @@
             <div class="col-md-4 mt-2">
                 <a asp-controller="Questions" asp-action="Details" asp-route-id="@question.Id" asp-route-information="@(question.GetInformation())"><h5>@question.Content</h5></a>
                 <a asp-controller="Questions" asp-action="Details" asp-route-id="@question.Id" asp-route-information="@(question.GetInformation())"><span>Answers (@question.AnswersCount)</span></a> 
-                <a asp-controller="Answers" asp-action="Add" asp-route-id="@question.Id" class="ml-3" >Add Answer</a>
+                <a asp-controller="Answers" asp-action="Add" asp-route-id="@question.Id" asp-route-information="@(question.GetInformation())" class="ml-3" >Add Answer</a>
             </div>
         </div>
 

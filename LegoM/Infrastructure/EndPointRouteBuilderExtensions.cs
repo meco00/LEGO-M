@@ -37,5 +37,30 @@
                  }
                );
 
+        public static void MapAnswersAddRoute(this IEndpointRouteBuilder endpoints)
+        => endpoints.MapControllerRoute
+            (
+              name: "Answers Add",
+              pattern: "/Answers/Add/{id}/{information}",
+              defaults: new
+              {
+                  controller = typeof(AnswersController).GetControllerName(),
+                  action = nameof(AnswersController.Add)
+              }
+            );
+
+        public static void MapCommentsAddRoute(this IEndpointRouteBuilder endpoints)
+       => endpoints.MapControllerRoute
+           (
+             name: "Comments Add",
+             pattern: "/Comments/Add/{id}/{information}",
+             defaults: new
+             {
+                 controller = typeof(CommentsController).GetControllerName(),
+                 action = nameof(CommentsController.Add)
+             }
+           );
+
+
     }
 }

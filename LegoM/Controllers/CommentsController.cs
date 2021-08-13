@@ -23,13 +23,16 @@
         }
 
         [Authorize]
-        public IActionResult Add(int id)
+        public IActionResult Add(int id,string information)
         {
-            ;
-            if (!this.reviews.ReviewExists(id))
+            var review = this.reviews.Details(id);
+
+            if (review == null || review.GetInformation() != information)
             {
-                return BadRequest();
+                return NotFound();
             }
+
+
 
             return this.View();
         }
