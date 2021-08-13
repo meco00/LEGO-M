@@ -14,7 +14,7 @@
         => String.Concat(model.Title + "-" + model.Rating + "-" + model.PublishedOn);
 
         public static string GetInformation(this IQuestionModel model)
-        => String.Concat(model.ProductCondition + "-" + model.PublishedOn + "-" + model.IsPublic.ToString());
+        => String.Concat(model.ProductCondition + "-" + model.PublishedOn + "-" + new string(model.Content.Take(5).ToArray()));
 
      
 

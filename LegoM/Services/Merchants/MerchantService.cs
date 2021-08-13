@@ -1,6 +1,7 @@
 ﻿namespace LegoM.Services.Merchants
 {
     using LegoM.Data;
+    using LegoM.Data.Models;
     using System.Linq;
 
     public class MerchantService : IMerchantService
@@ -12,7 +13,19 @@
             this.data = data;
         }
 
-        
+        public void Create(string userId, string name, string telephoneNumber)
+        {
+            var merchant = new Merchant
+            {
+                Name = name,
+                TelephoneNumber =telephoneNumber,
+                UserId = userId
+            };
+
+            data.Merchants.Add(merchant);
+
+            data.SaveChanges();
+        }
 
         public string IdByUser(string userId)
         => this.data.Merchants
@@ -20,7 +33,7 @@
                 .Select(x => x.Id)
                 .FirstOrDefault();
 
-        public bool IsMerchant(string userId)
+        public bool IsUserMerchant(string userId)
         => this.data.Merchants.Any(x=>x.UserId==userId);
     }
 }

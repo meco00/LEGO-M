@@ -2,18 +2,17 @@
 {
     using FluentAssertions;
     using LegoM.Areas.Admin;
-    using LegoM.Areas.Admin.Controllers;
     using LegoM.Data.Models;
     using LegoM.Services.Comments.Models;
     using MyTested.AspNetCore.Mvc;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Xunit;
 
     using static Data.Comments;
+
+    using CommentsController = LegoM.Areas.Admin.Controllers.CommentsController;
+
 
     public class CommentsControllerTest
     {
@@ -26,7 +25,7 @@
               .WithAntiForgeryToken())
               .To<CommentsController>(c => c.All())
                .Which(controller => controller
-                  .WithData(TenComments()))
+                  .WithData(GetComments()))
                 .ShouldReturn()
                 .View(view => view
                 .WithModelOfType<List<CommentServiceModel>>()

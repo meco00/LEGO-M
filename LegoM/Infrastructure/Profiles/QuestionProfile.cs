@@ -14,8 +14,8 @@
             this.CreateMap<Question, QuestionByUserServiceModel>()
                 .ForMember(x => x.ProductCondition, cfg => cfg.MapFrom(x => (int)x.Product.ProductCondition))
                 .ForMember(x => x.PublishedOn, cfg => cfg.MapFrom(x => x.PublishedOn.ToString(DateTimeFormat)))
-                .ForMember(x => x.AnswersCount, cfg => cfg.MapFrom(x => x.Answers.Count))
-                .ForMember(x => x.IsPublic, cfg => cfg.MapFrom(x => x.IsPublic));
+                .ForMember(x => x.AnswersCount, cfg => cfg.MapFrom(x => x.Answers.Count));
+                
 
 
             this.CreateMap<Question, QuestionListingServiceModel>()

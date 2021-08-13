@@ -2,7 +2,6 @@
 {
     using FluentAssertions;
     using LegoM.Areas.Admin;
-    using LegoM.Areas.Admin.Controllers;
     using LegoM.Data.Models;
     using LegoM.Services.Products.Models;
     using MyTested.AspNetCore.Mvc;
@@ -11,6 +10,9 @@
     using Xunit;
     using static Data.DataConstants;
     using static Data.Products;
+
+    using ProductsController = LegoM.Areas.Admin.Controllers.ProductsController;
+
 
     public class ProductsControllerTest
     {
@@ -25,7 +27,7 @@
                      .WithAntiForgeryToken())
                 .To<ProductsController>(c => c.All())
                 .Which(controller => controller
-                    .WithData(TenPublicProducts()))              
+                    .WithData(GetPublicProducts()))              
                 .ShouldReturn()
             .View(view => view.WithModelOfType<List<ProductServiceModel>>()
                .Passing(model => model.Should().NotBeEmpty()));
@@ -42,7 +44,7 @@
                      .WithAntiForgeryToken())
                 .To<ProductsController>(c => c.Deleted())
                 .Which(controller => controller
-                    .WithData(TenDeletedProducts()))
+                    .WithData(GetDeletedProducts()))
                 .ShouldReturn()
             .View(view => view.WithModelOfType<List<ProductDeletedServiceModel>>()
                .Passing(model => model.Should().NotBeEmpty()));

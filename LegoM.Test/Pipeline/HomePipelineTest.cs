@@ -11,7 +11,7 @@ namespace LegoM.Test.Pipeline
     using Xunit;
     using static Products;
 
-    public class HomeControllerTest
+    public class HomePipelineTest
     {
 
         [Fact]
@@ -24,7 +24,7 @@ namespace LegoM.Test.Pipeline
             )
             .To<HomeController>(c => c.Index())
             .Which(controller => controller                      
-                  .WithData(TenPublicProducts()))            
+                  .WithData(GetPublicProducts()))            
             .ShouldReturn()
             .View(view => view
                 .WithModelOfType<List<ProductServiceModel>>()

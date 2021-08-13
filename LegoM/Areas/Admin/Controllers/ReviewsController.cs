@@ -18,6 +18,7 @@
 
         public IActionResult All() 
         {
+            ;
             var reviews = this.reviews.All();
 
             return View(reviews);

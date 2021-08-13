@@ -9,14 +9,16 @@
 
    public static class Comments
     {
-        public static IEnumerable<Comment> TenComments()
-         => Enumerable.Range(0, 10).Select(i => new Comment()
+        public static IEnumerable<Comment> GetComments(int count=5)
+         => Enumerable.Range(0, count).Select(i => new Comment()
          {
              User = new User
              {
                  FullName = "TestName"
              },
+            
 
+             
          });
 
         public static Comment GetComment(int id = 1, bool IsPublic = true)

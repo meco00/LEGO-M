@@ -13,7 +13,7 @@
 
         public int AnswersCount { get; set; }
 
-        public bool IsPublic { get; set; }
+        public string Content { get; set; }
 
         public string PublishedOn { get; set; }
     }

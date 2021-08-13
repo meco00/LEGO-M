@@ -13,7 +13,7 @@
 
     using static WebConstants;
 
-    public class MerchantsControllerTest
+    public class MerchantsPipelineTest
     {
 
         [Fact]
@@ -32,7 +32,7 @@
             .View();
 
         [Theory]
-        [InlineData("Merchant", "+3590000000")]
+        [InlineData("Merchant", "0885412589")]
         public void PostBecomeShouldBeForAuthorizedUsersAndShoulReturnRedirectToViewWithCorrectData(
             string merchantName,
             string phoneNumber

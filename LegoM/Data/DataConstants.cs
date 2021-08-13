@@ -42,8 +42,7 @@
 
             public const int NameMaxLength = 20;
             public const int NameMinLength = 5;
-            public const int TelephoneNumberMaxLength = 30;
-            public const int TelephoneNumberMinLength = 6;
+            public const int TelephoneNumberMaxLength = 10;
 
         }
 

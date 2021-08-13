@@ -31,6 +31,8 @@
 
             var question = this.questions.QuestionByUser(Id, this.User.Id());
 
+
+
             if (question != null)
             {
                 return RedirectToAction("Details", new { id = question.Id, information = question.GetInformation() });

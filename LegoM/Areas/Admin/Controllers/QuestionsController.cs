@@ -15,6 +15,7 @@ namespace LegoM.Areas.Admin.Controllers
 
         public IActionResult All()
         {
+            ;
             var questions = this.questions.All();
 
             return View(questions);

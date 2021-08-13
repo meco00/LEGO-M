@@ -44,7 +44,7 @@
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.merchants.IsMerchant(this.User.Id()) && !this.User.IsAdmin())
+            if (!this.merchants.IsUserMerchant(this.User.Id()) && !this.User.IsAdmin())
             {
                 return RedirectToAction(nameof(MerchantsController.Become), "Merchants");
             }
@@ -173,7 +173,7 @@
             var isUserAdmin = this.User.IsAdmin();
 
 
-            if (!this.merchants.IsMerchant(userId) && !isUserAdmin)
+            if (!this.merchants.IsUserMerchant(userId) && !isUserAdmin)
             {
                 return RedirectToAction(nameof(MerchantsController.Become), "Merchants");
             }

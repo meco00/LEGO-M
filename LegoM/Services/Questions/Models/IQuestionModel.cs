@@ -9,7 +9,7 @@
     {
          int ProductCondition { get; }
 
-         bool IsPublic { get; }
+         string Content { get; }
 
          string PublishedOn { get; }
     }

@@ -34,17 +34,17 @@
         public void AllShouldReturnCorrectViewWithModel()
             => MyController<ProductsController>
                 .Instance(controller => controller
-                .WithData(TenPublicProducts()))
+                .WithData(GetPublicProducts(3)))
                 .Calling(x => x.All())
                  .ShouldReturn()
                  .View(view => view.WithModelOfType<List<ProductServiceModel>>()
-                 .Passing(model => model.Should().HaveCount(10)));
+                 .Passing(model => model.Should().HaveCount(3)));
 
         [Fact]
         public void DeletedShouldReturnCorrectViewWithModel()
             => MyController<ProductsController>
                .Instance(controller => controller
-                .WithData(TenDeletedProducts()))
+                .WithData(GetDeletedProducts()))
                 .Calling(x => x.Deleted())
                 .ShouldReturn()
                 .View(view => view.WithModelOfType<List<ProductDeletedServiceModel>>()

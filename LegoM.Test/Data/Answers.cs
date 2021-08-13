@@ -9,8 +9,8 @@
     public static class Answers
     {
 
-        public static IEnumerable<Answer> TenAnswers()
-       => Enumerable.Range(0, 10).Select(i => new Answer()
+        public static IEnumerable<Answer> GetAnswers(int count=5)
+       => Enumerable.Range(0, count).Select(i => new Answer()
        {
            User = new User
            {

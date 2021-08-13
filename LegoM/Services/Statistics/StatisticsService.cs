@@ -21,7 +21,6 @@
             {
                 TotalProducts = totalProducts,
                 TotalUsers = totalUsers,
-                TotalProductsSold = 0
 
             };
         }

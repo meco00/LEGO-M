@@ -1,17 +1,16 @@
-﻿
-namespace LegoM.Test.Pipeline.Admin
+﻿namespace LegoM.Test.Pipeline.Admin
 {
     using FluentAssertions;
     using LegoM.Areas.Admin;
-    using LegoM.Areas.Admin.Controllers;
     using LegoM.Data.Models;
     using LegoM.Services.Answers.Models;
     using MyTested.AspNetCore.Mvc;
     using System.Collections.Generic;
     using System.Linq;
     using Xunit;
-
     using static Data.Answers;
+    using AnswersController = LegoM.Areas.Admin.Controllers.AnswersController;
+
 
     public class AnswersControllerTest
     {
@@ -25,7 +24,7 @@ namespace LegoM.Test.Pipeline.Admin
                  .WithAntiForgeryToken())
                  .To<AnswersController>(c => c.All())
                   .Which(controller => controller
-                     .WithData(TenAnswers()))
+                     .WithData(GetAnswers()))
                    .ShouldReturn()
                    .View(view => view
                    .WithModelOfType<List<AnswerServiceModel>>()

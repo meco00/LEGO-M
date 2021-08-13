@@ -4,6 +4,7 @@
     using LegoM.Data.Models;
     using LegoM.Infrastructure;
     using LegoM.Models.Merchants;
+    using LegoM.Services.Merchants;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
@@ -11,17 +12,19 @@
 
     using static WebConstants;
 
-    public class MerchantsController:Controller
+    public class MerchantsController : Controller
     {
-        private readonly LegoMDbContext data;
 
-        public MerchantsController(LegoMDbContext data)
-           => this.data = data;
+        private readonly IMerchantService merchants;
+
+        public MerchantsController(IMerchantService merchants)
+        => this.merchants = merchants;
+        
 
         [Authorize]
         public IActionResult Become()
         {
-            if (IsUserMerchant())
+            if (this.merchants.IsUserMerchant(this.User.Id()))
             {
                 return BadRequest();
             }
@@ -33,7 +36,9 @@
         [Authorize]
         public IActionResult Become(BecomeMerchantFormModel merchant)
         {
-            if (IsUserMerchant())
+            var userId = this.User.Id();
+
+            if (this.merchants.IsUserMerchant(userId))
             {
                 return BadRequest();
             }
@@ -44,27 +49,18 @@
                 return View(merchant);
             }
 
-            var userId = this.User.Id();
+            this.merchants.Create(
+                 userId, 
+                 merchant.Name, 
+                 merchant.TelephoneNumber);
 
-            var merchantData = new Merchant
-            {
-                Name = merchant.Name,
-                TelephoneNumber = merchant.TelephoneNumber,
-                UserId = userId
-            };
-
-            data.Merchants.Add(merchantData);
-
-            data.SaveChanges();
 
             TempData[GlobalMessageKey] = "Thank you for becoming Merchant.";
 
             return RedirectToAction(nameof(ProductsController.All), "Products");
         }
 
-        private bool IsUserMerchant()
-       => this.data.Merchants.Any(x => x.UserId == this.User.Id());
-
+     
 
     }
 }
