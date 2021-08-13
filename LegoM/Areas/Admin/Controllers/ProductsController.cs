@@ -36,7 +36,7 @@
             this.products.ChangeVisibility(id);
 
 
-           return RedirectToAction(nameof(All));
+           return RedirectToAction(nameof(this.All));
 
         }
 
@@ -46,7 +46,7 @@
             this.products.ReviveProduct(id);
 
 
-            return RedirectToAction(nameof(All));
+            return RedirectToAction(nameof(this.All));
 
         }
 

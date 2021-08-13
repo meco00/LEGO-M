@@ -1,9 +1,11 @@
 ﻿namespace LegoM.Test.Controllers.Admin
 {
     using FluentAssertions;
+    using LegoM.Data.Models;
     using LegoM.Services.Products.Models;
     using MyTested.AspNetCore.Mvc;
     using System.Collections.Generic;
+    using System.Linq;
     using Xunit;
 
     using static Data.Products;
@@ -25,15 +27,15 @@
                  .Attributes(attributes => attributes
                      .SpecifyingArea(AreaName)
                      .RestrictingForAuthorizedRequests(AdministratorRoleName));
-                
-                
+
+
 
         [Fact]
         public void AllShouldReturnCorrectViewWithModel()
-            => MyController<ProductsController>                              
+            => MyController<ProductsController>
                 .Instance(controller => controller
                 .WithData(TenPublicProducts()))
-                .Calling(x => x.All())            
+                .Calling(x => x.All())
                  .ShouldReturn()
                  .View(view => view.WithModelOfType<List<ProductServiceModel>>()
                  .Passing(model => model.Should().HaveCount(10)));
@@ -46,9 +48,57 @@
                 .Calling(x => x.Deleted())
                 .ShouldReturn()
                 .View(view => view.WithModelOfType<List<ProductDeletedServiceModel>>()
-                .Passing(model => model.Should().HaveCount(10)));
-            
-                
-               
+                .Passing(model => model.Should().NotBeEmpty()));
+
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void ChangeVisibilityShouldChangeProductAndRedirectToAll(
+            bool IsPublic)
+            => MyController<ProductsController>
+             .Instance(controller => controller
+                .WithData(GetProduct("TestId", IsPublic)))
+              .Calling(x => x.ChangeVisibility("TestId"))
+              .ShouldHave()
+               .Data(data => data
+                   .WithSet<Product>(set =>
+               {
+                   var product = set.Find("TestId");
+
+                   product.Should().NotBeNull();
+
+                   product.IsPublic.Should().Be(!IsPublic);
+
+               }))
+              .AndAlso()
+            .ShouldReturn()
+            .RedirectToAction("All");
+
+
+
+        [Fact]
+        public void ReviveShouldChangeProductAndRedirectToAll()
+          => MyController<ProductsController>
+              .Instance(controller => controller
+                 .WithData(GetDeadProduct("TestId")))
+              .Calling(x => x.Revive("TestId"))
+              .ShouldHave()
+                .Data(data => data
+                   .WithSet<Product>(set =>
+                   {
+                       var product = set.Find("TestId");
+
+                       product.Should().NotBeNull();
+
+                       product.IsDeleted.Should().Be(false);
+
+                   }))
+                  .AndAlso()
+                  .ShouldReturn()
+                  .RedirectToAction("All");
+
+
+
     }
 }

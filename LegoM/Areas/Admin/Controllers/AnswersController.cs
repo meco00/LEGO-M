@@ -19,9 +19,10 @@
 
         public IActionResult All()
         {
-            var questions = this.answers.All();
+            ;
+            var answers = this.answers.All();
 
-            return View(questions);
+            return View(answers);
         }
 
         public IActionResult ChangeVisibility(int id)
