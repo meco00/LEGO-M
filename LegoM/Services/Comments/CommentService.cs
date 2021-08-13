@@ -76,6 +76,8 @@
 
             this.data.Comments.Remove(comment);
 
+            this.data.SaveChanges();
+
             return true;
         }
     }

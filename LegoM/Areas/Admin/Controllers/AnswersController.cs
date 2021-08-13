@@ -34,6 +34,21 @@
 
         }
 
+        
+        public IActionResult Delete(int id)
+        {
+            var deleted= this.answers.Delete(id); 
+
+            if (!deleted)
+            {
+                return NotFound();
+            }
+            
+          
+            return RedirectToAction(nameof(All));
+
+        }
+
 
     }
 }

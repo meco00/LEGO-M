@@ -14,7 +14,7 @@
     using ProductsController = LegoM.Areas.Admin.Controllers.ProductsController;
 
 
-    public class ProductsControllerTest
+    public class ProductsPipelineTest
     {
 
         [Fact]

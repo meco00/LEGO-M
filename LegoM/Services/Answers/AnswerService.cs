@@ -76,6 +76,8 @@
 
             this.data.Answers.Remove(answer);
 
+            this.data.SaveChanges();
+
             return true;
         }
     }

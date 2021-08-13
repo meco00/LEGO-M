@@ -26,7 +26,7 @@
         [Authorize]
         public IActionResult Add(int id,string information)
         {
-            var questionModel = this.questions.Details(id);
+            var questionModel = this.questions.QuestionById(id);
 
             if (questionModel == null || questionModel.GetInformation() != information)
             {
@@ -40,12 +40,15 @@
 
         [Authorize]
         [HttpPost]
-        public IActionResult Add(int id,AnswerFormModel answer)
+        public IActionResult Add(int id,string information,AnswerFormModel answer)
         {
             ;
-            if (!this.questions.QuestionExists(id))
+
+            var questionModel = this.questions.QuestionById(id);
+
+            if (questionModel == null || questionModel.GetInformation() != information)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             if (!ModelState.IsValid)
@@ -54,7 +57,7 @@
             }
 
                ;
-            var questionModel = this.questions.QuestionById(id);
+            
 
            
 
@@ -77,22 +80,7 @@
         }
 
 
-        [Authorize]
-        public IActionResult Delete(int id)
-        {
-
-            var isUserAdmin = this.User.IsAdmin();
-
-            if (isUserAdmin)
-            {
-            
-                this.answers.Delete(id);
-
-            }
-
-            return RedirectToAction(nameof(Index), "Home");
-
-        }
+      
 
 
 

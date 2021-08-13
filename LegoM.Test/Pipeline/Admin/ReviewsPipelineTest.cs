@@ -16,7 +16,7 @@
     
     using static Data.Reviews;
 
-    public class ReviewsControllerTest
+    public class ReviewsPipelineTest
     {
         [Fact]
         public void AllShouldReturnCorrectViewAndModel()

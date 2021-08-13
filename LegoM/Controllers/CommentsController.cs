@@ -61,22 +61,7 @@
             return RedirectToAction("Details", "Reviews", new { id = review.Id, information = review.GetInformation() });
         }
 
-        [Authorize]
-        public IActionResult Delete(int id)
-        {
-
-            var isUserAdmin = this.User.IsAdmin();
-
-            if (isUserAdmin)
-            {
-
-                this.comments.Delete(id);
-
-            }
-
-            return RedirectToAction(nameof(Index), "Home");
-
-        }
+        
 
 
 

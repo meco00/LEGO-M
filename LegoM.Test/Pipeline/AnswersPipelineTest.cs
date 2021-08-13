@@ -34,7 +34,7 @@
             .ShouldReturn()
             .View());
 
-        //ТODO:This test is not finished
+       
 
         [Theory]
         [InlineData(1,"ContentTest")]
@@ -44,7 +44,7 @@
             string content)
             => MyPipeline
                .Configuration()
-                .ShouldMap(request => request.WithPath($"/Answers/Add/{questionId}")
+                .ShouldMap(request => request.WithPath($"/Answers/Add/{questionId}/{Information}")
                    .WithUser()
                     .WithAntiForgeryToken()
                    .WithMethod(HttpMethod.Post)
@@ -53,7 +53,7 @@
                        Content = content,
 
                    }))
-                  .To<AnswersController>(c => c.Add(questionId, new AnswerFormModel
+                  .To<AnswersController>(c => c.Add(questionId,Information, new AnswerFormModel
                   {
                       Content = content
                   }))

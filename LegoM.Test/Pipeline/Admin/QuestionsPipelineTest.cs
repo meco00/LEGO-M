@@ -14,7 +14,7 @@
     using QuestionsController = LegoM.Areas.Admin.Controllers.QuestionsController;
 
 
-    public class QuestionsControllerTest
+    public class QuestionsPipelineTest
     {
         [Fact]
         public void AllShouldReturnCorrectViewAndModel()

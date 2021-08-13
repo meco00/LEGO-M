@@ -32,5 +32,23 @@
             return RedirectToAction(nameof(All));
 
         }
+
+        
+        public IActionResult Delete(int id)
+        {
+            var deleted = this.comments.Delete(id);
+
+            if (!deleted)
+            {
+
+                return NotFound();
+
+            }
+
+            return RedirectToAction(nameof(All));
+
+        }
+
+
     }
 }

@@ -14,7 +14,7 @@
     using CommentsController = LegoM.Areas.Admin.Controllers.CommentsController;
 
 
-    public class CommentsControllerTest
+    public class CommentsPipelineTest
     {
         [Fact]
         public void AllShouldReturnCorrectViewWithModel()
@@ -50,6 +50,30 @@
                    .ShouldReturn()
                    .Redirect(redirect => redirect
                       .To<CommentsController>(c => c.All()));
+
+
+        [Fact]
+        public void DeleteShouldDeleteCommentAndRedirectToAll()
+          => MyPipeline
+             .Configuration()
+              .ShouldMap(request => request
+                  .WithPath($"/Admin/Comments/Delete/{1}")
+                   .WithUser(new[] { AdminConstants.AdministratorRoleName })
+                   .WithAntiForgeryToken())
+                     .To<CommentsController>(c => c.Delete(1))
+                   .Which(controller => controller.WithData(GetComment()))
+                  .ShouldHave()
+                  .Data(data => data.WithSet<Comment>(set =>
+                  {
+                      set.Should().NotContain(GetComment());
+                      set.Should().BeEmpty();
+
+                  }))
+                   .AndAlso()
+                   .ShouldReturn()
+                   .Redirect(redirect => redirect
+                      .To<CommentsController>(c => c.All()));
+
 
     }
 }
