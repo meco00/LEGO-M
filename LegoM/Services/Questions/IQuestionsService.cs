@@ -31,5 +31,7 @@
         IEnumerable<QuestionServiceModel> AllOfProduct(string productId);
 
         IEnumerable<QuestionServiceModel> All();
+
+        
     }
 }

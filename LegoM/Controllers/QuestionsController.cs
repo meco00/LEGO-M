@@ -92,9 +92,16 @@
             }
 
 
-            question.Answers = this.answers.AnswersOfQuestion(id);
+          var questionAnswers = this.answers.AnswersOfQuestion(id);
 
-            return this.View(question);
+           
+
+            return this.View(new QuestionDetailsAndAnswersModel
+            { 
+               Question=question,
+               Answers=questionAnswers               
+              
+            });
 
         }
 

@@ -1,6 +1,7 @@
 ﻿namespace LegoM.Test.Data
 {
     using LegoM.Data.Models;
+    using MyTested.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -20,6 +21,7 @@
         //=> String.Concat(model.ProductCondition + "-" + model.PublishedOn + "-" + new string(model.Content.Take(5).ToArray()));
 
 
+        
 
 
         public static IEnumerable<Question> GetQuestions(int count=5)
@@ -41,7 +43,7 @@
             => new Question
             {
                 Id = id,
-                IsPublic=IsPublic,
+                
                 Content="TestContent",
                 PublishedOn=new DateTime(1,1,1),
                 Product = new Product
@@ -51,62 +53,24 @@
                     Price=5,
                     ProductCondition = LegoM.Data.Models.Enums.ProductCondition.New,
                    
-
-                    IsPublic=true
+                    
+                   
                 },           
 
                 User=new User 
                 { 
-                   
-                    FullName ="TestName"
+                  
+                    FullName =TestUser.Username
                 },
+
+                IsPublic=IsPublic
 
              
 
             };
 
 
-        //public string Content { get; set; }
-
-        //public string UserName { get; set; }
-
-        //public string QuestionId { get; set; }
-
-        //public string PublishedOn { get; set; }
-
-        //public bool IsPublic { get; set; }
-
-
-        //public int Id { get; set; }
-
-        //public string Content { get; init; }
-
-        //public string UserName { get; init; }
-
-        //public string PublishedOn { get; init; }
-
-        //public string ProductId { get; init; }
-
-        //public string ProductTitle { get; init; }
-
-        //public string ProductImage { get; init; }
-
-        //public string ProductPrice { get; init; }
-
-        //public int ProductCondition { get; init; }
-
-        //public int AnswersCount { get; init; }
-
-        //public IEnumerable<AnswerServiceModel> Answers { get; set; }
-
-        //public bool IsPublic { get; init; }
-
-
-
-
-
-        //public string ProductImage { get; init; }
-
+       
 
     }
 }

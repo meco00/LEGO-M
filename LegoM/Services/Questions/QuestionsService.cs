@@ -73,6 +73,7 @@
             .ProjectTo<QuestionDetailsServiceModel>(mapper)
             .FirstOrDefault();
 
+
         public IEnumerable<QuestionListingServiceModel> Mine(string userId)
         => this.data.Questions
             .Where(x => x.UserId == userId)
