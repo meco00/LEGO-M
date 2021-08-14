@@ -22,7 +22,7 @@
             bool IsPublic = false
             );
 
-        ReviewDetailsServiceModel Details(int id);
+        ReviewDetailsServiceModel Details(int id);     
 
         IEnumerable<ReviewListingServiceModel> ByUser(string userId);
 
@@ -32,9 +32,9 @@
 
         ReviewsProductStatisticsServiceModel GetStatisticsForProduct(string productId);
 
-        ReviewByUserServiceModel ReviewByUser(string productId, string userId);
+        ReviewServiceModel ReviewByProductAndUser(string productId, string userId);
 
-        ReviewByUserServiceModel ReviewById(int id );
+        ReviewServiceModel ReviewById(int id);
 
         void ChangeVisibility(int id);
 

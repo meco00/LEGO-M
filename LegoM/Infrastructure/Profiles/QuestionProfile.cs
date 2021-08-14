@@ -10,14 +10,7 @@
     public class QuestionProfile:Profile
     {
         public QuestionProfile()
-        {
-            this.CreateMap<Question, QuestionByUserServiceModel>()
-                .ForMember(x => x.ProductCondition, cfg => cfg.MapFrom(x => (int)x.Product.ProductCondition))
-                .ForMember(x => x.PublishedOn, cfg => cfg.MapFrom(x => x.PublishedOn.ToString(DateTimeFormat)))
-                .ForMember(x => x.AnswersCount, cfg => cfg.MapFrom(x => x.Answers.Count));
-                
-
-
+        {          
             this.CreateMap<Question, QuestionListingServiceModel>()
                 .ForMember(x => x.AnswersCount, cfg => cfg.MapFrom(x => x.Answers.Count(c => c.IsPublic)))
                 .ForMember(x => x.ProductCondition, cfg => cfg.MapFrom(x => (int)x.Product.ProductCondition))

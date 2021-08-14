@@ -22,5 +22,7 @@
         public string PublishedOn { get; set; }
 
         public int AnswersCount { get; set; }
+
+   
     }
 }

@@ -45,11 +45,17 @@
                   .WithAntiForgeryToken())
                 .To<ReviewsController>(c => c.ChangeVisibility(1))
                 .Which(controller => controller
-                 .WithData(GetReview()))
+                 .WithData(GetReviews(1)))
                 .ShouldHave()
                  .Data(data => data
-                      .WithSet<Review>(set => set
-                           .Any(x => x.Id == 1 && !x.IsPublic)))
+                      .WithSet<Review>(set =>
+                      {
+                          var review = set.FirstOrDefault(r => !r.IsPublic);
+
+                          review.Should().NotBeNull();
+                          review.Title.Should().NotBeNull();
+                          review.Title.Should().Be(Data.Reviews.DEFAULT_TITLE);
+                      }))
                   .AndAlso()
                   .ShouldReturn()
                   .Redirect(redirect => redirect

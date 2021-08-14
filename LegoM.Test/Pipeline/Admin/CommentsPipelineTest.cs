@@ -24,8 +24,8 @@
               .WithUser(new[] { AdminConstants.AdministratorRoleName })
               .WithAntiForgeryToken())
               .To<CommentsController>(c => c.All())
-               .Which(controller => controller
-                  .WithData(GetComments()))
+               .Which((System.Action<MyTested.AspNetCore.Mvc.Builders.Contracts.Pipeline.IWhichControllerInstanceBuilder<CommentsController>>)(controller => controller
+                  .WithData(Data.Comments.GetComments())))
                 .ShouldReturn()
                 .View(view => view
                 .WithModelOfType<List<CommentServiceModel>>()
@@ -41,7 +41,7 @@
                    .WithAntiForgeryToken())
                  .To<CommentsController>(c => c.ChangeVisibility(1))
                  .Which(controller => controller
-                  .WithData(GetComment()))
+                  .WithData(GetCommentsBeta(1)))
                  .ShouldHave()
                   .Data(data => data
                        .WithSet<Comment>(set => set
@@ -61,13 +61,14 @@
                    .WithUser(new[] { AdminConstants.AdministratorRoleName })
                    .WithAntiForgeryToken())
                      .To<CommentsController>(c => c.Delete(1))
-                   .Which(controller => controller.WithData(GetComment()))
+                   .Which(controller => controller
+                         .WithData(GetCommentsBeta(1)))
                   .ShouldHave()
                   .TempData(tempData => tempData
                                .ContainingEntryWithKey(WebConstants.GlobalMessageKey))
                   .Data(data => data.WithSet<Comment>(set =>
                   {
-                      set.FirstOrDefault(x => x.Id == 1).Should().BeNull();
+                      set.FirstOrDefault(x=>x.Id==1).Should().BeNull();
                       set.Should().BeEmpty();
 
                   }))

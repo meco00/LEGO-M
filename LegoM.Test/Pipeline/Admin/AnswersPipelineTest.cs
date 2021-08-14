@@ -45,7 +45,7 @@
                    .ShouldHave()
                     .Data(data => data
                          .WithSet<Answer>(set => set
-                              .Any(x => x.Id == 1 && !x.IsPublic)))
+                            .Any(x => x.Id == 1 && !x.IsPublic)))
                      .AndAlso()
                      .ShouldReturn()
                      .Redirect(redirect => redirect

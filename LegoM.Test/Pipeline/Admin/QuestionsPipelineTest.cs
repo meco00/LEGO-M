@@ -46,8 +46,16 @@
                   .WithData(GetQuestions(1)))
                  .ShouldHave()
                   .Data(data => data
-                       .WithSet<Question>(set => set
-                            .Any(x => x.Id == 1 && !x.IsPublic)))
+                       .WithSet<Question>(set =>
+                       {
+                           var question = set.FirstOrDefault(r => !r.IsPublic);
+
+                           question.Should().NotBeNull();
+                           question.Content.Should().NotBeNull();
+                           question.Content.Should().Be($"Question Content {1}");
+
+                       }
+                       ))
                    .AndAlso()
                    .ShouldReturn()
                    .Redirect(redirect => redirect

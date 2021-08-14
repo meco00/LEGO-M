@@ -29,7 +29,7 @@
                 return BadRequest();
             }
 
-            var question = this.questions.QuestionByUser(Id, this.User.Id());
+            var question = this.questions.QuestionByProductAndUser(Id, this.User.Id());
 
 
 
@@ -53,7 +53,14 @@
                 return BadRequest();
             }
 
-            ;
+            var questionModel = this.questions.QuestionByProductAndUser(Id, this.User.Id());
+
+            if (questionModel != null)
+            {
+                return RedirectToAction("Details", new { id = questionModel.Id, information = questionModel.GetInformation() });
+
+            }
+            
 
             if (!(ModelState.IsValid))
             {
@@ -61,13 +68,6 @@
 
             }
 
-            var questionModel = this.questions.QuestionByUser(Id, this.User.Id());
-
-            if (questionModel != null)
-            {
-                return RedirectToAction("Details", new { id = questionModel.Id, information = questionModel.GetInformation() });
-
-            }
 
             this.questions.Create(
                 Id,
@@ -96,7 +96,7 @@
 
            
 
-            return this.View(new QuestionDetailsAndAnswersModel
+            return this.View(new QuestionDetailsWithAnswersModel
             { 
                Question=question,
                Answers=questionAnswers               

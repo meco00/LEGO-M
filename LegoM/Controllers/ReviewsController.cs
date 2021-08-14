@@ -35,7 +35,7 @@
                 return BadRequest();
             }
 
-            var review = this.reviews.ReviewByUser(Id, this.User.Id());
+            var review = this.reviews.ReviewByProductAndUser(Id, this.User.Id());
 
             if (review !=null)
             {
@@ -64,7 +64,15 @@
                 return BadRequest();
             }
            
-            ;
+            var reviewModel = this.reviews.ReviewByProductAndUser(Id, this.User.Id());
+
+            if (reviewModel != null)
+            {
+               
+                return RedirectToAction("Details", new { id = reviewModel.Id, information = reviewModel.GetInformation() });
+
+            }
+            
 
             if (!(ModelState.IsValid))
             {
@@ -72,18 +80,6 @@
 
             }
 
-           
-
-
-            var reviewModel = this.reviews.ReviewByUser(Id, this.User.Id());
-
-            if (reviewModel != null)
-            {
-               
-
-                return RedirectToAction("Details", new { id = reviewModel.Id, information = reviewModel.GetInformation() });
-
-            }
 
              
 
@@ -113,10 +109,14 @@
                 return NotFound();
             }
 
-            review.Comments = this.comments.CommentsOfReview(id);
+            var reviewComments = this.comments.CommentsOfReview(id);
             
 
-            return this.View(review);
+            return this.View(new ReviewDetailsWithCommentsModel 
+            {
+                Review=review,
+                Comments=reviewComments
+            });
 
         }
 
@@ -136,15 +136,12 @@
         {
             ;
 
-
             var review = this.reviews.Details(id);
 
             if (review == null)
             {
                 return NotFound();
             }
-
-
 
             if (!this.reviews.ReviewIsByUser(id, this.User.Id()) && !this.User.IsAdmin())
             {

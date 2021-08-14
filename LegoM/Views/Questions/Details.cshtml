@@ -1,4 +1,4 @@
-﻿@model QuestionDetailsAndAnswersModel
+﻿@model QuestionDetailsWithAnswersModel
 
 @{ 
     ViewBag.Title = "Question Details";
@@ -19,7 +19,7 @@
 
     </div>
     <div class="col-md-2">
-        <a asp-controller="Products" asp-action="Details" asp-route-id="@Model.Question.ProductId" asp-route-information="" class="btn btn-outline-info">See more</a>
+        <a asp-controller="Products" asp-action="Details" asp-route-id="@Model.Question.ProductId" asp-route-information="@Model.Question.GetInformation()" class="btn btn-outline-info">See more</a>
     </div>
 
 </div>
@@ -33,7 +33,7 @@
     </div>
     <div class="col-md-8 ml-5">
         <h4>@Model.Question.Content</h4>
-        <a asp-controller="Answers" asp-action="Add" asp-route-id="@Model.Question.Id" class="mt-3">Add Answer</a>
+        <a asp-controller="Answers" asp-action="Add" asp-route-id="@Model.Question.Id" asp-route-information="@(Model.Question.GetInformation())" class="mt-3">Add Answer</a>
     </div>
 </div>
 

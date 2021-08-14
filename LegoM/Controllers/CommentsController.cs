@@ -25,26 +25,25 @@
         [Authorize]
         public IActionResult Add(int id,string information)
         {
-            var review = this.reviews.Details(id);
+            var review = this.reviews.ReviewById(id);
 
-            if (review == null || review.GetInformation() != information )
+            if (review == null || review.GetInformation() != information || !(review.IsPublic))
             {
                 return NotFound();
             }
-
-
 
             return this.View();
         }
 
         [Authorize]
         [HttpPost]
-        public IActionResult Add(int id, CommentFormModel comment)
+        public IActionResult Add(int id,string information, CommentFormModel comment)
         {
-            ;
-            if (!this.reviews.ReviewExists(id))
+            var review = this.reviews.ReviewById(id);
+
+            if (review == null || review.GetInformation() != information || !(review.IsPublic))
             {
-                return BadRequest();
+                return NotFound();
             }
 
             if (!ModelState.IsValid)
@@ -56,7 +55,7 @@
 
             this.TempData[WebConstants.GlobalMessageKey] = "Your comment was added and it is awaiting for approval!";
 
-            var review = this.reviews.ReviewById(id);
+            
 
             return RedirectToAction("Details", "Reviews", new { id = review.Id, information = review.GetInformation() });
         }

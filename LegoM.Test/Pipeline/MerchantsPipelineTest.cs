@@ -61,7 +61,7 @@
                     .RestrictingForHttpMethod(HttpMethod.Post))
                 .ValidModelState()
                 .Data(data => data
-                     .WithSet<Merchant>(merchants => merchants
+                     .WithSet<Merchant>(set => set
                              .Any(x =>
                              x.Name == merchantName &&
                              x.TelephoneNumber == phoneNumber &&

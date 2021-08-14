@@ -19,8 +19,7 @@
                .Configuration()
                 .ShouldMap(request=>request
                    .WithPath($"/Answers/Add/{1}/{Information}")
-                .WithUser()
-                .WithAntiForgeryToken())
+                .WithUser())
                 .To<AnswersController>(c=>c.Add(1,Information))
                .Which(controller=>controller.WithData(GetQuestions(1))
                .ShouldHave()
@@ -61,8 +60,8 @@
                    .ValidModelState()
                    .AndAlso()
                     .ShouldHave()
-                     .Data(data => data.WithSet<Answer>(answers =>
-                                        answers.Any(x => x.Content == content
+                     .Data(data => data.WithSet<Answer>(set =>
+                                        set.Any(x => x.Content == content
                                         && x.QuestionId == questionId)))
                         .TempData(tempData => tempData
                           .ContainingEntryWithKey(WebConstants.GlobalMessageKey))

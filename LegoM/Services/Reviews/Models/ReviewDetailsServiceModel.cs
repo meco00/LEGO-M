@@ -30,7 +30,6 @@
 
         public string ProductPrice { get; set; }
 
-        public IEnumerable<CommentServiceModel> Comments { get; set; }
 
 
 

@@ -14,18 +14,7 @@
     public class ReviewProfile:Profile
     {
         public ReviewProfile()
-        {
-
-            
-
-
-            this.CreateMap<Review, ReviewByUserServiceModel>()
-                 .ForMember(x => x.Rating, cfg => cfg.MapFrom(x => (int)x.Rating))
-                 .ForMember(x => x.IsPublic, cfg => cfg.MapFrom(x =>x.IsPublic))
-                 .ForMember(x => x.PublishedOn, cfg => cfg.MapFrom(x => x.PublishedOn.ToString(DateTimeFormat)));
-
-           
-
+        {                        
             this.CreateMap<Review, ReviewListingServiceModel>()
                  .ForMember(x => x.Rating, cfg => cfg.MapFrom(x => (int)x.Rating))
                  .ForMember(x => x.TotalComments, cfg => cfg.MapFrom(x => x.Comments.Count(c => c.IsPublic)))

@@ -1,6 +1,7 @@
 ﻿namespace LegoM.Test.Data
 {
     using LegoM.Data.Models;
+    using MyTested.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -21,12 +22,18 @@
              
          });
 
-        public static Comment GetComment(int id = 1, bool IsPublic = true)
-          => new Comment
+        public static IEnumerable<Comment> GetCommentsBeta(int count=5,int reviewId=1, bool IsPublic = true)
+          => Enumerable.Range(0, count).Select(i => new Comment() 
           {
-              Id = id,
-              IsPublic = IsPublic
-          };
+              User = new User
+              {
+                  FullName = TestUser.Username
+              },
+              IsPublic = IsPublic,
+              ReviewId=reviewId
+          });
+
+
 
     }
 }

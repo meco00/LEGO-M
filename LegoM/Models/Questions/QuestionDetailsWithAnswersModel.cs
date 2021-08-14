@@ -7,7 +7,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class QuestionDetailsAndAnswersModel
+    public class QuestionDetailsWithAnswersModel
     {
       public  QuestionDetailsServiceModel Question { get; init; }
 

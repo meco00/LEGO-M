@@ -1,6 +1,7 @@
 ﻿namespace LegoM.Test.Data
 {
     using LegoM.Data.Models;
+    using MyTested.AspNetCore.Mvc;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -11,15 +12,15 @@
 
        
 
-        public static IEnumerable<Answer> GetAnswers(int questionId=1,int count=5)
+        public static IEnumerable<Answer> GetAnswers(int count=5, int questionId = 1,bool IsPublic=true)
        => Enumerable.Range(0, count).Select(i => new Answer()
        {
            User = new User
            {
-               FullName = "TestName"
+               FullName = TestUser.Username
            },
            QuestionId=questionId,
-           IsPublic=true
+           IsPublic=IsPublic
          
        });
 

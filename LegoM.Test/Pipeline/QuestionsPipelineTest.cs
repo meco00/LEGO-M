@@ -21,27 +21,29 @@
         public string Information = GetInformation();
 
         [Theory]
-        [InlineData(3)]
+        [InlineData(1,3)]
         public void DetailsShouldReturnCorrectModelAndView(
-            
+            int questionId,
             int answersCount)
             => MyRouting
                 .Configuration()
                   .ShouldMap(request => request
-                   .WithPath($"/Questions/Details/{1}/{Information}")
+                   .WithPath($"/Questions/Details/{questionId}/{Information}")
                 .WithUser()
                 .WithAntiForgeryToken())
-                  .To<QuestionsController>(c => c.Details(1, Information))
+                  .To<QuestionsController>(c => c.Details(questionId, Information))
                .Which(controller => controller
-                     .WithData(GetQuestions(1))
+                     .WithData(GetQuestions(questionId))
                      .AndAlso().
-                      WithData(GetAnswers(1,answersCount))
+                      WithData(GetAnswers(answersCount))
                .ShouldReturn()
-               .View(view=>view.WithModelOfType<QuestionDetailsAndAnswersModel>()
+               .View(view=>view.WithModelOfType<QuestionDetailsWithAnswersModel>()
                     .Passing(model=>
                     {
+                        model.Should().NotBeNull();
                         model.Answers.Should().HaveCount(answersCount);                    
-                        model.Question.Id.Should().Be(1);
+                        model.Question.Id.Should().Be(questionId);
+                        model.Question.Content.Should().Be($"Question Content {questionId}");
 
                     }
                     )));

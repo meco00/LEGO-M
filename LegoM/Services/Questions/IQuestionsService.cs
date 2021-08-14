@@ -22,9 +22,9 @@
 
         QuestionDetailsServiceModel Details(int id);
 
-        QuestionByUserServiceModel QuestionByUser(string productId, string userId);
+        QuestionServiceModel QuestionByProductAndUser(string productId, string userId);
 
-        QuestionByUserServiceModel QuestionById(int id);
+        QuestionServiceModel QuestionById(int id);
 
         IEnumerable<QuestionListingServiceModel> Mine(string userId);
 

@@ -80,15 +80,15 @@
             .ProjectTo<QuestionListingServiceModel>(mapper)
             .ToList();
 
-        public QuestionByUserServiceModel QuestionById(int id)
+        public QuestionServiceModel QuestionById(int id)
          => this.data.Questions.Where(x => x.Id == id)
-            .ProjectTo<QuestionByUserServiceModel>(mapper)
+            .ProjectTo<QuestionServiceModel>(mapper)
             .FirstOrDefault();
 
-        public QuestionByUserServiceModel QuestionByUser(string productId, string userId)
+        public QuestionServiceModel QuestionByProductAndUser(string productId, string userId)
         => this.data.Questions
             .Where(x => x.ProductId == productId && x.UserId == userId)
-            .ProjectTo<QuestionByUserServiceModel>(mapper)
+            .ProjectTo<QuestionServiceModel>(mapper)
             .FirstOrDefault();
 
         public bool QuestionExists(int id)

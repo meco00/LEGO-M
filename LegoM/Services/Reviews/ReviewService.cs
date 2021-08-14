@@ -145,16 +145,16 @@
             };
         }
 
-        public ReviewByUserServiceModel ReviewByUser(string productId, string userId)
+        public ReviewServiceModel ReviewByProductAndUser(string productId, string userId)
         => this.data.Reviews
             .Where(x => x.ProductId == productId && x.UserId == userId)
-            .ProjectTo<ReviewByUserServiceModel>(mapper)
+            .ProjectTo<ReviewServiceModel>(mapper)
             .FirstOrDefault();
 
-        public ReviewByUserServiceModel ReviewById(int id)
+        public ReviewServiceModel ReviewById(int id)
          => this.data.Reviews
             .Where(x => x.Id == id)
-            .ProjectTo<ReviewByUserServiceModel>(mapper)
+            .ProjectTo<ReviewServiceModel>(mapper)
             .FirstOrDefault();
 
 
