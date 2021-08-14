@@ -34,7 +34,7 @@
         public void AllShouldReturnCorrectViewWithModel()
             => MyController<ProductsController>
                 .Instance(controller => controller
-                .WithData(GetPublicProducts(3)))
+                .WithData(GetProducts(3)))
                 .Calling(x => x.All())
                  .ShouldReturn()
                  .View(view => view.WithModelOfType<List<ProductServiceModel>>()
@@ -44,7 +44,7 @@
         public void DeletedShouldReturnCorrectViewWithModel()
             => MyController<ProductsController>
                .Instance(controller => controller
-                .WithData(GetDeletedProducts()))
+                .WithData(GetProducts(3,true)))
                 .Calling(x => x.Deleted())
                 .ShouldReturn()
                 .View(view => view.WithModelOfType<List<ProductDeletedServiceModel>>()
@@ -58,7 +58,7 @@
             bool IsPublic)
             => MyController<ProductsController>
              .Instance(controller => controller
-                .WithData(GetProduct("TestId", IsPublic)))
+                .WithData(GetProduct("TestId", false,IsPublic)))
               .Calling(x => x.ChangeVisibility("TestId"))
               .ShouldHave()
                .Data(data => data
@@ -81,7 +81,7 @@
         public void ReviveShouldChangeProductAndRedirectToAll()
           => MyController<ProductsController>
               .Instance(controller => controller
-                 .WithData(GetDeadProduct("TestId")))
+                 .WithData(GetProduct("TestId",true)))
               .Calling(x => x.Revive("TestId"))
               .ShouldHave()
                 .Data(data => data

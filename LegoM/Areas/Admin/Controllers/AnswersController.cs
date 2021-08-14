@@ -43,8 +43,9 @@
             {
                 return NotFound();
             }
-            
-          
+
+            this.TempData[WebConstants.GlobalMessageKey] = "Answer was deleted successfully!";
+
             return RedirectToAction(nameof(All));
 
         }

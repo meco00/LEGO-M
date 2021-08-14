@@ -17,7 +17,7 @@
         public void IndexShouldReturnCorrectModelAndView()
         => MyController<HomeController>
                   .Instance(controller => controller
-                  .WithData(GetPublicProducts()))
+                  .WithData(GetProducts()))
             .Calling(c => c.Index())
             .ShouldHave()
             .MemoryCache(cache=>cache

@@ -16,8 +16,11 @@
 
     public class StatisticsPipelineTest
     {
-        [Fact]
-        public void TotalShouldReturnCorrectModel()
+        [Theory]
+        [InlineData(5,5)]
+        public void TotalShouldReturnCorrectModel(
+            int usersCount,
+            int productsCount)
             => MyPipeline
                 .Configuration()
                  .ShouldMap(request=>request
@@ -27,14 +30,14 @@
                  .Which(controller => controller
                        .WithData(GetUsers())
                        .AndAlso()
-                       .WithData(GetPublicProducts())                       
+                       .WithData(GetProducts())                       
                   .ShouldReturn()
                   .ResultOfType<StatisticsServiceModel>(result=>result
                         .Passing(model =>
                         {
-                            model.TotalProducts.Should().NotBe(0);
+                            model.TotalProducts.Should().Be(productsCount);
 
-                            model.TotalUsers.Should().NotBe(0);
+                            model.TotalUsers.Should().Be(usersCount);
 
                          })));
 

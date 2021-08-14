@@ -24,7 +24,7 @@
                     .WithPath("/api/products")
                     .WithMethod(HttpMethod.Get))
                 .To<ProductsApiController>(c => c.All(With.Default<AllProductsApiRequestModel>()))
-                .Which(controller => controller.WithData(GetPublicProducts(2)))
+                .Which(controller => controller.WithData(GetProducts(2)))
                 
                   .ShouldReturn()
                   .ActionResult<ProductQueryServiceModel>(result => result

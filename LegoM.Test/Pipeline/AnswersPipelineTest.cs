@@ -4,11 +4,7 @@
     using LegoM.Data.Models;
     using LegoM.Models.Answers;
     using MyTested.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Xunit;
 
     using static Data.Questions;
@@ -26,7 +22,7 @@
                 .WithUser()
                 .WithAntiForgeryToken())
                 .To<AnswersController>(c=>c.Add(1,Information))
-               .Which(controller=>controller.WithData(GetQuestion())
+               .Which(controller=>controller.WithData(GetQuestions(1))
                .ShouldHave()
             .ActionAttributes(attributes => attributes
                  .RestrictingForAuthorizedRequests())
@@ -57,7 +53,7 @@
                   {
                       Content = content
                   }))
-                 .Which(controller => controller.WithData(GetQuestion(questionId)))
+                 .Which(controller => controller.WithData(GetQuestions(questionId)))
                   .ShouldHave()
                   .ActionAttributes(attributes => attributes
                    .RestrictingForAuthorizedRequests()

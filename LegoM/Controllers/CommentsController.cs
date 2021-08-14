@@ -27,7 +27,7 @@
         {
             var review = this.reviews.Details(id);
 
-            if (review == null || review.GetInformation() != information)
+            if (review == null || review.GetInformation() != information )
             {
                 return NotFound();
             }

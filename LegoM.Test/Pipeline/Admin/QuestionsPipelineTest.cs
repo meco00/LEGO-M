@@ -43,7 +43,7 @@
                    .WithAntiForgeryToken())
                  .To<QuestionsController>(c => c.ChangeVisibility(1))
                  .Which(controller => controller
-                  .WithData(GetQuestion()))
+                  .WithData(GetQuestions(1)))
                  .ShouldHave()
                   .Data(data => data
                        .WithSet<Question>(set => set

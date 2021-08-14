@@ -27,7 +27,7 @@
                      .WithAntiForgeryToken())
                 .To<ProductsController>(c => c.All())
                 .Which(controller => controller
-                    .WithData(GetPublicProducts()))              
+                    .WithData(GetProducts()))              
                 .ShouldReturn()
             .View(view => view.WithModelOfType<List<ProductServiceModel>>()
                .Passing(model => model.Should().NotBeEmpty()));
@@ -44,7 +44,7 @@
                      .WithAntiForgeryToken())
                 .To<ProductsController>(c => c.Deleted())
                 .Which(controller => controller
-                    .WithData(GetDeletedProducts()))
+                    .WithData(GetProducts(3,true)))
                 .ShouldReturn()
             .View(view => view.WithModelOfType<List<ProductDeletedServiceModel>>()
                .Passing(model => model.Should().NotBeEmpty()));
@@ -82,7 +82,7 @@
                      .WithAntiForgeryToken())
                 .To<ProductsController>(c=>c.Revive(TestId))
                 .Which(controller=>controller
-                    .WithData(GetDeadProduct()))
+                    .WithData(GetProduct(TestId,true)))
                  .ShouldHave()
                   .Data(data => data
                          .WithSet<Product>(set => set

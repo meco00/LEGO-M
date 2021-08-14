@@ -1,12 +1,7 @@
 ﻿namespace LegoM.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using AutoMapper;
     using LegoM.Data;
-    using LegoM.Data.Models;
-    using LegoM.Data.Models.Enums;
     using LegoM.Infrastructure;
     using LegoM.Models.Products;
     using LegoM.Services.Merchants;
@@ -14,9 +9,7 @@
     using LegoM.Services.Questions;
     using LegoM.Services.Reviews;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
 
     using static WebConstants;
 

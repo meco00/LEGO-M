@@ -28,7 +28,7 @@
         {
             var questionModel = this.questions.QuestionById(id);
 
-            if (questionModel == null || questionModel.GetInformation() != information)
+            if (questionModel == null || questionModel.GetInformation() != information || !(questionModel.IsPublic))
             {
                 return NotFound();
             }
@@ -46,7 +46,7 @@
 
             var questionModel = this.questions.QuestionById(id);
 
-            if (questionModel == null || questionModel.GetInformation() != information)
+            if (questionModel == null || questionModel.GetInformation() != information || !(questionModel.IsPublic))
             {
                 return NotFound();
             }

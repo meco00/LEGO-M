@@ -8,40 +8,28 @@
 
     public static class Products
     {
-       
-
-        public static Product GetProduct(string id=TestId,bool isPublic = true)
+        public static Product GetProduct(
+            string id=TestId,
+            bool IsDeleted = false,
+            bool IsPublic=true)
         {
             return new Product
             {
                 Id = id,
-                IsPublic = isPublic
+                IsPublic = IsPublic,
+                IsDeleted = IsDeleted
             };
         }
 
-        public static Product GetDeadProduct(string id=TestId)
-        {
-            return new Product
-            {
-                Id = id,
-                IsDeleted = true
-            };
-        }
-
-
-
-        public static IEnumerable<Product> GetPublicProducts(int count=5)
+        public static IEnumerable<Product> GetProducts(int count=5,bool IsDeleted=false)
          => Enumerable.Range(0, count).Select(i => new Product()
           {
-            IsPublic = true
+            IsPublic = IsDeleted ? false:true,
+            IsDeleted = IsDeleted ? true:false,
+            DeletedOn=IsDeleted ? new System.DateTime(1, 1, 1) :null
+
           });
 
-        public static IEnumerable<Product> GetDeletedProducts(int count=5)
-         => Enumerable.Range(0, count).Select(i => new Product()
-         {
-             IsDeleted = true,
-             DeletedOn = new System.DateTime(1, 1, 1)
-
-         });
+        
     } 
 }

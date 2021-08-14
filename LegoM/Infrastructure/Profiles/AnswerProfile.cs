@@ -15,16 +15,7 @@
                 .ForMember(x => x.PublishedOn, cfg => cfg.MapFrom(x => x.PublishedOn.ToString(DateTimeFormat)));
 
 
-        //     public string Content { get; set; }
-
-        //public string UserName { get; set; }
-
-        //public string QuestionId { get; set; }
-
-        //public string PublishedOn { get; set; }
-
-        //public bool IsPublic { get; set; }
-
+      
 
 
     }

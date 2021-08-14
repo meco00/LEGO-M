@@ -63,12 +63,14 @@
                        .To<AnswersController>(c=>c.Delete(1))
                      .Which(controller=>controller.WithData(GetAnswer()))
                     .ShouldHave()
+                    .TempData(tempData => tempData
+                               .ContainingEntryWithKey(WebConstants.GlobalMessageKey))
                     .Data(data=>data.WithSet<Answer>(set=>
                     {
-                        set.Should().NotContain(GetAnswer());
+                        set.FirstOrDefault(x => x.Id == 1).Should().BeNull();
                         set.Should().BeEmpty();
 
-                        }))
+                    }))
                      .AndAlso()
                      .ShouldReturn()
                      .Redirect(redirect => redirect

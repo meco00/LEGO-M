@@ -63,9 +63,11 @@
                      .To<CommentsController>(c => c.Delete(1))
                    .Which(controller => controller.WithData(GetComment()))
                   .ShouldHave()
+                  .TempData(tempData => tempData
+                               .ContainingEntryWithKey(WebConstants.GlobalMessageKey))
                   .Data(data => data.WithSet<Comment>(set =>
                   {
-                      set.Should().NotContain(GetComment());
+                      set.FirstOrDefault(x => x.Id == 1).Should().BeNull();
                       set.Should().BeEmpty();
 
                   }))

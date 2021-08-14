@@ -24,7 +24,7 @@
         [Authorize]
         public IActionResult Add(string Id)
         {
-            if (!this.products.ProductExists(Id))
+            if (!this.products.IsProductPublic(Id))
             {
                 return BadRequest();
             }
@@ -48,7 +48,7 @@
         public IActionResult Add(string Id,QuestionFormModel question)
         {
             ;
-            if (!this.products.ProductExists(Id))
+            if (!this.products.IsProductPublic(Id))
             {
                 return BadRequest();
             }

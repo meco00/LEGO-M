@@ -1,7 +1,4 @@
-﻿
-using LegoM.Test.Data;
-
-namespace LegoM.Test.Pipeline
+﻿namespace LegoM.Test.Pipeline
 {
     using FluentAssertions;
     using LegoM.Controllers;
@@ -9,7 +6,8 @@ namespace LegoM.Test.Pipeline
     using MyTested.AspNetCore.Mvc;
     using System.Collections.Generic;
     using Xunit;
-    using static Products;
+
+    using static Data.Products;
 
     public class HomePipelineTest
     {
@@ -24,7 +22,7 @@ namespace LegoM.Test.Pipeline
             )
             .To<HomeController>(c => c.Index())
             .Which(controller => controller                      
-                  .WithData(GetPublicProducts()))            
+                  .WithData(GetProducts()))            
             .ShouldReturn()
             .View(view => view
                 .WithModelOfType<List<ProductServiceModel>>()

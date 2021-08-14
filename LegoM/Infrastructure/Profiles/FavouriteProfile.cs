@@ -23,16 +23,7 @@
                 .ForMember(x => x.QuestionsCount, cfg => cfg.MapFrom(x => x.Product.Questions.Count))
                 .ForMember(x => x.ImageUrl, cfg => cfg.MapFrom(x => x.Product.Images.Select(x => x.ImageUrl).FirstOrDefault()));
 
-            //     Id = x.Id,
-            //ProductId = x.ProductId,
-            //ProductTitle = x.Product.Title,
-            //Price = x.Product.Price.ToString("F2"),
-            //ProductCondition = x.Product.ProductCondition.ToString(),
-            //ProductDelivery = x.Product.DeliveryTake.ToString(),
-            //Quantity = x.Product.Quantity,
-            //ReviewsCount = x.Product.Reviews.Count,
-            //QuestionsCount = x.Product.Questions.Count,
-            //ImageUrl = x.Product.Images.Select(x => x.ImageUrl).FirstOrDefault(),
+          
 
         }
     }
