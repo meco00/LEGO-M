@@ -27,17 +27,7 @@
             if (!this.products.IsProductPublic(Id))
             {
                 return BadRequest();
-            }
-
-            var question = this.questions.QuestionByProductAndUser(Id, this.User.Id());
-
-
-
-            if (question != null)
-            {
-                return RedirectToAction("Details", new { id = question.Id, information = question.GetInformation() });
-
-            }
+            }       
 
             return View();
 
@@ -51,14 +41,6 @@
             if (!this.products.IsProductPublic(Id))
             {
                 return BadRequest();
-            }
-
-            var questionModel = this.questions.QuestionByProductAndUser(Id, this.User.Id());
-
-            if (questionModel != null)
-            {
-                return RedirectToAction("Details", new { id = questionModel.Id, information = questionModel.GetInformation() });
-
             }
             
 

@@ -22,7 +22,7 @@
 
         QuestionDetailsServiceModel Details(int id);
 
-        QuestionServiceModel QuestionByProductAndUser(string productId, string userId);
+       // QuestionServiceModel QuestionByProductAndUser(string productId, string userId);
 
         QuestionServiceModel QuestionById(int id);
 

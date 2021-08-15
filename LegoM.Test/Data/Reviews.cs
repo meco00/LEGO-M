@@ -10,6 +10,8 @@
 
     public static class Reviews
     {
+        public const string TestContent = nameof(TestContent);
+
         public const string DEFAULT_TITLE = "TestReview";
         public const int DEFAULT_RATING = 5;
         public static DateTime DEFAULT_DATE = new DateTime(1, 1, 1);
@@ -40,7 +42,7 @@
                    Id = i,
                    Title = DEFAULT_TITLE,
                    Rating = LegoM.Data.Models.Enums.ReviewType.Excellent,
-                   Content = $"Review Content {i}",
+                   Content = TestContent,
                    IsPublic = isPublic,
                    PublishedOn = new DateTime(1, 1, 1),
                    User = sameUser ? user : new User

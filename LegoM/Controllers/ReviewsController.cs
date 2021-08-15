@@ -199,6 +199,7 @@
         [Authorize]
         public IActionResult Delete(int id)
         {
+            ;
             if (!this.reviews.ReviewIsByUser(id, this.User.Id()))
             {
                 return BadRequest();

@@ -33,17 +33,13 @@
                 return NotFound();
             }
 
-
-
             return this.View();
         }
 
         [Authorize]
         [HttpPost]
         public IActionResult Add(int id,string information,AnswerFormModel answer)
-        {
-            ;
-
+        {           
             var questionModel = this.questions.QuestionById(id);
 
             if (questionModel == null || questionModel.GetInformation() != information || !(questionModel.IsPublic))
@@ -54,14 +50,7 @@
             if (!ModelState.IsValid)
             {
                 return this.View(answer);
-            }
-
-               ;
-            
-
-           
-
-
+            }              
 
             this.answers.Create(
                 id,
@@ -69,11 +58,7 @@
                 answer.Content);
 
             this.TempData[WebConstants.GlobalMessageKey] = "Your answer was added and it is awaiting for approval!";
-
-         
-
-
-
+       
             return RedirectToAction("Details","Questions", new { id = questionModel.Id, information = questionModel.GetInformation() });
 
             

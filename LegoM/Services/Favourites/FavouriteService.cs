@@ -37,7 +37,8 @@
 
         public IEnumerable<FavouriteServiceModel> All(string userId)
         => this.data.Favourites.Where(x => x.UserId == userId)
-            .ProjectTo<FavouriteServiceModel>(mapper);
+            .ProjectTo<FavouriteServiceModel>(mapper)
+            .ToList();
 
         public bool Delete(int id)
         {

@@ -56,6 +56,7 @@
         [Authorize]
         public IActionResult Add(ProductFormModel product)
         {
+            ;
             string merchantId = this.merchants.IdByUser(this.User.Id());
 
             var isUserAdmin = this.User.IsAdmin();
@@ -149,7 +150,7 @@
         {
             var myProducts=this.products.ByUser(this.User.Id());
 
-            if (User.IsAdmin())
+            if (this.User.IsAdmin())
             {
                 return RedirectToAction(nameof(All)); 
             }

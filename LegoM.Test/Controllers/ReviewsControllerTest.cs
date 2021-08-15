@@ -9,18 +9,16 @@
     using System.Text;
     using System.Threading.Tasks;
     using Xunit;
+    using LegoM.Models.Reviews;
+    using LegoM.Data.Models.Enums;
+    using FluentAssertions;
 
     using static Data.Products;
     using static Data.Reviews;
     using static Data.DataConstants;
-    using LegoM.Models.Reviews;
-    using LegoM.Data.Models.Enums;
 
     public  class ReviewsControllerTest
-    {
-        public const string TestContent = nameof(TestContent);
-
-
+    {      
         [Theory]
         [InlineData(ReviewType.Excellent, DEFAULT_TITLE, TestContent)]
         public void PostAddShouldBeForAuthorizedUsersAndShoulReturnRedirectToViewWithCorrectData(
@@ -68,7 +66,7 @@
           => MyController<ReviewsController>
                .Instance(controller => controller
                         .WithUser()
-                        .WithData(GetReviews()))
+                        .WithData(GetReviews(1)))
                .Calling(c => c.Edit(1, new ReviewFormModel
                {
                    Rating = rating,
@@ -85,6 +83,37 @@
                                      x.Rating == rating &&
                                     x.Title == title &&
                                     x.Content == content)))
+               .TempData(tempData => tempData
+                       .ContainingEntryWithKey(WebConstants.GlobalMessageKey))
+                .AndAlso()
+                .ShouldReturn()
+                .Redirect(redirect => redirect
+                       .To<ReviewsController>(c => c
+                       .Mine()));
+
+
+
+        [Fact]
+        public void PostDeleteShouldDeleteReviewAndReturnCorrectDataAndRedirectToMine()
+            => MyController<ReviewsController>
+               .Instance(controller => controller
+                        .WithUser()
+                        .WithData(GetReviews(1)))
+                 .Calling(c => c.Delete(1, new ReviewDeleteFormModel
+                 {
+                   SureToDelete=true
+
+                 }))
+              .ShouldHave()
+                   .ActionAttributes(attributes => attributes
+                                  .RestrictingForAuthorizedRequests()
+                                  .RestrictingForHttpMethod(HttpMethod.Post))
+                   .ValidModelState()
+                   .Data(data => data.WithSet<Review>(set =>
+                   {
+                       set.FirstOrDefault(x => x.Id == 1).Should().BeNull();
+                       set.Should().BeEmpty();
+                   }))
                .TempData(tempData => tempData
                        .ContainingEntryWithKey(WebConstants.GlobalMessageKey))
                 .AndAlso()

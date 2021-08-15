@@ -4,7 +4,7 @@
     using MyTested.AspNetCore.Mvc;
     using Xunit;
 
-    public class HomeControllerTest
+    public class HomeRoutingTest
     {
 
         [Fact]

@@ -22,19 +22,7 @@
 
     public class ReviewsPipelineTest
     {
-        public string Information = GetInformation();
-
-        private ReviewType? GetEnum(string content)
-        {
-            
-
-            Enum.TryParse<ReviewType>(content, out var result);
-
-
-            ReviewType? enumeration= (ReviewType?)result;
-
-            return enumeration;
-        }
+        public string Information = GetInformation();   
 
         [Theory]
         [InlineData(1,3)]
@@ -104,7 +92,7 @@
 
 
         [Fact]
-        public void GetEditShouldBeForAuthorizedUsersAndReturnCorrectViewAndData()
+        public void GetEditShouldBeForAuthorizedUsersAndReturnViewAndCorrectModelAndData()
           => MyPipeline
                   .Configuration()
                  .ShouldMap(request => request.WithPath($"/Reviews/Edit/{1}")
@@ -119,11 +107,26 @@
                    .View(view => view.WithModelOfType<ReviewFormModel>()
                    .Passing(model=>
                    {
-                       model.Content.Should().Be($"Review Content {1}");
+                       model.Content.Should().Be(TestContent);
                        model.Rating.Should().Be(ReviewType.Excellent);
                     }));
 
+        [Fact]
+        public void GetDeleteShouldBeForAuthorizedUsersAndReturnCorrectView()
+            => MyPipeline
+                .Configuration()
+                 .ShouldMap(request => request.WithPath($"/Reviews/Delete/{1}")
+                 .WithUser())
+                 .To<ReviewsController>(c => c.Delete(1))
+                 .Which(controller => controller.WithData(GetReviews(1)))
+                .ShouldHave()
+                   .ActionAttributes(attributes => attributes
+                                  .RestrictingForAuthorizedRequests())
+                   .AndAlso()
+                   .ShouldReturn()
+                   .View();
 
+       
 
     }
 }

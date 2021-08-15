@@ -85,11 +85,11 @@
             .ProjectTo<QuestionServiceModel>(mapper)
             .FirstOrDefault();
 
-        public QuestionServiceModel QuestionByProductAndUser(string productId, string userId)
-        => this.data.Questions
-            .Where(x => x.ProductId == productId && x.UserId == userId)
-            .ProjectTo<QuestionServiceModel>(mapper)
-            .FirstOrDefault();
+        //public QuestionServiceModel QuestionByProductAndUser(string productId, string userId)
+        //=> this.data.Questions
+        //    .Where(x => x.ProductId == productId && x.UserId == userId)
+        //    .ProjectTo<QuestionServiceModel>(mapper)
+        //    .FirstOrDefault();
 
         public bool QuestionExists(int id)
         => this.data.Questions.Any(x => x.Id == id);

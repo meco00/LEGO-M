@@ -1,6 +1,7 @@
 ﻿namespace LegoM.Test.Data
 {
     using LegoM.Data.Models;
+    using MyTested.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -14,5 +15,19 @@
         {
            
         });
+
+
+        public static Merchant GetMerchant(string userId = TestUser.Identifier)
+        {
+            var merchant = new Merchant() 
+            {
+                UserId=userId 
+            };
+
+            return merchant;
+        }
+
+
+
     }
 }

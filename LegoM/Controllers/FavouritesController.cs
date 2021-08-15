@@ -31,7 +31,7 @@
             this.favourites.Add(id, userId);
 
 
-            this.TempData[WebConstants.GlobalMessageKey] = "Product succesfully was added to favourites!";
+            this.TempData[WebConstants.GlobalMessageKey] = "Product was added succesfully to favourites!";
 
             return RedirectToAction(nameof(ProductsController.Details), "Products", new { id });
 
@@ -54,8 +54,10 @@
                 return NotFound();
             }
 
+            this.TempData[WebConstants.GlobalMessageKey] = "Product was deleted succesfully from favourites!";
 
-            return RedirectToAction(nameof(All), new { id = userId });
+
+            return RedirectToAction(nameof(All));
 
 
         }
@@ -63,6 +65,7 @@
         [Authorize]
         public IActionResult All()
         {
+            ;
             var favourites = this.favourites.All(this.User.Id());
 
 
