@@ -21,6 +21,8 @@
         [Required]
         public string UserId { get; set; }
 
+        public virtual User User {get;init;}
+
         public virtual IEnumerable<Product> Products { get; set; }
 
     }

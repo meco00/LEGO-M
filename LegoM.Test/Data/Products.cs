@@ -11,16 +11,84 @@
     {
         public static Product GetProduct(
             string id=TestId,
+            bool userSame=true,
             bool IsDeleted = false,
             bool IsPublic=true)
         {
+
+            var user = new User 
+            {
+                Id = TestUser.Identifier,
+                UserName = TestUser.Username,
+            };
+
+
+            var merchant = new Merchant
+            {
+                
+                Name = TestUser.Username,               
+                User= userSame ? user : new User
+                {
+                    Id="DifferentId",
+                    UserName="DifferentName"
+                },
+                UserId= userSame? TestUser.Identifier : "DifferentId"
+            };
+
             return new Product
             {
                 Id = id,
                 IsPublic = IsPublic,
-                IsDeleted = IsDeleted
+                IsDeleted = IsDeleted,
+                Merchant = merchant,
+                Category=new Category
+                {
+                    Id=1,
+                    Name="TestCategory"
+                },
+                SubCategory = new SubCategory 
+                {
+                    Id=1,
+                    Name ="SubCategoryTest",
+                    CategoryId=1
+                },
+                Images=new List<ProductImage>()
+                {
+                    new ProductImage()
+                    {
+                        ImageUrl="TestUrl"
+                    }
+
+                }
+
             };
         }
+
+        //public byte Quantity { get; init; }
+
+        //public string Description { get; init; }
+
+        //public string Delivery { get; init; }
+
+        //public string MerchantId { get; init; }
+
+        //public string MerchantName { get; init; }
+
+        //public string SecondImageUrl { get; init; }
+
+        //public string ThirdImageUrl { get; init; }
+
+        //public string UserId { get; init; }
+
+        //public string CategoryId { get; init; }
+
+        //public string CategoryName { get; set; }
+
+        //public string SubCategoryId { get; init; }
+
+        //public string SubCategoryName { get; init; }
+
+
 
         public static List<Product> GetProducts(int count=5,bool IsDeleted=false,bool sameUser=true)     
         {

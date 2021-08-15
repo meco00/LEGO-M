@@ -10,6 +10,8 @@
     using System.Threading.Tasks;
     using Xunit;
 
+    using static Data.DataConstants;
+
     public class ProductsRoutingTest
     {
         [Fact]
@@ -21,5 +23,15 @@
                    .WithMethod(HttpMethod.Post))
                .To<ProductsController>(c => c
                .Add(With.Any<ProductFormModel>()));
+
+        [Fact]
+        public void PostEditShoulBeMapped()
+          => MyRouting
+              .Configuration()
+               .ShouldMap(request => request
+                  .WithPath($"/Products/Edit/{TestId}")
+                   .WithMethod(HttpMethod.Post))
+               .To<ProductsController>(c => c
+               .Edit(TestId, With.Any<ProductFormModel>()));
     }
 }

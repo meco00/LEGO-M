@@ -63,7 +63,7 @@
 
             if (merchantId == null && !isUserAdmin)
             {
-                return RedirectToAction(nameof(MerchantsController.Become), "Merchants");
+                return BadRequest();
             }
 
             if (!product.AgreeOnTermsOfPolitics && !isUserAdmin)
@@ -74,7 +74,7 @@
             {
                 this.ModelState.AddModelError(nameof(product.CategoryId), "Category does not exists.");
             }
-            else if (!this.products.SubCategoryExists(product.SubCategoryId,product.CategoryId))
+             if (!this.products.SubCategoryExists(product.SubCategoryId,product.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(product.SubCategoryId), "SubCategory is not valid.");
             }
@@ -135,12 +135,7 @@
             query.Categories = productCategories;
             query.SubCategories = productSubCategories;
             query.TotalProducts = queryResult.TotalProducts;
-
-          
-
-           
-
-
+                  
             return this.View(query);
         }
 
@@ -148,6 +143,7 @@
         [Authorize]
         public IActionResult Mine()
         {
+            ;
             var myProducts=this.products.ByUser(this.User.Id());
 
             if (this.User.IsAdmin())
@@ -162,36 +158,26 @@
         [Authorize]
         public IActionResult Edit(string Id)
         {
-            var userId = this.User.Id();
+            string merchantId = this.merchants.IdByUser(this.User.Id());
 
             var isUserAdmin = this.User.IsAdmin();
 
-
-            if (!this.merchants.IsUserMerchant(userId) && !isUserAdmin)
+            if (merchantId == null && !isUserAdmin)
             {
-                return RedirectToAction(nameof(MerchantsController.Become), "Merchants");
+                return BadRequest();
+            }
+
+            if (!this.products.ProductIsByMerchant(Id, merchantId) && !isUserAdmin)
+            {
+                return BadRequest();
             }
 
             var product = this.products.Details(Id);
-
-            if (product==null)
-            {
-                return NotFound();
-            }
-
-            if (product.UserId!=userId && !isUserAdmin)
-            {
-                return Unauthorized();
-            }
 
             var productForm = this.mapper.Map<ProductFormModel>(product);
 
             productForm.Categories = this.products.AllCategories();
             productForm.SubCategories = this.products.AllSubCategories();
-
-
-            ;
-
 
             return View(productForm);
         }
@@ -201,13 +187,14 @@
         [Authorize]
         public IActionResult Edit(string Id,ProductFormModel product)
         {
+            ;
             string merchantId = this.merchants.IdByUser(this.User.Id());
 
             var isUserAdmin = this.User.IsAdmin();
 
             if (merchantId == null&& !isUserAdmin)
             {
-                return RedirectToAction(nameof(MerchantsController.Become), "Merchants");
+                return BadRequest();
             }
 
             if (!this.products.ProductIsByMerchant(Id, merchantId) && !isUserAdmin)
@@ -220,7 +207,7 @@
             {
                 this.ModelState.AddModelError(nameof(product.CategoryId), "Category does not exists.");
             }
-            else if (!this.products.SubCategoryExists(product.SubCategoryId, product.CategoryId))
+            if (!this.products.SubCategoryExists(product.SubCategoryId, product.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(product.SubCategoryId), "SubCategory is not valid.");
             }
@@ -232,12 +219,7 @@
                 product.SubCategories = this.products.AllSubCategories();
 
                 return View(product);
-            }
-
-            
-           
-
-
+            }                
 
           this.products.Edit(
                 Id,
@@ -268,6 +250,7 @@
 
             var isUserAdmin = this.User.IsAdmin();
 
+
             var product = this.products.Details(id);
 
             if (product == null)
@@ -281,6 +264,7 @@
             {
                 return BadRequest();
             }
+
 
             var similarProducts = this.products.GetSimilarProducts(id);
 
@@ -304,6 +288,7 @@
         [Authorize]
         public IActionResult Delete(string id)
         {
+            ;
             string merchantId = this.merchants.IdByUser(this.User.Id());
 
             var isUserAdmin = this.User.IsAdmin();
