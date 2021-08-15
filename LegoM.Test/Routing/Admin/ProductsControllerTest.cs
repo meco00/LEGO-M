@@ -4,9 +4,11 @@
     using MyTested.AspNetCore.Mvc;
     using Xunit;
 
+    using static Data.DataConstants;
+
     public class ProductsControllerTest
     {
-        const string TestId = "TestId";
+       
 
         [Fact]
         public void AllRouteShouldBeMapped()

@@ -10,19 +10,9 @@
 
    public static class Comments
     {
-        public static IEnumerable<Comment> GetComments(int count=5)
-         => Enumerable.Range(0, count).Select(i => new Comment()
-         {
-             User = new User
-             {
-                 FullName = "TestName"
-             },
-            
+       
 
-             
-         });
-
-        public static IEnumerable<Comment> GetCommentsBeta(int count=5,int reviewId=1, bool IsPublic = true)
+        public static IEnumerable<Comment> GetComments(int count=5,int reviewId=1, bool IsPublic = true)
           => Enumerable.Range(0, count).Select(i => new Comment() 
           {
               User = new User

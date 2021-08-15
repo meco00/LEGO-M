@@ -16,10 +16,25 @@
     using static Data.Comments;
     using static Data.Products;
     using static Data.DataConstants;
+    using LegoM.Data.Models.Enums;
+    using LegoM.Data.Models;
+    using LegoM.Services.Reviews.Models;
 
     public class ReviewsPipelineTest
     {
         public string Information = GetInformation();
+
+        private ReviewType? GetEnum(string content)
+        {
+            
+
+            Enum.TryParse<ReviewType>(content, out var result);
+
+
+            ReviewType? enumeration= (ReviewType?)result;
+
+            return enumeration;
+        }
 
         [Theory]
         [InlineData(1,3)]
@@ -35,7 +50,7 @@
             .Which(controller => controller
                       .WithData(GetReviews(detailsId))
                       .AndAlso()
-                      .WithData(GetCommentsBeta(commentsCount))
+                      .WithData(GetComments(commentsCount))
             .ShouldReturn()
             .View(view => view.WithModelOfType<ReviewDetailsWithCommentsModel>()
                   .Passing(model =>
@@ -68,8 +83,49 @@
 
 
 
+        [Fact]
+        public void MineShouldBeForAuthorizedUsersAndReturnViewWithCorrectDataAndModel()
+           => MyPipeline
+                  .Configuration()
+                   .ShouldMap(request => request
+                       .WithPath("/Reviews/Mine")
+                       .WithUser()
+                       .WithAntiForgeryToken())
+                   .To<ReviewsController>(c => c.Mine())
+                   .Which(controller => controller.WithData(GetReviews()))
+                   .ShouldHave()
+                   .ActionAttributes(attributes => attributes
+                                  .RestrictingForAuthorizedRequests())
+                   .AndAlso()
+                   .ShouldReturn()
+                   .View(view => view
+                       .WithModelOfType<List<ReviewListingServiceModel>>()
+                        .Passing(model => model.Should().HaveCount(5)));
+
+
+        [Fact]
+        public void GetEditShouldBeForAuthorizedUsersAndReturnCorrectViewAndData()
+          => MyPipeline
+                  .Configuration()
+                 .ShouldMap(request => request.WithPath($"/Reviews/Edit/{1}")
+                  .WithUser())
+                .To<ReviewsController>(c => c.Edit(1))
+                .Which(controller => controller.WithData(GetReviews(1)))
+                .ShouldHave()
+                   .ActionAttributes(attributes => attributes
+                                  .RestrictingForAuthorizedRequests())
+                   .AndAlso()
+                   .ShouldReturn()
+                   .View(view => view.WithModelOfType<ReviewFormModel>()
+                   .Passing(model=>
+                   {
+                       model.Content.Should().Be($"Review Content {1}");
+                       model.Rating.Should().Be(ReviewType.Excellent);
+                    }));
 
 
 
     }
 }
+
+
