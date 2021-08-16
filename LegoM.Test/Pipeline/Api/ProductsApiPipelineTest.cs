@@ -27,7 +27,7 @@
                 .Which(controller => controller.WithData(GetProducts(2)))
                 
                   .ShouldReturn()
-                  .ActionResult<ProductQueryServiceModel>(result => result
+                  .ActionResult<ProductQueryModel>(result => result
                      .Passing(model =>
                      {
                          model.Products.Should().HaveCount(2);

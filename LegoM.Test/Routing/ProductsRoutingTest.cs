@@ -8,6 +8,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Web;
     using Xunit;
 
     using static Data.DataConstants;
@@ -33,5 +34,17 @@
                    .WithMethod(HttpMethod.Post))
                .To<ProductsController>(c => c
                .Edit(TestId, With.Any<ProductFormModel>()));
+
+        [Fact]
+        public void PostDeleteShoulBeMapped()
+      => MyRouting
+          .Configuration()
+           .ShouldMap(request => request
+              .WithPath($"/Products/Delete/{TestId}")
+               .WithMethod(HttpMethod.Post))
+           .To<ProductsController>(c => c
+           .Delete(TestId, With.Any<ProductDeleteFormModel>()));
+     
+             
     }
 }

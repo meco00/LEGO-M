@@ -17,6 +17,7 @@
     using static Data.Categories;
     using static Data.Products;
     using static Data.DataConstants;
+    using LegoM.Areas.Admin;
 
     public class ProductsControllerTest
     {
@@ -123,7 +124,7 @@
                      Price = 12.50M,
                      Quantity = 2,
                      FirstImageUrl = "https://upload.wikimedia.org/wikipedia/commons/4/44/Cat_img.jpg",
-                     CategoryId = 1,
+                     CategoryId = 2,
                      SubCategoryId = 1,
                      Condition = ProductCondition.New,
                      Delivery = DeliveryTake.Seller,
@@ -142,7 +143,7 @@
                              x.Price == 12.50M &&
                              x.Quantity == 2 &&
                              x.Images.Any() &&
-                             x.CategoryId == 1 &&
+                             x.CategoryId == 2 &&
                              x.SubCategoryId == 1 &&
                              x.IsPublic == false &&
                              x.ProductCondition == ProductCondition.New &&
@@ -174,6 +175,21 @@
                .AndAlso()
               .ShouldReturn()
                .BadRequest();
+
+        [Fact]
+        public void PostEditShouldReturnNotFoundWhenProductDoesNotExists()
+      => MyController<ProductsController>
+          .Instance(controller => controller
+                  .WithUser()
+                  .WithData(GetMerchant()))
+           .Calling(c => c.Edit(TestId, With.Any<ProductFormModel>()))
+          .ShouldHave()
+         .ActionAttributes(attributes => attributes
+             .RestrictingForAuthorizedRequests()
+              .RestrictingForHttpMethod(HttpMethod.Post))
+            .AndAlso()
+           .ShouldReturn()
+            .NotFound();
 
 
         [Fact]
@@ -217,6 +233,142 @@
          .ShouldReturn()
                  .View(view => view
                       .WithModelOfType<ProductFormModel>());
+
+
+
+
+        [Fact]
+        public void PostDeleteShouldBeForAuthorizedUsersAndReturnRedirectToWithCorrectData()
+            => MyController<ProductsController>
+                .Instance(controller => controller
+               .WithUser()
+               .WithData(GetProduct()))
+               .Calling(c => c.Delete(TestId, new ProductDeleteFormModel
+               {
+                   SureToDelete = true
+               }))
+             .ShouldHave()
+              .ActionAttributes(attributes => attributes
+                 .RestrictingForAuthorizedRequests()
+                 .RestrictingForHttpMethod(HttpMethod.Post))
+              .ValidModelState()
+              .Data(data => data.WithSet<Product>(set => set.Any(x=>
+                       x.Id==TestId &&
+                       x.IsDeleted ==true &&
+                       x.IsPublic== false&&
+                       x.DeletedOn.HasValue)))
+              .TempData(tempData => tempData
+                       .ContainingEntryWithKey(WebConstants.GlobalMessageKey))
+              .AndAlso()
+              .ShouldReturn()
+              .Redirect(redirect => redirect
+                    .To<ProductsController>(c => c
+                    .All(With.Any<ProductsQueryModel>())));
+
+
+
+        [Fact]
+        public void PostDeleteShouldBeForAuthorizedUsersAndReturnRedirectToAdminAreaWithCorrectData()
+        => MyController<ProductsController>
+             .Instance(controller => controller
+            .WithUser(new[] { AdminConstants.AdministratorRoleName })
+            .WithData(GetProduct(TestId,false)))
+            .Calling(c => c.Delete(TestId, new ProductDeleteFormModel
+            {
+                SureToDelete = true
+            }))
+          .ShouldHave()
+           .ActionAttributes(attributes => attributes
+              .RestrictingForAuthorizedRequests()
+              .RestrictingForHttpMethod(HttpMethod.Post))
+           .ValidModelState()
+           .Data(data => data.WithSet<Product>(set => set
+                    .Should()
+                    .BeEmpty()))
+           .TempData(tempData => tempData
+                    .ContainingEntryWithKey(WebConstants.GlobalMessageKey))
+           .AndAlso()
+           .ShouldReturn()
+           .Redirect(redirect => redirect
+                 .To<Areas.Admin.Controllers.ProductsController>(c => c
+                       .All()));
+
+
+
+        [Fact]
+        public void PostDeleteShouldBeForAuthorizedUsersAndReturnBadRequestWhenUserIsNotMerchant()
+        => MyController<ProductsController>
+             .Instance(controller => controller
+            .WithUser())
+            .Calling(c => c.Delete(
+                   TestId, 
+                   With.Default<ProductDeleteFormModel>()))
+          .ShouldHave()
+           .ActionAttributes(attributes => attributes
+              .RestrictingForAuthorizedRequests()
+              .RestrictingForHttpMethod(HttpMethod.Post))
+          .AndAlso()
+          .ShouldReturn()
+          .BadRequest();
+
+        [Fact]
+        public void PostDeleteShouldBeForAuthorizedUsersAndReturnBadRequestWhenProductDoesNotExists()
+         => MyController<ProductsController>
+          .Instance(controller => controller
+         .WithUser()
+         .WithData(GetMerchant()))
+         .Calling(c => c.Delete(
+                TestId,
+                With.Default<ProductDeleteFormModel>()))
+       .ShouldHave()
+        .ActionAttributes(attributes => attributes
+           .RestrictingForAuthorizedRequests()
+           .RestrictingForHttpMethod(HttpMethod.Post))
+       .AndAlso()
+       .ShouldReturn()
+       .BadRequest();
+
+        [Fact]
+        public void PostDeleteShouldBeForAuthorizedUsersAndReturnNotFoundWhenUserIsAdminAndProductDoesNotExists()
+         => MyController<ProductsController>
+          .Instance(controller => controller
+         .WithUser(new[] { AdminConstants.AdministratorRoleName})
+         .WithData())
+         .Calling(c => c.Delete(
+                TestId,
+                new ProductDeleteFormModel 
+                {
+                    SureToDelete=true
+                }))
+       .ShouldHave()
+        .ActionAttributes(attributes => attributes
+           .RestrictingForAuthorizedRequests()
+           .RestrictingForHttpMethod(HttpMethod.Post))
+       .AndAlso()
+       .ShouldReturn()
+       .NotFound();
+
+        [Fact]
+        public void PostDeleteShouldBeForAuthorizedUsersAndReturnRedirectToDetailsWhenProductWhenNotSureToDelete()
+        => MyController<ProductsController>
+         .Instance(controller => controller
+        .WithUser()
+        .WithData(GetProduct()))
+        .Calling(c => c.Delete(
+               TestId,
+               With.Default<ProductDeleteFormModel>()))
+      .ShouldHave()
+       .ActionAttributes(attributes => attributes
+          .RestrictingForAuthorizedRequests()
+          .RestrictingForHttpMethod(HttpMethod.Post))
+      .AndAlso()
+      .ShouldReturn()
+      .Redirect(redirect => redirect
+                 .To<ProductsController>(c => c
+                       .Details(TestId)));
+
+
+
 
 
 

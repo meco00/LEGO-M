@@ -38,19 +38,28 @@
             return new Product
             {
                 Id = id,
+                Title = "Title",
                 IsPublic = IsPublic,
                 IsDeleted = IsDeleted,
                 Merchant = merchant,
-                Category=new Category
+                Category = new Category
                 {
-                    Id=1,
-                    Name="TestCategory"
+                    Id = 1,
+                    Name = "TestCategory",
+
+
+
                 },
                 SubCategory = new SubCategory 
                 {
                     Id=1,
-                    Name ="SubCategoryTest",
-                    CategoryId=1
+                    Name = "TestSubCategory",
+                    Category=new Category
+                    {
+                        Id=2,
+                        Name = "TestCategory"
+                    },
+                    CategoryId=2
                 },
                 Images=new List<ProductImage>()
                 {
@@ -63,32 +72,7 @@
 
             };
         }
-
-        //public byte Quantity { get; init; }
-
-        //public string Description { get; init; }
-
-        //public string Delivery { get; init; }
-
-        //public string MerchantId { get; init; }
-
-        //public string MerchantName { get; init; }
-
-        //public string SecondImageUrl { get; init; }
-
-        //public string ThirdImageUrl { get; init; }
-
-        //public string UserId { get; init; }
-
-        //public string CategoryId { get; init; }
-
-        //public string CategoryName { get; set; }
-
-        //public string SubCategoryId { get; init; }
-
-        //public string SubCategoryName { get; init; }
-
-
+ 
 
         public static List<Product> GetProducts(int count=5,bool IsDeleted=false,bool sameUser=true)     
         {

@@ -78,5 +78,18 @@
                       .To<CommentsController>(c => c.All()));
 
 
+        [Fact]
+        public void DeleteShouldReturnNotFoundWhenCommentIdIsInvalid()
+          => MyPipeline
+             .Configuration()
+              .ShouldMap(request => request
+                  .WithPath($"/Admin/Comments/Delete/{1}")
+                   .WithUser(new[] { AdminConstants.AdministratorRoleName }))
+                     .To<CommentsController>(c => c.Delete(1))
+                   .Which()
+                   .ShouldReturn()
+                   .NotFound();
+
+
     }
 }

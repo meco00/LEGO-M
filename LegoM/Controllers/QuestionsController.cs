@@ -105,16 +105,16 @@
         {
             ;
 
-            if (!this.questions.QuestionIsByUser(id,this.User.Id()))
+            if (!this.questions.QuestionIsByUser(id,this.User.Id()) && !this.User.IsAdmin())
             {
-                return NotFound();
+                return BadRequest();
             }
 
           var isSuccesfullyDeleted = this.questions.Delete(id);
 
             if (!isSuccesfullyDeleted)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             this.TempData[WebConstants.GlobalMessageKey] = $"Your question was deleted { (this.User.IsAdmin() ? string.Empty : "and is awaiting for approval!") } ";

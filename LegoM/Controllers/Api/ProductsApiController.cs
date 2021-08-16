@@ -21,7 +21,7 @@
 
 
         [HttpGet]
-        public ActionResult<ProductQueryServiceModel> All([FromQuery] AllProductsApiRequestModel query)
+        public ActionResult<ProductQueryModel> All([FromQuery] AllProductsApiRequestModel query)
         => this.products.All(
              query.Category,
              query.SubCategory,

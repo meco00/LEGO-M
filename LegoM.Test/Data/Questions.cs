@@ -21,7 +21,7 @@
         //=> String.Concat(model.ProductCondition + "-" + model.PublishedOn + "-" + new string(model.Content.Take(5).ToArray()));
 
 
-        public static List<Question> GetQuestions(
+        public static List<Question> GetQuestions(         
             int count=5,
             bool isPublic=true,
             bool sameUser=true)
@@ -45,13 +45,14 @@
                    PublishedOn = new DateTime(1, 1, 1),
                    User = sameUser ? user : new User
                    {
-                       Id = $"Author Id {i}",
+                       Id = $"Question Author Id {i}",
                        UserName = $"Author {i}"
                    },
                    Product = new Product
                    {
                        ProductCondition = LegoM.Data.Models.Enums.ProductCondition.New
                    },
+                   
                })
                .ToList();
 
@@ -65,7 +66,25 @@
 
 
 
-       
+        public static List<Question> GetQuestionsByProduct(string productId = "TestId", int count = 5)
+          => Enumerable.Range(0, count).Select(i => new Question()
+          {
+              Content = "Question Content",
+              IsPublic = true,
+              PublishedOn = new DateTime(1, 1, 1),
+              ProductId = productId,
+              User =  new User
+               {
+                     Id = $"Question Author Id {i}",
+                     UserName = $"Author {i}"
+               },
+
+          })
+            .ToList();
+
+
+
+
 
     }
 }

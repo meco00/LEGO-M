@@ -1,6 +1,7 @@
 ﻿namespace LegoM.Test.Pipeline
 {
     using FluentAssertions;
+    using LegoM.Areas.Admin;
     using LegoM.Controllers;
     using LegoM.Data.Models;
     using LegoM.Models.Questions;
@@ -47,6 +48,17 @@
 
                     }
                     )));
+
+        [Fact]
+        public void DetailsShouldReturnNotFoundWhenProductDoesNotExists()
+           => MyRouting
+               .Configuration()
+                 .ShouldMap(request => request
+                  .WithPath($"/Questions/Details/{1}/{Information}"))
+                 .To<QuestionsController>(c => c.Details(1, Information))
+              .Which()
+              .ShouldReturn()
+              .NotFound();
 
 
         [Fact]
@@ -153,6 +165,37 @@
                      .Redirect(redirect => redirect
                                .To<QuestionsController>(c => c.Mine()));
 
+
+        [Fact]
+        public void DeleteShouldReturnBadRequestWhenQuestionIsNotOfUser()
+     => MyPipeline
+          .Configuration()
+          .ShouldMap(request => request.WithPath($"/Questions/Delete/{2}")
+          .WithUser())
+          .To<QuestionsController>(c => c.Delete(2))
+          .Which(controller => controller.WithData(GetQuestions(1)))
+          .ShouldHave()
+           .ActionAttributes(attributes => attributes
+                       .RestrictingForAuthorizedRequests())
+             .AndAlso()
+             .ShouldReturn()
+             .BadRequest();
+
+
+        [Fact]
+        public void DeleteShouldReturnNotFoundWhenQuestionDoesNotExists()
+   => MyPipeline
+        .Configuration()
+        .ShouldMap(request => request.WithPath($"/Questions/Delete/{2}")
+        .WithUser(new[] { AdminConstants.AdministratorRoleName}))
+        .To<QuestionsController>(c => c.Delete(2))
+        .Which(controller => controller.WithData(GetQuestions(1)))
+        .ShouldHave()
+         .ActionAttributes(attributes => attributes
+                     .RestrictingForAuthorizedRequests())
+           .AndAlso()
+           .ShouldReturn()
+           .NotFound();
 
     }
 }

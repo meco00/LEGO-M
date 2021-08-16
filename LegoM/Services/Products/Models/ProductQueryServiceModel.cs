@@ -2,7 +2,7 @@
 {
   using System.Collections.Generic;
 
-    public class ProductQueryServiceModel
+    public class ProductQueryModel
     {
         public int CurrentPage { get; init; }
 

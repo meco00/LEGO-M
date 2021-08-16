@@ -47,7 +47,7 @@
                    PublishedOn = new DateTime(1, 1, 1),
                    User = sameUser ? user : new User
                    {
-                       Id = $"Author Id {i}",
+                       Id = $"Review Author Id {i}",
                        UserName = $"Author {i}"
                    },
                    Product = new Product
@@ -55,12 +55,33 @@
                        Title = "Test",
                        ProductCondition = LegoM.Data.Models.Enums.ProductCondition.New
                    },
+                   ProductId = "TestId"
                })
                .ToList();
 
 
             return reviews;
         }
+
+
+        public static List<Review> GetReviewsByProduct(string productId="TestId",int count=5)
+          => Enumerable.Range(0, count).Select(i => new Review()
+          {
+              Title = DEFAULT_TITLE,
+              Rating = LegoM.Data.Models.Enums.ReviewType.Excellent,
+              Content = TestContent,
+              IsPublic = true,
+              PublishedOn = new DateTime(1, 1, 1),
+              ProductId =productId,
+              User = new User
+              {
+                  Id = $"Review Author Id {i}",
+                  UserName = $"Author {i}"
+              },
+
+
+          })
+            .ToList();
 
     }
 }

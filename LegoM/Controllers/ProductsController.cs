@@ -1,6 +1,7 @@
 ﻿namespace LegoM.Controllers
 {
     using AutoMapper;
+    using LegoM.Areas.Admin;
     using LegoM.Data;
     using LegoM.Infrastructure;
     using LegoM.Models.Products;
@@ -113,6 +114,7 @@
 
         public IActionResult All([FromQuery]ProductsQueryModel query)
         {
+            ;
             if (!this.products.SubCategoryIsValid(query.SubCategory,query.Category))
             {
                 return BadRequest();
@@ -128,12 +130,12 @@
 
             ;
 
-            var productCategories = this.products.AllCategories();
-            var productSubCategories = this.products.AllSubCategories();
+            var categories = this.products.AllCategories();
+            var subCategories = this.products.AllSubCategories();
 
             query.Products = queryResult.Products;
-            query.Categories = productCategories;
-            query.SubCategories = productSubCategories;
+            query.Categories = categories;
+            query.SubCategories = subCategories;
             query.TotalProducts = queryResult.TotalProducts;
                   
             return this.View(query);
@@ -167,6 +169,11 @@
                 return BadRequest();
             }
 
+            if (!this.products.ProductExists(Id))
+            {
+                return NotFound();
+            }
+
             if (!this.products.ProductIsByMerchant(Id, merchantId) && !isUserAdmin)
             {
                 return BadRequest();
@@ -195,6 +202,11 @@
             if (merchantId == null&& !isUserAdmin)
             {
                 return BadRequest();
+            }
+
+            if (!this.products.ProductExists(Id))
+            {
+                return NotFound();
             }
 
             if (!this.products.ProductIsByMerchant(Id, merchantId) && !isUserAdmin)
@@ -246,6 +258,7 @@
 
         public IActionResult Details(string id)
         {
+            ;
             string merchantId = this.merchants.IdByUser(this.User.Id());
 
             var isUserAdmin = this.User.IsAdmin();
@@ -298,6 +311,11 @@
                 return BadRequest();
             }
 
+            if (!this.products.ProductExists(id))
+            {
+                return NotFound();
+            }
+
             if (!this.products.ProductIsByMerchant(id, merchantId) && !isUserAdmin)
             {
                 return BadRequest();
@@ -313,6 +331,7 @@
         [HttpPost]
         public IActionResult Delete(string id,ProductDeleteFormModel productDelete)
         {
+            ;
             string merchantId = this.merchants.IdByUser(this.User.Id());
 
             var isUserAdmin = this.User.IsAdmin();
@@ -328,18 +347,28 @@
             }
 
             if (productDelete.SureToDelete)
-            {
-               this.products.DeleteProduct(id,isUserAdmin);
+            { 
+                var deleted = this.products.DeleteProduct(id, isUserAdmin);
+
+                if (!deleted)
+                {
+                    return NotFound();
+                }
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index),"Home");
+                return RedirectToAction(nameof(Details),new { id});
             }                 
             
 
             this.TempData[GlobalMessageKey] = $"Your product was deleted { (isUserAdmin ? string.Empty : "and is awaiting for approval!") } ";
 
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            if (isUserAdmin)
+            {
+                return RedirectToAction(nameof(Areas.Admin.Controllers.ProductsController.All),new { area=AdminConstants.AreaName });
+            }
+
+            return RedirectToAction(nameof(All));
         }
 
 

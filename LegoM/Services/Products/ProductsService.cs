@@ -29,7 +29,7 @@
 
 
 
-        public ProductQueryServiceModel All(
+        public ProductQueryModel All(
             string category = null,
             string subCategory = null,
             string searchTerm = null,
@@ -105,7 +105,7 @@
             var productCategories = this.data.Categories.Select(x => x.Name).Distinct().ToList();
 
 
-            return new ProductQueryServiceModel
+            return new ProductQueryModel
             {
                 Products = products,
                 CurrentPage = currentPage,

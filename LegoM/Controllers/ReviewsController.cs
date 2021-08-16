@@ -200,9 +200,14 @@
         public IActionResult Delete(int id)
         {
             ;
-            if (!this.reviews.ReviewIsByUser(id, this.User.Id()))
+            if (!this.reviews.ReviewIsByUser(id, this.User.Id())&& !this.User.IsAdmin())
             {
                 return BadRequest();
+            }
+
+            if (!this.reviews.ReviewExists(id))
+            {
+                return NotFound();
             }
 
 
@@ -216,10 +221,11 @@
         public IActionResult Delete(int id,ReviewDeleteFormModel deleteModel)
         {
             ;
-            if (!this.reviews.ReviewIsByUser(id, this.User.Id()))
+            if (!this.reviews.ReviewIsByUser(id, this.User.Id()) && !this.User.IsAdmin())
             {
                 return BadRequest();
             }
+
 
             if (!deleteModel.SureToDelete)
             {

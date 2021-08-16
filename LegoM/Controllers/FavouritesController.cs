@@ -47,12 +47,9 @@
                 return BadRequest();
             }
 
-            var IsDeleted = this.favourites.Delete(id);
+            this.favourites.Delete(id);
 
-            if (!IsDeleted)
-            {
-                return NotFound();
-            }
+           
 
             this.TempData[WebConstants.GlobalMessageKey] = "Product was deleted succesfully from favourites!";
 

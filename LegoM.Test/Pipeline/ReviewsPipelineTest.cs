@@ -71,6 +71,25 @@
                     .View();
 
 
+        [Fact]
+        public void GetAddShouldBeForAuthorizedUsersAndReturnBadRequestWhenReviewIsNotPublic()
+          => MyPipeline
+                .Configuration()
+                 .ShouldMap(request => request.WithPath($"/Reviews/Add/{TestId}")
+                    .WithUser()
+                    .WithAntiForgeryToken())
+                  .To<ReviewsController>(c => c.Add(TestId))
+                  .Which(controller => controller
+                        .WithData(GetProduct(TestId,true,false,false)))
+                  .ShouldHave()
+                  .ActionAttributes(attributes => attributes
+                         .RestrictingForAuthorizedRequests())
+                   .AndAlso()
+                   .ShouldReturn()
+                    .BadRequest();
+
+
+
 
         [Fact]
         public void MineShouldBeForAuthorizedUsersAndReturnViewWithCorrectDataAndModel()
@@ -128,7 +147,36 @@
                    .View();
 
 
-      
+        [Fact]
+        public void GetDeleteShouldReturnBadRequestWhenReviewIsNotOfUser()
+    => MyPipeline
+         .Configuration()
+         .ShouldMap(request => request.WithPath($"/Reviews/Delete/{2}")
+         .WithUser())
+         .To<ReviewsController>(c => c.Delete(2))
+         .Which(controller => controller.WithData(GetReviews(1)))
+         .ShouldHave()
+          .ActionAttributes(attributes => attributes
+                      .RestrictingForAuthorizedRequests())
+            .AndAlso()
+            .ShouldReturn()
+            .BadRequest();
+
+
+        [Fact]
+        public void GetDeleteShouldReturnNotFoundWhenQuestionDoesNotExists()
+   => MyPipeline
+        .Configuration()
+        .ShouldMap(request => request.WithPath($"/Reviews/Delete/{2}")
+        .WithUser(new[] { AdminConstants.AdministratorRoleName }))
+        .To<ReviewsController>(c => c.Delete(2))
+        .Which(controller => controller.WithData(GetReviews(1)))
+        .ShouldHave()
+         .ActionAttributes(attributes => attributes
+                     .RestrictingForAuthorizedRequests())
+           .AndAlso()
+           .ShouldReturn()
+           .NotFound();
 
 
     }

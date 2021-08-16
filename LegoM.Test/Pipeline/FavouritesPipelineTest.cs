@@ -15,6 +15,7 @@
     using static Data.Products;
     using static Data.Favourites;
     using LegoM.Services.Favourites.Models;
+    using LegoM.Areas.Admin;
 
     public class FavouritesPipelineTest
     {
@@ -47,6 +48,22 @@
                              .To<ProductsController>(c=>c
                              .Details(TestId)));
 
+        [Fact]
+        public void AddShouldReturnBadRequestWhenUserIsAdmin()
+          => MyPipeline
+                  .Configuration()
+                  .ShouldMap(request => request
+                     .WithPath($"/Favourites/Add/{TestId}")
+                     .WithUser(new[] { AdminConstants.AdministratorRoleName }))
+                   .To<FavouritesController>(c => c.Add(TestId))
+                    .Which()
+                    .ShouldHave()
+                    .ActionAttributes(attributes => attributes
+                          .RestrictingForAuthorizedRequests())
+                      .AndAlso()
+                     .ShouldReturn()
+                     .BadRequest();
+                    
 
         [Fact]
         public void AllShouldReturnViewAndCorrectDataAndModel()
@@ -65,6 +82,9 @@
                      .View(view => view
                            .WithModelOfType<List<FavouriteServiceModel>>()
                            .Passing(model => model.Should().HaveCount(5)));
+
+        
+
 
         [Fact]
         public void DeleteShouldDeleteFavouriteAndReturnRedirectToAllWithCorrectData()
@@ -90,9 +110,23 @@
                       .Redirect(redirect => redirect
                               .To<FavouritesController>(c => c
                               .All()));
-                      
 
 
+        [Fact]
+        public void DeleteShouldReturnBadRequestWhenUserIsAdmin()
+         => MyPipeline
+                 .Configuration()
+                 .ShouldMap(request => request
+                    .WithPath($"/Favourites/Delete/{1}")
+                    .WithUser(new[] { AdminConstants.AdministratorRoleName }))
+                  .To<FavouritesController>(c => c.Delete(1))
+                   .Which()
+                   .ShouldHave()
+                   .ActionAttributes(attributes => attributes
+                         .RestrictingForAuthorizedRequests())
+                     .AndAlso()
+                    .ShouldReturn()
+                    .BadRequest();
 
 
 

@@ -7,7 +7,7 @@ namespace LegoM.Services.Products
 
     public interface IProductsService
     {
-        ProductQueryServiceModel All(
+        ProductQueryModel All(
             string category=null,
             string subCategory=null,
             string searchTerm=null,

@@ -76,6 +76,18 @@
                      .Redirect(redirect => redirect
                         .To<AnswersController>(c => c.All()));
 
+        [Fact]
+        public void DeleteShouldReturnNotFoundWhenAnswerIdIsInvalid()
+           => MyPipeline
+              .Configuration()
+               .ShouldMap(request => request
+                   .WithPath($"/Admin/Answers/Delete/{1}")
+                    .WithUser(new[] { AdminConstants.AdministratorRoleName }))
+                      .To<AnswersController>(c => c.Delete(1))
+                    .Which()
+                    .ShouldReturn()
+                    .NotFound();
+
     }
 
 
