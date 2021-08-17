@@ -11,6 +11,7 @@ namespace LegoM
     using LegoM.Services.Products;
     using LegoM.Services.Questions;
     using LegoM.Services.Reviews;
+    using LegoM.Services.ShoppingCarts;
     using LegoM.Services.Statistics;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -76,6 +77,7 @@ namespace LegoM
             services.AddTransient<IAnswerService, AnswerService>();
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IFavouriteService, FavouriteService>();
+            services.AddTransient<IShoppingCartService, ShoppingCartService>();
         }
 
 

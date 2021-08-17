@@ -35,7 +35,7 @@
 
         }
 
-        public IEnumerable<FavouriteServiceModel> All(string userId)
+        public IEnumerable<FavouriteServiceModel> Mine(string userId)
         => this.data.Favourites.Where(x => x.UserId == userId)
             .ProjectTo<FavouriteServiceModel>(mapper)
             .ToList();

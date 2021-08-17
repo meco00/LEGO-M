@@ -1,27 +1,41 @@
 ﻿@model List<FavouriteServiceModel>
 
+
+
+@{ 
+    ViewBag.Title = "Favourite Products";
+}
+
+
+<h1 class="text-center mb-5 mt-5">@ViewBag.Title</h1>
+
+
+
 @foreach (var favourite in Model)
 {
-     
+
     var isProductAvailable = favourite.Quantity > 0;
-    
+
     <div class="row mt-5">
         <div class="col m-md-2">
             <img src="@favourite.ImageUrl" alt="@favourite.ProductTitle" class="img-thumbnail">
-            
+
         </div>
         <div class="col-md-6 ml-5">
-            <a asp-controller="Products" asp-action="Details" asp-route-id="@favourite.ProductId" ><h3 class="mt-3">@favourite.ProductTitle</h3></a>
+            <a asp-controller="Products" asp-action="Details" asp-route-id="@favourite.ProductId"><h3 class="mt-3">@favourite.ProductTitle</h3></a>
             <h5 class="mt-3">Condition: @favourite.ProductCondition</h5>
             <h5>Delivery: @favourite.ProductDelivery</h5>
             <h5 class="mt-3">Reviews (@favourite.ReviewsCount)</h5>
             <h5 class="mt-3">Questions (@favourite.QuestionsCount)</h5>
         </div>
-      
+
         <div class="col-md-2 mt-5">
             <h5 class="btn btn-outline-@(isProductAvailable ? "primary":"danger")">@(isProductAvailable ? "Available": "Exhausted")</h5>
             <h3>@(favourite.Price +" лв.")</h3>
-            <a asp-controller="Favourites" asp-action="Delete" asp-route-id="@favourite.Id" class="btn btn-danger mt-2">Delete</a>
+
+            <a asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@favourite.ProductId" class="btn btn-info mt-2">Add To Shopping Cart</a>
+            <hr />
+            <a asp-controller="Favourites" asp-action="Delete" asp-route-id="@favourite.Id">Delete</a>
         </div>
 
     </div>

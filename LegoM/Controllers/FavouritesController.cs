@@ -2,6 +2,7 @@
 {
     using LegoM.Infrastructure;
     using LegoM.Services.Favourites;
+    using LegoM.Services.Products;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System;
@@ -13,14 +14,21 @@
     {
         private readonly IFavouriteService favourites;
 
-        public FavouritesController(IFavouriteService favourites)
+        private readonly IProductsService products;
+
+        public FavouritesController(IFavouriteService favourites, IProductsService products)
         {
             this.favourites = favourites;
+            this.products = products;
         }
 
         [Authorize]
         public IActionResult Add(string id)
         {
+            if (!this.products.ProductExists(id))
+            {
+                return NotFound();
+            }
             var userId = this.User.Id();
 
             if (this.User.IsAdmin() || this.favourites.IsFavouriteExists(id,userId))
@@ -54,16 +62,16 @@
             this.TempData[WebConstants.GlobalMessageKey] = "Product was deleted succesfully from favourites!";
 
 
-            return RedirectToAction(nameof(All));
+            return RedirectToAction(nameof(Mine));
 
 
         }
 
         [Authorize]
-        public IActionResult All()
+        public IActionResult Mine()
         {
             ;
-            var favourites = this.favourites.All(this.User.Id());
+            var favourites = this.favourites.Mine(this.User.Id());
 
 
             return View(favourites);

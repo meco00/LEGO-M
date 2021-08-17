@@ -13,6 +13,6 @@ namespace LegoM.Services.Favourites
 
         bool IsFavouriteByUser(int id, string userId);
 
-        IEnumerable<FavouriteServiceModel> All(string userId);
+        IEnumerable<FavouriteServiceModel> Mine(string userId);
     }
 }

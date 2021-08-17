@@ -45,7 +45,7 @@
                 <a class="nav-link text-dark" asp-area="Ad" asp-controller="Merchants" asp-action="Become">Become Merchant</a>
             </li>
         }
-        else if(userIsAdmin)
+        else if (userIsAdmin)
         {
 
             <li class="nav-item">
@@ -65,6 +65,9 @@
         </li>
     }
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Favourites" asp-action="All">Favourites</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Favourites" asp-action="Mine">Favourites</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="ShoppingCart" asp-action="Mine">ShoppingCart</a>
     </li>
 </ul>

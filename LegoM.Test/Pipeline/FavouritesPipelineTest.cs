@@ -49,7 +49,7 @@
                              .Details(TestId)));
 
         [Fact]
-        public void AddShouldReturnBadRequestWhenUserIsAdmin()
+        public void AddShouldReturnNotFoundWhenUserIsAdmin()
           => MyPipeline
                   .Configuration()
                   .ShouldMap(request => request
@@ -62,17 +62,17 @@
                           .RestrictingForAuthorizedRequests())
                       .AndAlso()
                      .ShouldReturn()
-                     .BadRequest();
+                     .NotFound();
                     
 
         [Fact]
-        public void AllShouldReturnViewAndCorrectDataAndModel()
+        public void MineShouldReturnViewAndCorrectDataAndModel()
             => MyPipeline
                    .Configuration()
                    .ShouldMap(request => request
-                       .WithPath("/Favourites/All")
+                       .WithPath("/Favourites/Mine")
                         .WithUser())
-                    .To<FavouritesController>(c => c.All())
+                    .To<FavouritesController>(c => c.Mine())
                     .Which(controller => controller.WithData(GetFavourites(5, true, false)))
                     .ShouldHave()
                     .ActionAttributes(attributes => attributes
@@ -109,7 +109,7 @@
                       .ShouldReturn()
                       .Redirect(redirect => redirect
                               .To<FavouritesController>(c => c
-                              .All()));
+                              .Mine()));
 
 
         [Fact]
