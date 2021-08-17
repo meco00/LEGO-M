@@ -24,5 +24,8 @@
 
         public virtual ICollection<Favourite> Favourites { get; set; }
        = new HashSet<Favourite>();
+
+        public virtual ICollection<ShoppingCartItem> ShoppingCartItems { get; set; }
+        = new HashSet<ShoppingCartItem>();
     }
 }

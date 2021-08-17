@@ -1,5 +1,6 @@
 ﻿namespace LegoM.Data.Models
 {
+    using Microsoft.AspNetCore.Identity;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -21,7 +22,7 @@
         [Required]
         public string UserId { get; set; }
 
-        public virtual User User {get;init;}
+        public virtual IdentityUser User { get; set; }
 
         public virtual IEnumerable<Product> Products { get; set; }
 

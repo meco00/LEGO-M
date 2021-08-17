@@ -1,8 +1,12 @@
 ﻿namespace LegoM.Data.Models
 {
+    using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Threading.Tasks;
 
-    public class Favourite
+    public class ShoppingCartItem
     {
         public int Id { get; set; }
 
@@ -16,8 +20,8 @@
 
         public virtual User User { get; set; }
 
+        public byte Quantity { get; set; }
 
-
-
+        
     }
 }

@@ -32,6 +32,8 @@
 
         public DbSet<Favourite> Favourites { get; set; }
 
+        public DbSet<ShoppingCartItem> ShoppingCarts { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -48,6 +50,8 @@
             builder.ApplyConfiguration(new CommentEntityConfiguration());
 
             builder.ApplyConfiguration(new FavouriteEntityConfiguration());
+
+            builder.ApplyConfiguration(new ShoppingCartItemEntityConfiguration());
 
             builder
               .Entity<SubCategory>()
