@@ -24,5 +24,9 @@ namespace LegoM.Services.ShoppingCarts
         CartItemServiceModel  GetQuantityAndProductQuantity(int id);
 
         IEnumerable<ShoppingCartItemServiceModel> Mine(string userId);
+
+        bool UserHasAnyUnOrderedShoppingCartItem(string userId);
+
+        List<string> GetInformationAboutInvalidShoppingCartItemsOfUser(string userId);
     }
 }

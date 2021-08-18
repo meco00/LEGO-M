@@ -3,8 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     using static DataConstants.Order;
 
@@ -37,6 +35,8 @@
         public string PhoneNumber { get; set; }
 
         public DateTime OrderedOn { get; set; }
+
+        public bool IsAccomplished { get; set; }
 
         public virtual ICollection<ShoppingCartItem> ShoppingCart { get; set; }
         = new HashSet<ShoppingCartItem>();

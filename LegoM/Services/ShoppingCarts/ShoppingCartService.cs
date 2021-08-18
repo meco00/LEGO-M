@@ -82,6 +82,11 @@
 
         }
 
+        public string GetInformationAboutInvalidShoppingCartItemsOfUser(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public CartItemServiceModel GetQuantityAndProductQuantity(int id)
         {
             var cartItem = this.Details(id);
@@ -105,8 +110,26 @@
         => this.data.ShoppingCarts.Any(x => x.Id == id && x.UserId == userId);
 
         public IEnumerable<ShoppingCartItemServiceModel> Mine(string userId)
-          => this.data.ShoppingCarts.Where(x => x.UserId == userId)
+          => this.data.ShoppingCarts
+            .Where(x => x.UserId == userId && x.OrderId == null)
             .ProjectTo<ShoppingCartItemServiceModel>(mapper)
             .ToList();
+
+        public bool UserHasAnyUnOrderedShoppingCartItem(string userId)
+       => this.data.ShoppingCarts
+            .Where(x => x.UserId == userId && x.OrderId == null)
+            .Any();
+
+      
+
+        List<string> IShoppingCartService.GetInformationAboutInvalidShoppingCartItemsOfUser(string userId)
+         => Mine(userId)
+            .Where(x => x.Quantity > x.ProductQuantity ||
+                  x.Quantity == 0 ||
+                  x.ProductQuantity == 0)
+           .Select(x => $"You should edit quantity or delete \" {x.ProductTitle} \" to continue to order!")
+           .ToList();
+
+        
     }
 }
