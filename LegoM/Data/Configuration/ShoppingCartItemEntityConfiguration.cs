@@ -24,6 +24,12 @@
                 .WithMany(x => x.ShoppingCartItems)
                 .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .HasOne(x => x.Order)
+                .WithMany(x => x.ShoppingCart)
+                .HasForeignKey(x => x.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     
     }

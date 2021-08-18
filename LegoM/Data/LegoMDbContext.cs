@@ -34,6 +34,8 @@
 
         public DbSet<ShoppingCartItem> ShoppingCarts { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -75,7 +77,11 @@
 
 
 
-
+            builder.Entity<Order>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.Orders)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
 
             base.OnModelCreating(builder);

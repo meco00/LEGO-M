@@ -69,7 +69,7 @@
                 return false;
             }
 
-            if (shoppingCartItem.Product.Quantity < Quantity)
+            if (shoppingCartItem.Product.Quantity < Quantity || Quantity==0)
             {
                 return false;
             }

@@ -2,6 +2,34 @@
 {
     public class DataConstants
     {
+        public class Answer
+        {
+            public const int ContentMaxLength = 200;
+            public const int ContentMinLength = 8;
+        }
+
+        public class Comment
+        {
+            public const int ContentMaxLength = 200;
+            public const int ContentMinLength = 8;
+        }
+
+        public class Category
+        {
+
+            public const int NameMaxLength = 40;
+
+        }
+
+        public class Merchant
+        {
+
+            public const int NameMaxLength = 20;
+            public const int NameMinLength = 5;
+            public const int TelephoneNumberMaxLength = 10;
+
+        }
+
         public class User
         {
             public const int FullNameMaxLength = 40;
@@ -27,47 +55,15 @@
 
         }
 
-
       
-
-        public class Category
-        {
-
-        public const int NameMaxLength = 40;
-
-        }
-
-        public class Merchant
-        {
-
-            public const int NameMaxLength = 20;
-            public const int NameMinLength = 5;
-            public const int TelephoneNumberMaxLength = 10;
-
-        }
-
-
-        public const int AnswerTextMaxLength = 300;
-
-        public const int OrderAreaMaxLength = 20;
-        public const int OrderTownMaxLength = 30;
-
-       
-
-
-
-       
-
-        public const int ReportDescriptionMaxLength = 250;
-
         public class Review
         {
-          public const int ContentMaxLength = 250;
-          public const int ContentMinLength = 10;
+            public const int ContentMaxLength = 250;
+            public const int ContentMinLength = 10;
 
-          public const int TitleMaxLength = 20;
-          public const int TitleMinLength = 3;
-         
+            public const int TitleMaxLength = 20;
+            public const int TitleMinLength = 3;
+
 
         }
 
@@ -79,25 +75,22 @@
 
         }
 
-        public class Answer 
+     
+
+
+        public class Order
         {
-            public const int ContentMaxLength = 200;
-            public const int ContentMinLength = 8;
+            public const int FullNameMaxLength = 40;
+            public const int FullNameMinLength = 5;
+            public const int ZipCodeMaxLength = 4;
+            public const int CityMinLength = 4;
+            public const int CityMаxLength = 20;
+            public const int StateMinLength = 4;
+            public const int StateMаxLength = 20;
+            public const int AddressMinLength = 5;
+            public const int AddressMаxLength = 30;
+            public const int TelephoneNumberMaxLength = 10;
         }
-
-        public class Comment 
-        {
-            public const int ContentMaxLength = 200;
-            public const int ContentMinLength = 8;
-        }
-
-
-
-
-
-
-
-
 
     }
 }

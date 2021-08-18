@@ -58,7 +58,10 @@
         <h2 class="mb-3">@(Model.Price+ " лв.")</h2>
         <a asp-controller="Favourites" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-outline-danger">Add To Favourites</a>
         <div class="mb-3"></div>
+        @if (Model.Quantity > 0)
+        {
         <a asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-info mr-3">Add To Shopping Cart</a>
+        }
 
     </div>
 

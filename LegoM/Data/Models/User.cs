@@ -14,7 +14,7 @@
         = new HashSet<Review>();
 
         public virtual ICollection<Question> Questions { get; set; }
-         = new HashSet<Question>();
+        = new HashSet<Question>();
 
         public virtual ICollection<Comment> Comments { get; set; }
         = new HashSet<Comment>();
@@ -23,9 +23,12 @@
         = new HashSet<Answer>();
 
         public virtual ICollection<Favourite> Favourites { get; set; }
-       = new HashSet<Favourite>();
+         = new HashSet<Favourite>();
 
         public virtual ICollection<ShoppingCartItem> ShoppingCartItems { get; set; }
         = new HashSet<ShoppingCartItem>();
+
+        public virtual ICollection<Order> Orders { get; set; }
+        = new HashSet<Order>();
     }
 }
