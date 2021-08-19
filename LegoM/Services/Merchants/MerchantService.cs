@@ -35,5 +35,11 @@
 
         public bool IsUserMerchant(string userId)
         => this.data.Merchants.Any(x=>x.UserId==userId);
+
+        public string TelephoneNumberByUser(string userId)
+        => this.data.Merchants
+            .Where(x => x.UserId == userId)
+            .Select(x => x.TelephoneNumber)
+            .FirstOrDefault();
     }
 }

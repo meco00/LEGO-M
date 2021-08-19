@@ -27,6 +27,8 @@ namespace LegoM.Services.ShoppingCarts
 
         bool UserHasAnyUnOrderedShoppingCartItem(string userId);
 
-        List<string> GetInformationAboutInvalidShoppingCartItemsOfUser(string userId);
+        IEnumerable<string> GetInformationAboutInvalidShoppingCartItemsOfUser(string userId);
+
+        IEnumerable<string> ValidateShoppingCartOfUser(string userId);
     }
 }

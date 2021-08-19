@@ -49,14 +49,14 @@
                
                     @foreach (var errorMessage in errors)
                     {                      
-                     <div class="alert alert-danger text-center" role="alert"><h3>@errorMessage</h3></div>
+                     <div class="alert alert-danger text-center" role="alert"><h5>@errorMessage</h5></div>
                     }
                
             }
 
             @if (this.TempData.ContainsKey(WebConstants.GlobalMessageKey))
             {
-             <div class="alert alert-success text-center" role="alert"><h3>@this.TempData[WebConstants.GlobalMessageKey]</h3></div>
+             <div class="alert alert-success text-center" role="alert"><h5>@this.TempData[WebConstants.GlobalMessageKey]</h5></div>
             }
             @RenderBody()
         </main>

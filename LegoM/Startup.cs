@@ -1,6 +1,5 @@
 namespace LegoM
 {
-    using LegoM.Controllers;
     using LegoM.Data;
     using LegoM.Data.Models;
     using LegoM.Infrastructure;
@@ -8,22 +7,22 @@ namespace LegoM
     using LegoM.Services.Comments;
     using LegoM.Services.Favourites;
     using LegoM.Services.Merchants;
+    using LegoM.Services.Orders;
     using LegoM.Services.Products;
     using LegoM.Services.Questions;
     using LegoM.Services.Reviews;
     using LegoM.Services.ShoppingCarts;
     using LegoM.Services.Statistics;
+    using LegoM.Services.Users;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.HttpsPolicy;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.UI;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-  
+
 
     public class Startup
     {
@@ -78,6 +77,8 @@ namespace LegoM
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IFavouriteService, FavouriteService>();
             services.AddTransient<IShoppingCartService, ShoppingCartService>();
+            services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IUserService, UserService>();
         }
 
 

@@ -82,10 +82,7 @@
 
         }
 
-        public string GetInformationAboutInvalidShoppingCartItemsOfUser(string userId)
-        {
-            throw new NotImplementedException();
-        }
+     
 
         public CartItemServiceModel GetQuantityAndProductQuantity(int id)
         {
@@ -120,16 +117,42 @@
             .Where(x => x.UserId == userId && x.OrderId == null)
             .Any();
 
+
+        public IEnumerable<string> GetInformationAboutInvalidShoppingCartItemsOfUser(string userId)
+     => Mine(userId)
+         .Where(x => x.Quantity > x.ProductQuantity ||
+               x.Quantity == 0 ||
+               x.ProductQuantity == 0)
+        .Select(x => $"You should edit quantity or delete \" {x.ProductTitle} \" to continue to order!")
+        .ToList();
+
+        public IEnumerable<string> ValidateShoppingCartOfUser(string userId)
+        {
+            var errorsList = new List<string>();
+
+            var IsUserShoppingCartContainsAnyCartItem = this
+               .UserHasAnyUnOrderedShoppingCartItem(userId);
+
+            if (!IsUserShoppingCartContainsAnyCartItem)
+            {
+                errorsList.Add("Your shopping cart is empty");
+
+                return errorsList;
+            }
+
+            var cartItemsErrorMessages = this
+                .GetInformationAboutInvalidShoppingCartItemsOfUser(userId);
+
+            if (cartItemsErrorMessages.Any())
+            {
+                errorsList.AddRange(cartItemsErrorMessages);
+
+            }
+
+            return errorsList;
+        }
+
+
       
-
-        List<string> IShoppingCartService.GetInformationAboutInvalidShoppingCartItemsOfUser(string userId)
-         => Mine(userId)
-            .Where(x => x.Quantity > x.ProductQuantity ||
-                  x.Quantity == 0 ||
-                  x.ProductQuantity == 0)
-           .Select(x => $"You should edit quantity or delete \" {x.ProductTitle} \" to continue to order!")
-           .ToList();
-
-        
     }
 }
