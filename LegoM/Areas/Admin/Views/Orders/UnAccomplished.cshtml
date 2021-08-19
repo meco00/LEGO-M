@@ -1,0 +1,45 @@
+﻿@model List<OrderServiceModel>
+
+@{
+    ViewBag.Title = "UnAccomplished Orders Administration";
+}
+
+
+<h1 class="text-center mt-5 mb-5">@ViewBag.Title</h1>
+
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Nº</th>
+            <th scope="col">Name</th>
+            <th scope="col">State</th>
+            <th scope="col">City</th>
+            <th scope="col">TotalAmount</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td scope="col">@order.OrderedOn</td>
+                <td scope="col">@order.Id</td>
+                <td scope="col">@(new string(order.FullName.Take(20).ToArray()))</td>
+                <td scope="col">@order.State</td>
+                <td scope="col">@order.City</td>
+                <td scope="col">@order.TotalAmount</td>
+
+                <td scope="col">
+                    <a asp-controller="Orders" asp-action="Delete" asp-route-id="@order.Id" class="btn btn-danger float-right ml-3">Delete</a>
+                    <a asp-controller="Orders" asp-action="Details" asp-route-id="@order.Id" class="btn btn-primary float-right ml-3">Details</a>
+                    <a asp-controller="Orders" asp-action="Accomplish" asp-route-id="@order.Id" class="btn btn-success float-right ml-3 ">Accomplish</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+

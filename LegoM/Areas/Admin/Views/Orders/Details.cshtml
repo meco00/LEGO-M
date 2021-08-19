@@ -1,0 +1,142 @@
+﻿@model OrderDetailsModel
+
+@{
+    ViewBag.Title = "Order Details";
+}
+
+@{ 
+    var isAccomplished = Model.Order.IsAccomplished;
+}
+
+<h1 class="text-center mb-3 mt-3">@ViewBag.Title</h1>
+
+<div class="row">
+
+    <div class="col md-4">
+        <div class="form-inline">
+            <h4>Nº</h4>
+            <h3 class="ml-2">@Model.Order.Id</h3>
+        </div>
+        <div class="form-inline">
+            <h4>Full Name :</h4>
+            <h4 class="ml-2">@Model.Order.FullName</h4>
+        </div>
+
+        <div class="form-inline mt-3">
+            <h4>Phone Number :</h4>
+            <h4 class="ml-2">@Model.Order.PhoneNumber</h4>
+        </div>
+
+        <div class="form-inline mt-3">
+            <h4>State :</h4>
+            <h4 class="ml-2">@Model.Order.State</h4>
+        </div>
+
+        <div class="form-inline mt-3">
+            <h4>City :</h4>
+            <h4 class="ml-2">@Model.Order.City</h4>
+        </div>
+    </div>
+    <div class="col md-4">
+
+        <div class="form-inline">
+            <h4>Ordered On :</h4>
+            <h4 class="ml-2">@Model.Order.OrderedOn</h4>
+        </div>
+
+        <div class="form-inline mt-3">
+            <h4>Address :</h4>
+            <h5 class="ml-2">@Model.Order.Address</h5>
+        </div>
+
+        <div class="form-inline mt-3">
+            <h4>Zip Code :</h4>
+            <h4 class="ml-2">@Model.Order.ZipCode</h4>
+        </div>
+
+    </div>
+
+    <div class="col md-4">
+        <div class="form-inline">
+            <h3>Total :</h3>
+            <h1 class="ml-3">@Model.Order.TotalAmount лв.</h1>
+        </div>
+
+        <div class="form-inline mt-3 mb-3">
+            <h4>Total Ordered Items :</h4>
+            <h4 class="ml-2">@Model.Order.OrderedItems</h4>
+        </div>
+        @if (isAccomplished)
+        {
+            <a asp-action="Cancel" asp-route-id="@Model.Order.Id" class="btn btn-dark ">Cancel</a>
+        }
+        else
+        {
+            <a asp-action="Accomplish" asp-route-id="@Model.Order.Id" class="btn btn-success ">Accomplish</a>
+        }
+        <a asp-action="Delete" asp-route-id="@Model.Order.Id" class="btn btn-danger ">Delete</a>
+    </div>
+
+</div>
+
+<hr />
+
+@foreach (var cartItem in Model.OrderItems)
+{
+
+    var isProductAvailable = cartItem.ProductQuantity > 0;   
+    var productQuantityList = Enumerable.Range(1, cartItem.ProductQuantity).ToList();
+    
+
+
+
+    <div class="row mt-5">
+        <div class="col m-md-2">
+            <img src="@cartItem.ImageUrl" alt="@cartItem.ProductTitle" class="img-thumbnail">
+
+        </div>
+        <div class="col-md-6 ml-5">
+            <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@cartItem.ProductId"><h3 class="mt-3">@cartItem.ProductTitle</h3></a>
+            <h5 class="mt-3">Condition: @cartItem.ProductCondition</h5>
+
+            <h5>Delivery: @cartItem.ProductDelivery</h5>
+
+            @if (isProductAvailable && !isAccomplished)
+            {
+                <div class="row mb-5">
+                    <div class="form-group col-md-3 ml-10">
+                        <label asp-for="@cartItem.Quantity"></label>
+                        <select asp-for="@cartItem.Quantity" class="form-control">
+
+                            @foreach (var quantity in productQuantityList)
+                            {
+                                <option value="@quantity">@quantity</option>
+                            }
+                        </select>
+                        <a asp-area="" asp-controller="ShoppingCart" asp-action="Edit" asp-route-Id="@cartItem.Id">Edit</a>
+                    </div>
+                </div>
+            }
+            else if(isAccomplished)
+            { 
+              <h5>Product Count : @cartItem.Quantity</h5>
+            }
+
+        </div>
+
+        <div class="col-md-2 mt-5">
+            <h5 class="btn btn-outline-@(isProductAvailable ? "primary":"danger")">@(isProductAvailable ? "Available": "Exhausted")</h5>
+            <h3>@(cartItem.Price.ToString("F2") + " лв.")</h3>
+            <hr />
+            @if (!isAccomplished)
+            {
+            <a asp-area="" asp-controller="ShoppingCart" asp-action="Delete" asp-route-id="@cartItem.Id">Delete</a>
+            }
+        </div>
+
+    </div>
+
+    <hr />
+}
+
+

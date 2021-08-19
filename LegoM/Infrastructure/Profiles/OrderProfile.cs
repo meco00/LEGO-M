@@ -19,6 +19,12 @@
               .ForMember(x => x.TotalAmount, cfg => cfg.MapFrom(x => x.ShoppingCart.Sum(x => (decimal)x.Quantity * x.Product.Price).ToString(PriceFormat)));
 
 
+            this.CreateMap<Order, OrderDetailsServiceModel>()
+            .ForMember(x => x.OrderedOn, cfg => cfg.MapFrom(x => x.OrderedOn.ToString(DateTimeFormat)))
+            .ForMember(x => x.OrderedItems, cfg => cfg.MapFrom(x => x.ShoppingCart.Sum(x=>x.Quantity)))
+            .ForMember(x => x.TotalAmount, cfg => cfg.MapFrom(x => x.ShoppingCart.Sum(x => (decimal)x.Quantity * x.Product.Price).ToString(PriceFormat)));
+
+
         }
     }
 }

@@ -38,6 +38,12 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark ml-5" asp-area="Admin" asp-controller="Comments" asp-action="All">Comments</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark ml-5" asp-area="Admin" asp-controller="Orders" asp-action="UnAccomplished">Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark ml-5" asp-area="Admin" asp-controller="Orders" asp-action="Accomplished">Accomplished Orders</a>
+                    </li>
                 </ul>
 
               
@@ -50,9 +56,19 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            @if (this.TempData.ContainsKey(WebConstants.GlobalErrorMessageKey))
+            {
+                var errors = TempData[WebConstants.GlobalErrorMessageKey] as IEnumerable<string>;
+
+                @foreach (var errorMessage in errors)
+                {
+                    <div class="alert alert-danger text-center mt-2" role="alert"><h5>@errorMessage</h5></div>
+                }
+
+            }
             @if (this.TempData.ContainsKey(WebConstants.GlobalMessageKey))
             {
-            <div class="alert alert-success text-center" role="alert">@this.TempData[WebConstants.GlobalMessageKey]</div>
+                <div class="alert alert-success text-center mt-2" role="alert">@this.TempData[WebConstants.GlobalMessageKey]</div>
             }
             @RenderBody()
         </main>

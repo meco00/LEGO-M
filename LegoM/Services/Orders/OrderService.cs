@@ -7,6 +7,7 @@
     using LegoM.Services.Merchants;
     using LegoM.Services.Orders.Models;
     using LegoM.Services.Users;
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -25,6 +26,33 @@
             this.merchants = merchants;
             this.users = users;
             this.mapper = mapper.ConfigurationProvider;
+        }
+
+        public bool Accomplish(int id)
+        {
+            var order = this.data.Orders
+                .Include(x=>x.ShoppingCart)
+                .ThenInclude(x=>x.Product)
+                .FirstOrDefault(x=>x.Id==id);
+
+            if (order==null|| order.IsAccomplished)
+            {
+                return false;
+            }       
+
+            foreach (var cartItem in order.ShoppingCart)
+            {
+                cartItem.Product.Quantity -= cartItem.Quantity;
+                cartItem.UserId = null;
+            }
+
+            order.IsAccomplished = true;
+
+            this.data.SaveChanges();
+
+            return true;
+
+           
         }
 
         public void Add(string fullName,
@@ -60,6 +88,53 @@
             this.data.SaveChanges();
 
         }
+
+        public bool Cancel(int id)
+        {
+            var order = this.data.Orders
+               .Include(x => x.ShoppingCart)
+               .ThenInclude(x => x.Product)
+               .FirstOrDefault(x => x.Id == id);
+
+            if (order == null || !(order.IsAccomplished))
+            {
+                return false;
+            }
+
+            foreach (var cartItem in order.ShoppingCart)
+            {
+                cartItem.Product.Quantity += cartItem.Quantity;
+                
+            }       
+
+            this.data.SaveChanges();
+
+            this.Delete(id);
+
+
+            return true;
+        }
+
+        public bool Delete(int id)
+        {
+            var order = this.data.Orders.Find(id);
+
+            if (order==null)
+            {
+                return false;
+            }
+
+            this.data.Orders.Remove(order);
+
+            this.data.SaveChanges();
+
+            return true;
+        }
+
+        public OrderDetailsServiceModel Details(int id)
+        => this.data.Orders.Where(x => x.Id == id)
+            .ProjectTo<OrderDetailsServiceModel>(mapper)
+            .FirstOrDefault();
 
         public OrderFormServiceModel GetOrderAddFormModel(string userId)
         {

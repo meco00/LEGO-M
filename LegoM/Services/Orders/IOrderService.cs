@@ -16,6 +16,14 @@
 
         OrderFormServiceModel GetOrderAddFormModel(string userId);
 
+        OrderDetailsServiceModel Details(int id);
+
         IEnumerable<OrderServiceModel> GetOrders(bool IsAccomplished = false);
+
+        bool Delete(int id);
+
+        bool Cancel(int id);
+
+        bool Accomplish(int id);
     }
 }

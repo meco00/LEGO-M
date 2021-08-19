@@ -30,5 +30,7 @@ namespace LegoM.Services.ShoppingCarts
         IEnumerable<string> GetInformationAboutInvalidShoppingCartItemsOfUser(string userId);
 
         IEnumerable<string> ValidateShoppingCartOfUser(string userId);
+
+        IEnumerable<ShoppingCartItemServiceModel> GetCartItemsbyOrder(int orderId);
     }
 }

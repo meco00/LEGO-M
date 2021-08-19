@@ -152,7 +152,10 @@
             return errorsList;
         }
 
-
-      
+        public IEnumerable<ShoppingCartItemServiceModel> GetCartItemsbyOrder(int orderId)
+        => this.data.ShoppingCarts
+            .Where(x => x.OrderId.HasValue && x.OrderId == orderId)
+            .ProjectTo<ShoppingCartItemServiceModel>(mapper)
+            .ToList();
     }
 }

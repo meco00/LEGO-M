@@ -80,13 +80,13 @@
 
         public class Order
         {
-            public const int FullNameMaxLength = 40;
+            public const int FullNameMaxLength = 30;
             public const int FullNameMinLength = 5;
             public const int ZipCodeMaxLength = 4;
             public const int CityMinLength = 4;
-            public const int CityMаxLength = 20;
+            public const int CityMаxLength = 15;
             public const int StateMinLength = 4;
-            public const int StateMаxLength = 20;
+            public const int StateMаxLength = 15;
             public const int AddressMinLength = 5;
             public const int AddressMаxLength = 30;
             public const int TelephoneNumberMaxLength = 10;

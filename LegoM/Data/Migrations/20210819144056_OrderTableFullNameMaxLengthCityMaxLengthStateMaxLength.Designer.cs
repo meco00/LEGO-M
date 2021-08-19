@@ -4,14 +4,16 @@ using LegoM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LegoM.Data.Migrations
 {
     [DbContext(typeof(LegoMDbContext))]
-    partial class LegoMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210819144056_OrderTableFullNameMaxLengthCityMaxLengthStateMaxLength")]
+    partial class OrderTableFullNameMaxLengthCityMaxLengthStateMaxLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -385,6 +387,7 @@ namespace LegoM.Data.Migrations
                         .HasColumnType("tinyint");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -792,7 +795,8 @@ namespace LegoM.Data.Migrations
                     b.HasOne("LegoM.Data.Models.User", "User")
                         .WithMany("ShoppingCartItems")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Order");
 
