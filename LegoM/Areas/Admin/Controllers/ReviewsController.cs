@@ -1,5 +1,6 @@
 ﻿namespace LegoM.Areas.Admin.Controllers
 {
+    using LegoM.Areas.Admin.Models.Reviews;
     using LegoM.Services.Reviews;
     using Microsoft.AspNetCore.Mvc;
     using System;
@@ -16,12 +17,18 @@
 
 
 
-        public IActionResult All() 
+        public IActionResult All([FromQuery] ReviewsQueryModel query)
         {
-            ;
-            var reviews = this.reviews.All();
+              var queryResult = this.reviews.All(
+           query.SearchTerm,
+           query.CurrentPage,
+           ReviewsQueryModel.ReviewsPerPage,
+           IsPublicOnly: false);
 
-            return View(reviews);
+            query.Reviews = queryResult.Reviews;
+            query.TotalReviews = queryResult.TotalReviews;
+
+            return this.View(query);
         }
 
         public IActionResult ChangeVisibility(int id)

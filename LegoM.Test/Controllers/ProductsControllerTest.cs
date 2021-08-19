@@ -291,7 +291,7 @@
            .ShouldReturn()
            .Redirect(redirect => redirect
                  .To<Areas.Admin.Controllers.ProductsController>(c => c
-                       .All()));
+                       .Existing(With.Default<ProductsQueryModel>())));
 
 
 

@@ -7,7 +7,7 @@
 
     public class ProductsQueryModel
     {
-        public const int ProductsPerPage = 6;
+        public const int ProductsPerPage = 9;
 
         public int CurrentPage { get; set; } = 1;
 

@@ -14,7 +14,8 @@ namespace LegoM.Services.Products
             int currentPage = 1,
             int productsPerPage = int.MaxValue,
             ProductSorting productSorting = ProductSorting.Newest,
-            bool isPublicOnly = true);
+            bool IsPublicOnly = true,
+            bool IsDeleted=false);
 
         IEnumerable<ProductServiceModel> Latest();
 
@@ -49,8 +50,6 @@ namespace LegoM.Services.Products
                string merchantId,
                bool IsPublic = false
                );
-
-        IEnumerable<ProductDeletedServiceModel> DeletedProducts();
 
         ProductDetailsServiceModel Details(string Id);
 

@@ -1,13 +1,37 @@
-﻿@model IEnumerable<QuestionServiceModel>
+﻿@model QuestionsQueryModel
 
 
 @{
     ViewBag.Title = "Questions Administration";
 }
 
+<h1 class="text-center mt-2 mb-3">@ViewBag.Title</h1>
 
 
-<h1 class="text-center mt-5 mb-5">@ViewBag.Title</h1>
+@if (Model.SearchTerm != null)
+{
+    <h2>You have searched - @Model.SearchTerm</h2>
+    <h2>Result : @Model.Questions.Count()</h2>
+
+}
+
+
+<form method="get">
+
+    <div class="row mb-3">
+
+        <div class="col-md-7"></div>
+
+        <div class="form-group col-md-3">
+            <div class="form-group">
+                <label asp-for="SearchTerm"></label>
+                <input asp-for="SearchTerm" class="form-control">
+                <span asp-validation-for="SearchTerm" class="small text-danger"></span>
+            </div>
+        </div>
+    </div>
+</form>
+
 
 
 <table class="table">
@@ -22,7 +46,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var question in Model)
+        @foreach (var question in Model.Questions)
         {
             <tr>
                 <td scope="col">@question.PublishedOn</td>
@@ -44,3 +68,29 @@
 </table>
 
 
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalQuestions / OrdersQueryModel.OrdersPerPage);
+}
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <a class="btn btn-primary @(Model.CurrentPage==1 ? "disabled":string.Empty)"
+           asp-controller="Questions"
+           asp-action="All"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-currentPage="@previousPage"><<</a>
+    </div>
+    <div class="col-md-6">
+        <a class="btn btn-primary float-right @(Model.CurrentPage==maxPage || !Model.Questions.Any()  ? "disabled" : string.Empty)"
+            asp-controller="Questions"
+           asp-action="All"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-currentPage="@(Model.CurrentPage+1)">>></a>
+    </div>
+</div>

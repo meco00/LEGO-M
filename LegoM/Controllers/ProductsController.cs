@@ -281,7 +281,7 @@
 
             var similarProducts = this.products.GetSimilarProducts(id);
 
-            var reviews = this.reviews.All(id);
+            var reviews = this.reviews.AllOfProduct(id);
 
             var reviewsStatistics = this.reviews.GetStatisticsForProduct(id);
 
@@ -361,11 +361,11 @@
             }                 
             
 
-            this.TempData[GlobalMessageKey] = $"Your product was deleted { (isUserAdmin ? string.Empty : "and is awaiting for approval!") } ";
+            this.TempData[GlobalMessageKey] = "Your product was deleted!";
 
             if (isUserAdmin)
             {
-                return RedirectToAction(nameof(Areas.Admin.Controllers.ProductsController.All),new { area=AdminConstants.AreaName });
+                return RedirectToAction(nameof(Areas.Admin.Controllers.ProductsController.Existing),new { area=AdminConstants.AreaName });
             }
 
             return RedirectToAction(nameof(All));

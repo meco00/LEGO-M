@@ -22,15 +22,18 @@
 
         QuestionDetailsServiceModel Details(int id);
 
-       // QuestionServiceModel QuestionByProductAndUser(string productId, string userId);
-
         QuestionServiceModel QuestionById(int id);
 
         IEnumerable<QuestionListingServiceModel> Mine(string userId);
 
         IEnumerable<QuestionServiceModel> AllOfProduct(string productId);
 
-        IEnumerable<QuestionServiceModel> All();
+        QuestionQueryModel All(
+             string searchTerm = null,
+            int currentPage = 1,
+            int questionsPerPage = int.MaxValue,
+            bool IsPublicOnly = true
+            );
 
         
     }

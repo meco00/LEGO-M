@@ -18,32 +18,38 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav flex-grow-1 ml-5">
                     <li class="nav-item">
-                        <a class="navbar-brand mb-0 h5" asp-area="" asp-controller="Home" asp-action="Index">To User Layer</a>
+                        <a class="navbar-brand mb-0 h5" asp-area="" asp-controller="Home" asp-action="Index">To User Layout</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark ml-5" asp-area="Admin" asp-controller="Products" asp-action="All">Products</a>
+                    <li class="nav-item text-dark dropdown ml-5">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/" role="button" aria-haspopup="true" aria-expanded="true">Orders</a>
+                        <div class="dropdown-menu">
+                            <a class="nav-link text-dark ml-2" asp-area="Admin" asp-controller="Orders" asp-action="UnAccomplished">Un Accomplished</a>
+                            <a class="nav-link text-dark ml-2" asp-area="Admin" asp-controller="Orders" asp-action="Accomplished">Accomplished</a>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark ml-5" asp-area="Admin" asp-controller="Products" asp-action="Deleted">Deleted Products</a>
+                    <li class="nav-item text-dark dropdown ml-5">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/" role="button" aria-haspopup="true" aria-expanded="true">Products</a>
+                        <div class="dropdown-menu">
+                            <a class="nav-link text-dark ml-2" asp-area="Admin" asp-controller="Products" asp-action="Existing">Existing</a>
+                            <a class="nav-link text-dark ml-2" asp-area="Admin" asp-controller="Products" asp-action="Deleted">Deleted</a>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark ml-5" asp-area="Admin" asp-controller="Reviews" asp-action="All">Reviews</a>
+                    <li class="nav-item text-dark dropdown ml-5">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/" role="button" aria-haspopup="true" aria-expanded="true">Reviews</a>
+                        <div class="dropdown-menu">
+                            <a class="nav-link text-dark ml-2" asp-area="Admin" asp-controller="Reviews" asp-action="All">Reviews</a>
+                            <a class="nav-link text-dark ml-2" asp-area="Admin" asp-controller="Comments" asp-action="All">Comments</a>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark ml-5" asp-area="Admin" asp-controller="Questions" asp-action="All">Questions</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark ml-5" asp-area="Admin" asp-controller="Answers" asp-action="All">Answers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark ml-5" asp-area="Admin" asp-controller="Comments" asp-action="All">Comments</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark ml-5" asp-area="Admin" asp-controller="Orders" asp-action="UnAccomplished">Orders</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark ml-5" asp-area="Admin" asp-controller="Orders" asp-action="Accomplished">Accomplished Orders</a>
-                    </li>
+                    <li class="nav-item text-dark dropdown ml-5">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/" role="button" aria-haspopup="true" aria-expanded="true">Questions</a>
+                        <div class="dropdown-menu">
+                            <a class="nav-link text-dark ml-2" asp-area="Admin" asp-controller="Questions" asp-action="All">Questions</a>
+                            <a class="nav-link text-dark ml-2" asp-area="Admin" asp-controller="Answers" asp-action="All">Answers</a>
+                        </div>
+                    </li>                
+
+
                 </ul>
 
               

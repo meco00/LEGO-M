@@ -26,9 +26,13 @@
 
         IEnumerable<ReviewListingServiceModel> ByUser(string userId);
 
-        IEnumerable<ReviewServiceModel> All(string productId);
+        IEnumerable<ReviewServiceModel> AllOfProduct(string productId);
 
-        IEnumerable<ReviewServiceModel> All();
+        ReviewQueryModel All(
+            string searchTerm = null,
+            int currentPage = 1,
+            int reviewsPerPage = int.MaxValue,
+            bool IsPublicOnly = true);
 
         ReviewsProductStatisticsServiceModel GetStatisticsForProduct(string productId);
 

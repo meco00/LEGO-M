@@ -16,19 +16,33 @@ namespace LegoM.Areas.Admin.Controllers
             this.shoppingCarts = shoppingCarts;
         }
 
-        public IActionResult UnAccomplished()
+        public IActionResult UnAccomplished([FromQuery]OrdersQueryModel query)
         {
-           
-            var orders = this.orders.GetOrders();
+            var queryResult = this.orders.All(
+                      query.SearchTerm,
+                      query.CurrentPage,
+                      OrdersQueryModel.OrdersPerPage);
 
-            return this.View(orders);
+            query.Orders = queryResult.Orders;
+            query.TotalOrders = queryResult.TotalOrders;
+
+            return this.View(query);
         }
 
-        public IActionResult Accomplished()
+        public IActionResult Accomplished([FromQuery]OrdersQueryModel query)
         {
-            var orders = this.orders.GetOrders(IsAccomplished: true);
+            var queryResult = this.orders.All(
+            query.SearchTerm,
+            query.CurrentPage,
+            OrdersQueryModel.OrdersPerPage,
+            IsAccomplished: true);
 
-            return this.View(orders);
+
+            query.Orders = queryResult.Orders;
+            query.TotalOrders = queryResult.TotalOrders;
+
+            return this.View(query);
+
         }
 
         public IActionResult Details(int id)

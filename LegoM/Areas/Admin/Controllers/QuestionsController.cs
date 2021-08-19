@@ -1,4 +1,5 @@
-﻿using LegoM.Services.Questions;
+﻿using LegoM.Areas.Admin.Models.Questions;
+using LegoM.Services.Questions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LegoM.Areas.Admin.Controllers
@@ -13,12 +14,18 @@ namespace LegoM.Areas.Admin.Controllers
         }
 
 
-        public IActionResult All()
+        public IActionResult All([FromQuery]QuestionsQueryModel query)
         {
-            ;
-            var questions = this.questions.All();
+              var queryResult = this.questions.All(
+           query.SearchTerm,
+           query.CurrentPage,
+           QuestionsQueryModel.QuestionsPerPage,
+           IsPublicOnly: false);
 
-            return View(questions);
+            query.Questions = queryResult.Questions;
+            query.TotalQuestions = queryResult.TotalQuestions;
+
+            return this.View(query);
         }
 
         public IActionResult ChangeVisibility(int id)

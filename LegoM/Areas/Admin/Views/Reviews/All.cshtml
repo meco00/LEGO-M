@@ -1,46 +1,96 @@
-﻿@model IEnumerable<ReviewServiceModel>
+﻿@model ReviewsQueryModel
 
-@{ 
+@{
     ViewBag.Title = "Reviews Administration";
+}
+<h1 class="text-center mt-2 mb-3">@ViewBag.Title</h1>
+
+
+@if (Model.SearchTerm != null)
+{
+    <h2>You have searched - @Model.SearchTerm</h2>
+    <h2>Result : @Model.Reviews.Count()</h2>
+
 }
 
 
+<form method="get">
 
-<h1 class="text-center mt-5 mb-5">@ViewBag.Title</h1>
+    <div class="row mb-3">
+
+        <div class="col-md-7"></div>
+
+        <div class="form-group col-md-3">
+            <div class="form-group">
+                <label asp-for="SearchTerm"></label>
+                <input asp-for="SearchTerm" class="form-control">
+                <span asp-validation-for="SearchTerm" class="small text-danger"></span>
+            </div>
+        </div>
+    </div>
+</form>
+
+
 
 <table class="table">
     <thead class="thead-dark">
         <tr>
             <th scope="col">Date</th>
             <th scope="col">User</th>
-            <th scope="col">Product</th>             
-            <th scope="col">Title</th>  
+            <th scope="col">Product</th>
+            <th scope="col">Title</th>
             <th scope="col">Approved</th>
             <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var review in Model)
+        @foreach (var review in Model.Reviews)
         {
-        <tr>
-            <td scope="col">@review.PublishedOn</td>
-            <td scope="col">@review.UserName</td>
-            <td scope="col">@review.ProductTitle</td>
-            <td scope="col">@review.Title</td>
-            
-            <td scope="col">@(review.IsPublic ? "Yes":"No")</td>
+            <tr>
+                <td scope="col">@review.PublishedOn</td>
+                <td scope="col">@review.UserName</td>
+                <td scope="col">@review.ProductTitle</td>
+                <td scope="col">@review.Title</td>
+
+                <td scope="col">@(review.IsPublic ? "Yes":"No")</td>
 
 
-            <td scope="col">
-                <a asp-area="" asp-controller="Reviews" asp-action="Delete" asp-route-id="@review.Id" class="btn btn-danger float-right ml-3">Delete</a>
-                <a asp-area="" asp-controller="Reviews" asp-action="Edit" asp-route-id="@review.Id" class="btn btn-warning float-right ml-3">Edit</a>
-                <a asp-area="" asp-controller="Reviews" asp-action="Details" asp-route-id="@review.Id"  asp-route-information="@(review.GetInformation())" class="btn btn-primary float-right ml-3">Details</a>
-                <a asp-controller="Reviews" asp-action="ChangeVisibility" asp-route-id="@review.Id" class="btn btn-info float-right ml-3 ">@(review.IsPublic ? "Hide": "Show")</a>
+                <td scope="col">
+                    <a asp-area="" asp-controller="Reviews" asp-action="Delete" asp-route-id="@review.Id" class="btn btn-danger float-right ml-3">Delete</a>
+                    <a asp-area="" asp-controller="Reviews" asp-action="Edit" asp-route-id="@review.Id" class="btn btn-warning float-right ml-3">Edit</a>
+                    <a asp-area="" asp-controller="Reviews" asp-action="Details" asp-route-id="@review.Id" asp-route-information="@(review.GetInformation())" class="btn btn-primary float-right ml-3">Details</a>
+                    <a asp-controller="Reviews" asp-action="ChangeVisibility" asp-route-id="@review.Id" class="btn btn-info float-right ml-3 ">@(review.IsPublic ? "Hide": "Show")</a>
 
-            </td>
-        </tr>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
 
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalReviews / ReviewsQueryModel.ReviewsPerPage);
+}
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <a class="btn btn-primary @(Model.CurrentPage==1 ? "disabled":string.Empty)"
+           asp-controller="Reviews"
+           asp-action="All"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-currentPage="@previousPage"><<</a>
+    </div>
+    <div class="col-md-6">
+        <a class="btn btn-primary float-right @(Model.CurrentPage==maxPage || !Model.Reviews.Any()  ? "disabled" : string.Empty)"
+           asp-controller="Reviews"
+           asp-action="All"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-currentPage="@(Model.CurrentPage+1)">>></a>
+    </div>
+</div>
 

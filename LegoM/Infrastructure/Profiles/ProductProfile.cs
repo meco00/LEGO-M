@@ -24,6 +24,7 @@
             this.CreateMap<Product, ProductServiceModel>()
             .ForMember(p => p.Condition, pd => pd.MapFrom(x => x.ProductCondition.ToString()))
             .ForMember(x => x.PublishedOn, cfg => cfg.MapFrom(x => x.PublishedOn.ToString(DateTimeFormat)))
+            .ForMember(x => x.DeletedOn, cfg => cfg.MapFrom(x => x.DeletedOn.HasValue ? x.DeletedOn.Value.ToString(DateTimeFormat):string.Empty))
 
             .ForMember(p => p.MainImageUrl, pd => pd.MapFrom(x => x.Images.Select(x => x.ImageUrl).FirstOrDefault()));
 

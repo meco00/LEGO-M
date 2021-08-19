@@ -36,13 +36,14 @@
             int currentPage = 1,
             int productsPerPage = int.MaxValue,
             ProductSorting productSorting = ProductSorting.Newest,
-            bool isPublicOnly = true
+            bool IsPublicOnly = true,
+            bool IsDeleted=false
             )
         {
            
 
              var  productsQuery = this.data.Products
-                .Where(x=> (!isPublicOnly || x.IsPublic) && !x.IsDeleted)
+                .Where(x=> (!IsPublicOnly || x.IsPublic) && x.IsDeleted==IsDeleted)
                 .AsQueryable();
 
             ;
@@ -102,7 +103,7 @@
                 );
 
 
-            var productCategories = this.data.Categories.Select(x => x.Name).Distinct().ToList();
+         
 
 
             return new ProductQueryModel
@@ -394,19 +395,6 @@
             return true;
         }
 
-        public IEnumerable<ProductDeletedServiceModel> DeletedProducts()
-        => this.data.Products
-            .Where(x => x.IsDeleted)
-            .OrderByDescending(x => x.DeletedOn)
-            .Select(x => new ProductDeletedServiceModel
-            {
-                Id = x.Id,
-                Title = x.Title,
-                Condition = x.ProductCondition.ToString(),
-                Price = x.Price,
-                DeletedOn = x.DeletedOn.Value.ToString("dd MM yyyy")
-            })
-            .ToList();
 
         public bool ReviveProduct(string id)
         {

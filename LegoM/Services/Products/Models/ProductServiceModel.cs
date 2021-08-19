@@ -10,6 +10,8 @@
 
         public string PublishedOn { get; set; }
 
+        public string DeletedOn { get; set; }
+
         public decimal Price { get; set; }
 
         public string Condition { get; set; }

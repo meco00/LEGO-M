@@ -15,6 +15,7 @@
     using ReviewsController = LegoM.Areas.Admin.Controllers.ReviewsController;
     
     using static Data.Reviews;
+    using LegoM.Areas.Admin.Models.Reviews;
 
     public class ReviewsPipelineTest
     {
@@ -26,7 +27,7 @@
                   .WithPath("/Admin/Reviews/All")
                    .WithUser(new[] { AdminConstants.AdministratorRoleName })
                    .WithAntiForgeryToken())
-              .To<ReviewsController>(c => c.All())
+              .To<ReviewsController>(c => c.All(With.Default<ReviewsQueryModel>()))
               .Which(controller => controller
                   .WithData(GetReviews()))
               .ShouldReturn()
@@ -59,6 +60,6 @@
                   .AndAlso()
                   .ShouldReturn()
                   .Redirect(redirect => redirect
-                     .To<ReviewsController>(c => c.All()));
+                     .To<ReviewsController>(c => c.All(With.Default<ReviewsQueryModel>())));
     }
 }

@@ -2,6 +2,7 @@
 {
     using FluentAssertions;
     using LegoM.Areas.Admin;
+    using LegoM.Areas.Admin.Models.Questions;
     using LegoM.Data.Models;
     using LegoM.Services.Questions.Models;
     using MyTested.AspNetCore.Mvc;
@@ -24,7 +25,7 @@
                    .WithPath("/Admin/Questions/All")
                     .WithUser(new[] { AdminConstants.AdministratorRoleName })
                     .WithAntiForgeryToken())
-               .To<QuestionsController>(c => c.All())
+               .To<QuestionsController>(c => c.All(With.Default<QuestionsQueryModel>()))
                .Which(controller => controller
                    .WithData(GetQuestions()))
                .ShouldReturn()
@@ -59,7 +60,7 @@
                    .AndAlso()
                    .ShouldReturn()
                    .Redirect(redirect => redirect
-                      .To<QuestionsController>(c => c.All()));
+                      .To<QuestionsController>(c => c.All(With.Default<QuestionsQueryModel>())));
 
 
     }

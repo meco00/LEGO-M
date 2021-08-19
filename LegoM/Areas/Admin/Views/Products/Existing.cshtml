@@ -1,11 +1,12 @@
 ﻿@model ProductsQueryModel
 
+
 @{
-    ViewBag.Title = "Deleted Products Administration";
+    ViewBag.Title = "Existing Products Administration";
 }
 
-
 <h1 class="text-center mt-2 mb-3">@ViewBag.Title</h1>
+
 
 @if (@Model.SearchTerm != null)
 {
@@ -71,10 +72,11 @@
 <table class="table">
     <thead class="thead-dark">
         <tr>
-            <th scope="col">DeletedOn</th>
+            <th scope="col">Date</th>
             <th scope="col">Title</th>
             <th scope="col">Price</th>
             <th scope="col">Condition</th>
+            <th scope="col">Approved</th>
             <th scope="col"></th>
         </tr>
     </thead>
@@ -82,19 +84,18 @@
         @foreach (var product in Model.Products)
         {
             <tr>
-                <td scope="col">@product.DeletedOn</td>
+                <td scope="col">@product.PublishedOn</td>
                 <td scope="col">@product.Title</td>
                 <td scope="col">@product.Price</td>
                 <td scope="col">@product.Condition</td>
-
+                <td scope="col">@(product.IsPublic ? "Yes":"No")</td>
 
 
                 <td scope="col">
                     <a asp-area="" asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger float-right ml-3">Delete</a>
-                    <a asp-area="Admin" asp-controller="Products" asp-action="Revive" asp-route-id="@product.Id" class="btn btn-info float-right ml-3">Revive</a>
                     <a asp-area="" asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning float-right ml-3">Edit</a>
                     <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary float-right ml-3">Details</a>
-
+                    <a asp-controller="Products" asp-action="ChangeVisibility" asp-route-id="@product.Id" class="btn btn-info float-right ml-3 ">@(product.IsPublic ? "Hide": "Show")</a>
 
                 </td>
             </tr>
@@ -117,7 +118,7 @@
     <div class="col-md-6">
         <a class="btn btn-primary @(Model.CurrentPage==1 ? "disabled":string.Empty)"
            asp-controller="Products"
-           asp-action="Deleted"
+           asp-action="Existing"
            asp-route-category="@Model.Category"
            asp-route-searchTerm="@Model.SearchTerm"
            asp-route-productSorting="@Model.ProductSorting"
@@ -126,7 +127,7 @@
     <div class="col-md-6">
         <a class="btn btn-primary float-right @(Model.CurrentPage==maxPage || !Model.Products.Any()  ? "disabled" : string.Empty)"
            asp-controller="Products"
-           asp-action="Deleted"
+           asp-action="Existing"
            asp-route-category="@Model.Category"
            asp-route-searchTerm="@Model.SearchTerm"
            asp-route-productSorting="@Model.ProductSorting"

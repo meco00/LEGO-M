@@ -1,5 +1,6 @@
 ﻿namespace LegoM.Areas.Admin.Controllers
 {
+    using LegoM.Models.Products;
     using LegoM.Services.Products;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -14,19 +15,64 @@
 
 
         
-        public IActionResult All()
+        public IActionResult Existing([FromQuery]ProductsQueryModel query)
         {
-           var products = this.products.All(isPublicOnly: false).Products;
+            ;
+            if (!this.products.SubCategoryIsValid(query.SubCategory, query.Category))
+            {
+                return BadRequest();
+            }
 
-           return  View(products);
+            var queryResult = this.products.All(
+            query.Category,
+            query.SubCategory,
+            query.SearchTerm,
+            query.CurrentPage,
+            ProductsQueryModel.ProductsPerPage,
+            query.ProductSorting,
+            IsPublicOnly: false);
+         
+
+            var categories = this.products.AllCategories();
+            var subCategories = this.products.AllSubCategories();
+
+            query.Products = queryResult.Products;
+            query.Categories = categories;
+            query.SubCategories = subCategories;
+            query.TotalProducts = queryResult.TotalProducts;
+
+            return this.View(query);
+           
         }
 
-        public IActionResult Deleted()
+        public IActionResult Deleted([FromQuery]ProductsQueryModel query)
         {
-          var products =  this.products.DeletedProducts();
+            ;
+            if (!this.products.SubCategoryIsValid(query.SubCategory, query.Category))
+            {
+                return BadRequest();
+            }
+
+            var queryResult = this.products.All(
+            query.Category,
+            query.SubCategory,
+            query.SearchTerm,
+            query.CurrentPage,
+            ProductsQueryModel.ProductsPerPage,
+            query.ProductSorting,
+            IsPublicOnly: false,
+            IsDeleted: true);
 
 
-            return View(products);
+            var categories = this.products.AllCategories();
+            var subCategories = this.products.AllSubCategories();
+
+            query.Products = queryResult.Products;
+            query.Categories = categories;
+            query.SubCategories = subCategories;
+            query.TotalProducts = queryResult.TotalProducts;
+
+            return this.View(query);
 
         }
 
@@ -36,7 +82,7 @@
             this.products.ChangeVisibility(id);
 
 
-           return RedirectToAction(nameof(this.All));
+           return RedirectToAction(nameof(this.Existing));
 
         }
 
@@ -46,7 +92,7 @@
             this.products.ReviveProduct(id);
 
 
-            return RedirectToAction(nameof(this.All));
+            return RedirectToAction(nameof(this.Existing));
 
         }
 

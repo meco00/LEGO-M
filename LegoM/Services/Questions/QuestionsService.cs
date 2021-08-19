@@ -28,10 +28,47 @@
             .ProjectTo<QuestionServiceModel>(mapper)
             .ToList() ;
 
-       public  IEnumerable<QuestionServiceModel> All()
-            => this.data.Questions
-            .ProjectTo<QuestionServiceModel>(mapper)
-            .ToList();
+       public QuestionQueryModel All(
+          string searchTerm = null,
+         int currentPage = 1,
+         int questionsPerPage = int.MaxValue,
+         bool IsPublicOnly=true
+         )
+        {
+
+            var questionsQuery = this.data.Questions
+                 .Where(x => !IsPublicOnly || x.IsPublic)
+                 .AsQueryable();
+
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+
+                questionsQuery = questionsQuery
+                                         .Where(x =>
+                                         x.Content.ToLower().Contains(searchTerm.ToLower()));
+                                       
+            }
+
+
+            var totalQuestions = questionsQuery.Count();
+
+            var questions = questionsQuery
+                  .Skip((currentPage - 1) * questionsPerPage)
+                    .Take(questionsPerPage)
+                    .OrderByDescending(x=>x.PublishedOn)
+                    .ProjectTo<QuestionServiceModel>(mapper)
+                    .ToList();
+
+            return new QuestionQueryModel
+            {
+                Questions = questions,
+                CurrentPage = currentPage,
+                TotalQuestions = totalQuestions,
+                QuestionsPerPage = questionsPerPage,
+            };
+
+        }
 
         public void Create(string productId, string userId, string content)
         {

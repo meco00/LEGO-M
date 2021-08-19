@@ -48,15 +48,12 @@
 
         }
 
-        public IEnumerable<ReviewServiceModel> All(string productId)
-        => this.data.Reviews.Where(x => x.ProductId == productId&& x.IsPublic).OrderByDescending(x => x.PublishedOn)
+        public IEnumerable<ReviewServiceModel> AllOfProduct(string productId)
+        => this.data.Reviews.Where(x => x.ProductId == productId&& x.IsPublic)
+            .OrderByDescending(x => x.PublishedOn)
             .ProjectTo<ReviewServiceModel>(mapper)
             .ToList();
 
-        public IEnumerable<ReviewServiceModel> All()
-       => this.data.Reviews.OrderBy(x => x.PublishedOn)
-           .ProjectTo<ReviewServiceModel>(mapper)
-           .ToList();
 
         public ReviewDetailsServiceModel Details(int id)
         => this.data.Reviews.Where(x => x.Id == id)
@@ -116,7 +113,7 @@
         public ReviewsProductStatisticsServiceModel GetStatisticsForProduct(string productId)
         {
 
-            var reviews = this.All(productId);
+            var reviews = this.AllOfProduct(productId);
 
             if (!reviews.Any())
             {
@@ -188,8 +185,45 @@
         public bool ReviewExists(int id)
         => this.data.Reviews.Any(x => x.Id == id);
 
+        public ReviewQueryModel All(
+            string searchTerm = null,
+            int currentPage = 1, 
+            int reviewsPerPage = int.MaxValue,
+            bool IsPublicOnly = true)
+        {
+            var reviewsQuery = this.data.Reviews
+                .Where(x => !IsPublicOnly || x.IsPublic)
+                .AsQueryable();
 
 
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+
+                reviewsQuery = reviewsQuery
+                                         .Where(x =>
+                                         x.Content.ToLower().Contains(searchTerm.ToLower()) ||
+                                         x.Title.ToLower().Contains(searchTerm.ToLower()));
+
+            }
+
+
+            var totalReviews = reviewsQuery.Count();
+
+            var reviews = reviewsQuery
+                  .Skip((currentPage - 1) * reviewsPerPage)
+                    .Take(reviewsPerPage)
+                    .OrderByDescending(x => x.PublishedOn)
+                    .ProjectTo<ReviewServiceModel>(mapper)
+                    .ToList();
+
+            return new ReviewQueryModel
+            {
+                Reviews = reviews,
+                CurrentPage = currentPage,
+                TotalReviews = totalReviews,
+                ReviewsPerPage = reviewsPerPage,
+            };
+        }
     }
 
 

@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using LegoM.Areas.Admin.Models.Orders;
     using LegoM.Data;
     using LegoM.Data.Models;
     using LegoM.Services.Merchants;
@@ -86,6 +87,50 @@
             this.data.Orders.Add(order);
 
             this.data.SaveChanges();
+
+        }
+
+        public OrderQueryModel All(
+            string searchTerm = null,
+            int currentPage = 1,
+            int ordersPerPage = int.MaxValue,
+            bool IsAccomplished = false)
+        {
+            var ordersQuery = this.data.Orders
+               .Where(x => x.IsAccomplished==IsAccomplished )
+               .AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+
+                ordersQuery = ordersQuery
+                                         .Where(x=> 
+                                         x.FullName.ToLower().Contains(searchTerm.ToLower()) || 
+                                         x.Address.ToLower().Contains(searchTerm.ToLower()) ||
+                                         x.City.ToLower().Contains(searchTerm.ToLower()) ||
+                                         x.State.ToLower().Contains(searchTerm.ToLower()) || 
+                                         x.Id.ToString().Contains(searchTerm) || 
+                                         x.PhoneNumber.Contains(searchTerm)) ;
+
+            }
+
+
+            var totalOrders = ordersQuery.Count();
+
+            var orders = ordersQuery
+                  .Skip((currentPage - 1) * ordersPerPage)
+                    .Take(ordersPerPage)
+                    .OrderBy(x=>x.OrderedOn)
+                    .ProjectTo<OrderServiceModel>(mapper)
+                    .ToList();
+
+            return new OrderQueryModel
+            {
+                Orders = orders,
+                CurrentPage = currentPage,
+                TotalOrders = totalOrders,
+                OrdersPerPage = ordersPerPage,
+            };
 
         }
 

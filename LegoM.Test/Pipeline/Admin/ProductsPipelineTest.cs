@@ -3,6 +3,7 @@
     using FluentAssertions;
     using LegoM.Areas.Admin;
     using LegoM.Data.Models;
+    using LegoM.Models.Products;
     using LegoM.Services.Products.Models;
     using MyTested.AspNetCore.Mvc;
     using System.Collections.Generic;
@@ -25,7 +26,7 @@
                     .WithPath("/Admin/Products/All")
                      .WithUser( new[] {AdminConstants.AdministratorRoleName })
                      .WithAntiForgeryToken())
-                .To<ProductsController>(c => c.All())
+                .To<ProductsController>(c => c.Existing(With.Default<ProductsQueryModel>()))
                 .Which(controller => controller
                     .WithData(GetProducts()))              
                 .ShouldReturn()
@@ -42,12 +43,12 @@
                     .WithPath("/Admin/Products/Deleted")
                      .WithUser(new[] { AdminConstants.AdministratorRoleName })
                      .WithAntiForgeryToken())
-                .To<ProductsController>(c => c.Deleted())
+                .To<ProductsController>(c => c.Deleted(With.Default<ProductsQueryModel>()))
                 .Which(controller => controller
                     .WithData(GetProducts(3,true)))
                 .ShouldReturn()
-            .View(view => view.WithModelOfType<List<ProductDeletedServiceModel>>()
-               .Passing(model => model.Should().NotBeEmpty()));
+            .View(view => view.WithModelOfType<ProductsQueryModel>()
+               .Passing(model => model.Products.Should().NotBeEmpty()));
 
 
         [Fact]
@@ -68,7 +69,7 @@
                      .AndAlso()
                      .ShouldReturn()
                      .Redirect(redirect => redirect
-                        .To<ProductsController>(c => c.All()));
+                        .To<ProductsController>(c => c.Existing(With.Default<ProductsQueryModel>())));
                     
 
 
@@ -90,7 +91,7 @@
                     .AndAlso()
                      .ShouldReturn()
                      .Redirect(redirect => redirect
-                         .To<ProductsController>(c => c.All()));
+                         .To<ProductsController>(c => c.Existing(With.Default<ProductsQueryModel>())));
 
       
 

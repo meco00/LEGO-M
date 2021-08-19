@@ -1,6 +1,7 @@
 ﻿namespace LegoM.Services.Orders
 {
-  using LegoM.Services.Orders.Models;
+    using LegoM.Areas.Admin.Models.Orders;
+    using LegoM.Services.Orders.Models;
     using System.Collections.Generic;
 
     public interface IOrderService
@@ -18,7 +19,11 @@
 
         OrderDetailsServiceModel Details(int id);
 
-        IEnumerable<OrderServiceModel> GetOrders(bool IsAccomplished = false);
+        OrderQueryModel All(
+            string searchTerm = null,
+            int currentPage = 1,
+            int ordersPerPage = int.MaxValue,
+            bool IsAccomplished = false);
 
         bool Delete(int id);
 
