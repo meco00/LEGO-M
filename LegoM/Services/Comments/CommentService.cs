@@ -29,12 +29,6 @@
             .ProjectTo<CommentServiceModel>(mapper)
             .ToList();
 
-        public IEnumerable<CommentServiceModel> All()
-        => this.data.Comments
-           .OrderByDescending(x => x.PublishedOn)
-           .ProjectTo<CommentServiceModel>(mapper)
-           .ToList();
-
         public void Create(int reviewId, string userId, string content)
         {
             var comment = new Comment
@@ -79,6 +73,45 @@
             this.data.SaveChanges();
 
             return true;
+        }
+
+        public CommentQueryModel All(
+            string searchTerm = null, 
+            int currentPage = 1, 
+            int commentsPerPage = int.MaxValue, 
+            bool IsPublicOnly = true)
+        {
+            var commentsQuery = this.data.Comments
+                .Where(x => !IsPublicOnly || x.IsPublic)
+                .AsQueryable();
+
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+
+                commentsQuery = commentsQuery
+                                         .Where(x =>
+                                         x.Content.ToLower().Contains(searchTerm.ToLower()));
+
+            }
+
+
+            var totalComments = commentsQuery.Count();
+
+            var comments = commentsQuery
+                  .Skip((currentPage - 1) * commentsPerPage)
+                    .Take(commentsPerPage)
+                    .OrderByDescending(x => x.PublishedOn)
+                    .ProjectTo<CommentServiceModel>(mapper)
+                    .ToList();
+
+            return new CommentQueryModel
+            {
+                Comments = comments,
+                CurrentPage = currentPage,
+                TotalComments = totalComments,
+                CommentsPerPage = commentsPerPage,
+            };
         }
     }
 }

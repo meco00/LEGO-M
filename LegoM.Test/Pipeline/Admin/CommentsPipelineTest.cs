@@ -2,6 +2,7 @@
 {
     using FluentAssertions;
     using LegoM.Areas.Admin;
+    using LegoM.Areas.Admin.Models.Comments;
     using LegoM.Data.Models;
     using LegoM.Services.Comments.Models;
     using MyTested.AspNetCore.Mvc;
@@ -23,7 +24,7 @@
               .ShouldMap(request => request.WithPath("/Admin/Comments/All")
               .WithUser(new[] { AdminConstants.AdministratorRoleName })
               .WithAntiForgeryToken())
-              .To<CommentsController>(c => c.All())
+              .To<CommentsController>(c => c.All(With.Default<CommentsQueryModel>()))
                .Which((System.Action<MyTested.AspNetCore.Mvc.Builders.Contracts.Pipeline.IWhichControllerInstanceBuilder<CommentsController>>)(controller => controller
                   .WithData(Data.Comments.GetComments())))
                 .ShouldReturn()
@@ -49,7 +50,7 @@
                    .AndAlso()
                    .ShouldReturn()
                    .Redirect(redirect => redirect
-                      .To<CommentsController>(c => c.All()));
+                      .To<CommentsController>(c => c.All(With.Default<CommentsQueryModel>())));
 
 
         [Fact]
@@ -75,7 +76,7 @@
                    .AndAlso()
                    .ShouldReturn()
                    .Redirect(redirect => redirect
-                      .To<CommentsController>(c => c.All()));
+                      .To<CommentsController>(c => c.All(With.Default<CommentsQueryModel>())));
 
 
         [Fact]

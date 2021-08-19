@@ -13,7 +13,11 @@
 
         IEnumerable<CommentServiceModel> CommentsOfReview(int reviewId);
 
-        IEnumerable<CommentServiceModel> All();
+        CommentQueryModel All(
+            string searchTerm = null,
+            int currentPage = 1,
+            int commentsPerPage = int.MaxValue,
+            bool IsPublicOnly = true);
 
         void ChangeVisibility(int id);
 

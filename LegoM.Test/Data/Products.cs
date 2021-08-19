@@ -87,7 +87,7 @@
              .Select(i => new Product
              {
                  IsPublic = IsDeleted ? false : true,
-                 IsDeleted = IsDeleted ? true : false,
+                 IsDeleted = IsDeleted ,
                  DeletedOn = IsDeleted ? new System.DateTime(1, 1, 1) : null,
                  Merchant = sameUser ? merchant : new Merchant
                   {

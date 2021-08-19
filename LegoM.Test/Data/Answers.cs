@@ -26,7 +26,7 @@
 
 
         public static Answer GetAnswer(int id = 1, bool IsPublic = true)
-            => new Answer
+            => new Answer 
             {
                 Id = id,
                 IsPublic = IsPublic

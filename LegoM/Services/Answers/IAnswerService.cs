@@ -13,7 +13,11 @@ namespace LegoM.Services.Answers
 
         IEnumerable<AnswerServiceModel> AnswersOfQuestion(int questionId);
 
-        IEnumerable<AnswerServiceModel> All();
+        AnswerQueryModel All(
+           string searchTerm = null,
+           int currentPage = 1,
+           int answersPerPage = int.MaxValue,
+           bool IsPublicOnly = true);
 
         void ChangeVisibility(int id);
 

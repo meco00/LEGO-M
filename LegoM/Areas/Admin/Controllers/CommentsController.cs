@@ -1,5 +1,6 @@
 ﻿namespace LegoM.Areas.Admin.Controllers
 {
+    using LegoM.Areas.Admin.Models.Comments;
     using LegoM.Services.Comments;
     using Microsoft.AspNetCore.Mvc;
     using System;
@@ -17,11 +18,18 @@
         }
 
 
-        public IActionResult All()
+        public IActionResult All([FromQuery] CommentsQueryModel query)
         {
-            var comments = this.comments.All();
+            var queryResult = this.comments.All(
+            query.SearchTerm,
+            query.CurrentPage,
+            CommentsQueryModel.CommentsPerPage,
+            IsPublicOnly: false);
 
-            return View(comments);
+            query.Comments = queryResult.Comments;
+            query.TotalComments = queryResult.TotalComments;
+
+            return this.View(query);
         }
 
         public IActionResult ChangeVisibility(int id)

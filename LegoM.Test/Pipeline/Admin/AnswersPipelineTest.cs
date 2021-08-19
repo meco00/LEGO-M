@@ -2,6 +2,7 @@
 {
     using FluentAssertions;
     using LegoM.Areas.Admin;
+    using LegoM.Areas.Admin.Models.Answers;
     using LegoM.Data.Models;
     using LegoM.Services.Answers.Models;
     using MyTested.AspNetCore.Mvc;
@@ -22,7 +23,7 @@
                  .ShouldMap(request => request.WithPath("/Admin/Answers/All")
                  .WithUser(new[] { AdminConstants.AdministratorRoleName })
                  .WithAntiForgeryToken())
-                 .To<AnswersController>(c => c.All())
+                 .To<AnswersController>(c => c.All(With.Default<AnswersQueryModel>()))
                   .Which(controller => controller
                      .WithData(GetAnswers()))
                    .ShouldReturn()
@@ -49,7 +50,7 @@
                      .AndAlso()
                      .ShouldReturn()
                      .Redirect(redirect => redirect
-                        .To<AnswersController>(c => c.All()));
+                        .To<AnswersController>(c => c.All(With.Default<AnswersQueryModel>())));
 
 
         [Fact]
@@ -74,7 +75,7 @@
                      .AndAlso()
                      .ShouldReturn()
                      .Redirect(redirect => redirect
-                        .To<AnswersController>(c => c.All()));
+                        .To<AnswersController>(c => c.All(With.Default<AnswersQueryModel>())));
 
         [Fact]
         public void DeleteShouldReturnNotFoundWhenAnswerIdIsInvalid()

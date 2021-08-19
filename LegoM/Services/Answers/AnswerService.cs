@@ -43,13 +43,7 @@
         => this.data.Answers.Where(x => x.QuestionId == questionId&&x.IsPublic)
             .OrderBy(x => x.PublishedOn)
             .ProjectTo<AnswerServiceModel>(mapper)
-            .ToList();
-
-       public IEnumerable<AnswerServiceModel> All()
-            => this.data.Answers
-            .OrderBy(x => x.PublishedOn)
-            .ProjectTo<AnswerServiceModel>(mapper)
-            .ToList();
+            .ToList();    
 
         public void ChangeVisibility(int id)
         {
@@ -79,6 +73,43 @@
             this.data.SaveChanges();
 
             return true;
+        }
+
+        public AnswerQueryModel All(
+            string searchTerm = null,
+            int currentPage = 1,
+            int answersPerPage = int.MaxValue,
+            bool IsPublicOnly = true)
+        {
+            var answersQuery = this.data.Answers
+                .Where(x => !IsPublicOnly || x.IsPublic)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+
+                answersQuery = answersQuery
+                                         .Where(x =>
+                                         x.Content.ToLower().Contains(searchTerm.ToLower()));
+
+            }
+
+            var totalAnswers = answersQuery.Count();
+
+            var answers = answersQuery
+                  .Skip((currentPage - 1) * answersPerPage)
+                    .Take(answersPerPage)
+                    .OrderByDescending(x => x.PublishedOn)
+                    .ProjectTo<AnswerServiceModel>(mapper)
+                    .ToList();
+
+            return new AnswerQueryModel
+            {
+                Answers = answers,
+                CurrentPage = currentPage,
+                TotalAnswers = totalAnswers,
+                AnswersPerPage = answersPerPage,
+            };
         }
     }
 }
