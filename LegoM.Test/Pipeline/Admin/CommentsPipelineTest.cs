@@ -29,8 +29,8 @@
                   .WithData(Data.Comments.GetComments())))
                 .ShouldReturn()
                 .View(view => view
-                .WithModelOfType<List<CommentServiceModel>>()
-                .Passing(model => model.Should().NotBeEmpty()));
+                .WithModelOfType<CommentsQueryModel> ()
+                .Passing(model => model.Comments.Should().NotBeEmpty()));
 
         [Fact]
         public void ChangeVisibilityShouldChangeAnswerAndRedirectToAll()
@@ -50,7 +50,7 @@
                    .AndAlso()
                    .ShouldReturn()
                    .Redirect(redirect => redirect
-                      .To<CommentsController>(c => c.All(With.Default<CommentsQueryModel>())));
+                      .To<CommentsController>(c => c.All(With.Any<CommentsQueryModel>())));
 
 
         [Fact]
@@ -76,7 +76,7 @@
                    .AndAlso()
                    .ShouldReturn()
                    .Redirect(redirect => redirect
-                      .To<CommentsController>(c => c.All(With.Default<CommentsQueryModel>())));
+                      .To<CommentsController>(c => c.All(With.Any<CommentsQueryModel>())));
 
 
         [Fact]

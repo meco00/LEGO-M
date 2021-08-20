@@ -30,8 +30,8 @@
                    .WithData(GetQuestions()))
                .ShouldReturn()
                .View(view => view
-                  .WithModelOfType<List<QuestionServiceModel>>()
-                .Passing(model => model.Should().NotBeEmpty()));
+                  .WithModelOfType<QuestionsQueryModel>()
+                .Passing(model => model.Questions.Should().NotBeEmpty()));
 
 
         [Fact]
@@ -60,7 +60,7 @@
                    .AndAlso()
                    .ShouldReturn()
                    .Redirect(redirect => redirect
-                      .To<QuestionsController>(c => c.All(With.Default<QuestionsQueryModel>())));
+                      .To<QuestionsController>(c => c.All(With.Any<QuestionsQueryModel>())));
 
 
     }

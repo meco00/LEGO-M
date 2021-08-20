@@ -23,15 +23,15 @@
             => MyPipeline
                 .Configuration()
                 .ShouldMap(request=>request
-                    .WithPath("/Admin/Products/All")
+                    .WithPath("/Admin/Products/Existing")
                      .WithUser( new[] {AdminConstants.AdministratorRoleName })
                      .WithAntiForgeryToken())
                 .To<ProductsController>(c => c.Existing(With.Default<ProductsQueryModel>()))
                 .Which(controller => controller
                     .WithData(GetProducts()))              
                 .ShouldReturn()
-            .View(view => view.WithModelOfType<List<ProductServiceModel>>()
-               .Passing(model => model.Should().NotBeEmpty()));
+            .View(view => view.WithModelOfType<ProductsQueryModel>()
+               .Passing(model => model.Products.Should().NotBeEmpty()));
 
 
 
@@ -69,7 +69,7 @@
                      .AndAlso()
                      .ShouldReturn()
                      .Redirect(redirect => redirect
-                        .To<ProductsController>(c => c.Existing(With.Default<ProductsQueryModel>())));
+                        .To<ProductsController>(c =>c.Existing(With.Any<ProductsQueryModel>())));
                     
 
 
@@ -91,7 +91,7 @@
                     .AndAlso()
                      .ShouldReturn()
                      .Redirect(redirect => redirect
-                         .To<ProductsController>(c => c.Existing(With.Default<ProductsQueryModel>())));
+                         .To<ProductsController>(c => c.Existing(With.Any<ProductsQueryModel>())));
 
       
 

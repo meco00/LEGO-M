@@ -54,11 +54,6 @@
 
         }
 
-        public IEnumerable<ReviewServiceModel> AllOfProduct(string productId)
-        => this.data.Reviews.Where(x => x.ProductId == productId&& x.IsPublic)
-            .OrderByDescending(x => x.PublishedOn)
-            .ProjectTo<ReviewServiceModel>(mapper)
-            .ToList();
 
 
         public ReviewDetailsServiceModel Details(int id)
@@ -119,16 +114,11 @@
         public ReviewsProductStatisticsServiceModel GetStatisticsForProduct(string productId)
         {
 
-            var reviews = this.AllOfProduct(productId);
-
-            if (!reviews.Any())
-            {
-                return null;
-            }
+            var reviews = this.All(productId : productId).Reviews;        
 
             var reviewsCount = reviews.Count();
 
-            var rating = ((decimal)(reviews.Sum(x => x.Rating)) / (decimal)reviewsCount).ToString("F2");
+            var rating = reviewsCount == 0 ? "0" : ((decimal)(reviews.Sum(x => x.Rating)) / (decimal)reviewsCount).ToString("F2");
 
             var fiveStarRatings = reviews.Where(x => x.Rating == 5).Count();
             var fourStarRatings = reviews.Where(x => x.Rating == 4).Count();

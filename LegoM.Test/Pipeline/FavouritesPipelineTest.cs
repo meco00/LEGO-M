@@ -16,37 +16,38 @@
     using static Data.Favourites;
     using LegoM.Services.Favourites.Models;
     using LegoM.Areas.Admin;
+    using LegoM.Models.Products;
 
     public class FavouritesPipelineTest
     {
-        //[Fact]
-        //public void AddShouldReturnCorrectDataAndRedirectTo()
-        //    => MyPipeline
-        //            .Configuration()
-        //            .ShouldMap(request => request
-        //               .WithPath($"/Favourites/Add/{TestId}")
-        //               .WithUser())
-        //             .To<FavouritesController>(c => c.Add(TestId))
-        //              .Which(controller => controller.WithData(GetProduct()))
-        //              .ShouldHave()
-        //              .ActionAttributes(attributes => attributes
-        //                    .RestrictingForAuthorizedRequests())
-        //               .Data(data => data.WithSet<Favourite>(set =>
-        //               {
-        //                   var favourite = set.FirstOrDefault();
+        [Fact]
+        public void AddShouldReturnCorrectDataAndRedirectTo()
+            => MyPipeline
+                    .Configuration()
+                    .ShouldMap(request => request
+                       .WithPath($"/Favourites/Add/{TestId}")
+                       .WithUser())
+                     .To<FavouritesController>(c => c.Add(TestId))
+                      .Which(controller => controller.WithData(GetProduct()))
+                      .ShouldHave()
+                      .ActionAttributes(attributes => attributes
+                            .RestrictingForAuthorizedRequests())
+                       .Data(data => data.WithSet<Favourite>(set =>
+                       {
+                           var favourite = set.FirstOrDefault();
 
-        //                   favourite.ProductId.Should().Be(TestId);
+                           favourite.ProductId.Should().Be(TestId);
 
-        //                   favourite.UserId.Should().Be(TestUser.Identifier);
+                           favourite.UserId.Should().Be(TestUser.Identifier);
 
-        //               }))
-        //               .TempData(tempData => tempData
-        //               .ContainingEntryWithKey(WebConstants.GlobalMessageKey))               
-        //               .AndAlso()
-        //               .ShouldReturn()
-        //               .Redirect(redirect=>redirect
-        //                     .To<ProductsController>(c=>c
-        //                     .Details(TestId)));
+                       }))
+                       .TempData(tempData => tempData
+                       .ContainingEntryWithKey(WebConstants.GlobalMessageKey))
+                       .AndAlso()
+                       .ShouldReturn()
+                       .Redirect(redirect => redirect
+                             .To<ProductsController>(c => c
+                             .Details(TestId,With.Any<ProductsDetailsQueryModel>())));
 
         [Fact]
         public void AddShouldReturnNotFoundWhenUserIsAdmin()

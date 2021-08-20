@@ -28,8 +28,8 @@
                      .WithData(GetAnswers()))
                    .ShouldReturn()
                    .View(view => view
-                   .WithModelOfType<List<AnswerServiceModel>>()
-                   .Passing(model => model.Should().NotBeEmpty()));
+                   .WithModelOfType<AnswersQueryModel>()
+                   .Passing(model => model.Answers.Should().NotBeEmpty()));
 
 
         [Fact]
@@ -50,7 +50,7 @@
                      .AndAlso()
                      .ShouldReturn()
                      .Redirect(redirect => redirect
-                        .To<AnswersController>(c => c.All(With.Default<AnswersQueryModel>())));
+                        .To<AnswersController>(c => c.All(With.Any<AnswersQueryModel>())));
 
 
         [Fact]
@@ -75,7 +75,7 @@
                      .AndAlso()
                      .ShouldReturn()
                      .Redirect(redirect => redirect
-                        .To<AnswersController>(c => c.All(With.Default<AnswersQueryModel>())));
+                        .To<AnswersController>(c => c.All(With.Any<AnswersQueryModel>())));
 
         [Fact]
         public void DeleteShouldReturnNotFoundWhenAnswerIdIsInvalid()

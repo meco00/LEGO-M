@@ -4,6 +4,7 @@
     using LegoM.Areas.Admin;
     using LegoM.Controllers;
     using LegoM.Data.Models;
+    using LegoM.Models.Products;
     using LegoM.Models.Questions;
     using LegoM.Services.Questions.Models;
     using MyTested.AspNetCore.Mvc;
@@ -99,44 +100,44 @@
                       .View();
 
 
-        //[Theory]
-        //[InlineData("MyTestContent",TestId)]
-        //public void PostAddShouldBeForAuthorizedUsersAndReturnRedirectToWithCorrectDataAndModel(
-        //    string content,
-        //    string productId)
-        //    => MyRouting
-        //        .Configuration()
-        //         .ShouldMap(request => request
-        //                .WithPath($"/Questions/Add/{productId}")
-        //               .WithMethod(HttpMethod.Post)
-        //               .WithFormFields(new
-        //               {
-        //                   Content = content
-        //               })
-        //               .WithUser()
-        //               .WithAntiForgeryToken())
-        //               .To<QuestionsController>(c => c.Add(productId, new QuestionFormModel
-        //               {
-        //                   Content = content
-        //               }))
-        //               .Which(controller => controller.WithData(GetProduct()))
-        //               .ShouldHave()
-        //                .ActionAttributes(attributes => attributes
-        //                      .RestrictingForAuthorizedRequests()
-        //                      .RestrictingForHttpMethod(HttpMethod.Post))
-        //                .ValidModelState()
-        //                 .TempData(tempData => tempData
-        //                       .ContainingEntryWithKey(WebConstants.GlobalMessageKey))
-        //                     .Data(data => data.WithSet<Question>(set => set
-        //                             .Any(x => x.Content == content &&
-        //                                       x.ProductId == productId&&
-        //                                       x.UserId==TestUser.Identifier)))
-        //                      .AndAlso()
-        //                       .ShouldReturn()
-        //                         .Redirect(redirect =>
-        //                                   redirect
-        //                                   .To<ProductsController>(c =>
-        //                                   c.Details(productId)));
+        [Theory]
+        [InlineData("MyTestContent", TestId)]
+        public void PostAddShouldBeForAuthorizedUsersAndReturnRedirectToWithCorrectDataAndModel(
+            string content,
+            string productId)
+            => MyRouting
+                .Configuration()
+                 .ShouldMap(request => request
+                        .WithPath($"/Questions/Add/{productId}")
+                       .WithMethod(HttpMethod.Post)
+                       .WithFormFields(new
+                       {
+                           Content = content
+                       })
+                       .WithUser()
+                       .WithAntiForgeryToken())
+                       .To<QuestionsController>(c => c.Add(productId, new QuestionFormModel
+                       {
+                           Content = content
+                       }))
+                       .Which(controller => controller.WithData(GetProduct()))
+                       .ShouldHave()
+                        .ActionAttributes(attributes => attributes
+                              .RestrictingForAuthorizedRequests()
+                              .RestrictingForHttpMethod(HttpMethod.Post))
+                        .ValidModelState()
+                         .TempData(tempData => tempData
+                               .ContainingEntryWithKey(WebConstants.GlobalMessageKey))
+                             .Data(data => data.WithSet<Question>(set => set
+                                     .Any(x => x.Content == content &&
+                                               x.ProductId == productId &&
+                                               x.UserId == TestUser.Identifier)))
+                              .AndAlso()
+                               .ShouldReturn()
+                                 .Redirect(redirect =>
+                                           redirect
+                                           .To<ProductsController>(c =>
+                                           c.Details(productId,With.Any<ProductsDetailsQueryModel>())));
 
 
         [Theory]

@@ -61,7 +61,22 @@ namespace LegoM.Areas.Admin.Controllers
 
         public IActionResult Delete(int id)
         {
-            
+            if (!this.orders.OrderExists(id))
+            {
+                return NotFound();
+            }                           
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id,OrderDeleteFormModel order)
+        {
+            if (!order.SureToDelete)
+            {
+                return RedirectToAction(nameof(UnAccomplished));
+            }
+
             var IsDeleted = this.orders.Delete(id);
 
             if (!IsDeleted)
@@ -71,8 +86,13 @@ namespace LegoM.Areas.Admin.Controllers
 
             this.TempData[WebConstants.GlobalMessageKey] = "Order was deleted succesfully!";
 
-            return RedirectToAction(nameof(OrdersController.UnAccomplished));
+            return RedirectToAction(nameof(UnAccomplished));
+
         }
+
+
+
+
 
         public IActionResult Accomplish(int id)
         {

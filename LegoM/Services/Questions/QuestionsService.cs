@@ -22,11 +22,6 @@
             this.mapper = mapper.ConfigurationProvider;
         }
 
-        public IEnumerable<QuestionServiceModel> AllOfProduct(string productId)
-        => this.data.Questions
-            .Where(x => x.ProductId == productId&&x.IsPublic)
-            .ProjectTo<QuestionServiceModel>(mapper)
-            .ToList() ;
 
        public QuestionQueryModel All(
           string searchTerm = null,

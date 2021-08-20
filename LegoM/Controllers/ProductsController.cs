@@ -294,6 +294,8 @@
                 questionsPerPage: ProductsDetailsQueryModel.QuestionsPerPage,
                 productId: id);
 
+            ;
+
             var reviewsStatistics = this.reviews.GetStatisticsForProduct(id);
            
 

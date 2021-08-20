@@ -32,8 +32,8 @@
                   .WithData(GetReviews()))
               .ShouldReturn()
               .View(view => view
-                 .WithModelOfType<List<ReviewServiceModel>>()
-               .Passing(model => model.Should().NotBeEmpty()));
+                 .WithModelOfType<ReviewsQueryModel>()
+               .Passing(model => model.Reviews.Should().NotBeEmpty()));
 
 
         [Fact]
@@ -60,6 +60,6 @@
                   .AndAlso()
                   .ShouldReturn()
                   .Redirect(redirect => redirect
-                     .To<ReviewsController>(c => c.All(With.Default<ReviewsQueryModel>())));
+                     .To<ReviewsController>(c => c.All(With.Any<ReviewsQueryModel>())));
     }
 }

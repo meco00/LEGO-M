@@ -120,7 +120,7 @@
             var orders = ordersQuery
                   .Skip((currentPage - 1) * ordersPerPage)
                     .Take(ordersPerPage)
-                    .OrderBy(x=>x.OrderedOn)
+                    .OrderByDescending(x=>x.OrderedOn)
                     .ProjectTo<OrderServiceModel>(mapper)
                     .ToList();
 
@@ -200,5 +200,8 @@
             .OrderBy(x=>x.OrderedOn)
             .ProjectTo<OrderServiceModel>(mapper)
             .ToList();
+
+        public bool OrderExists(int id)
+        => this.data.Orders.Any(x => x.Id == id);
     }
 }

@@ -27,8 +27,6 @@
 
         IEnumerable<QuestionListingServiceModel> Mine(string userId);
 
-        IEnumerable<QuestionServiceModel> AllOfProduct(string productId);
-
         QuestionQueryModel All(
             string searchTerm = null,
             int currentPage = 1,

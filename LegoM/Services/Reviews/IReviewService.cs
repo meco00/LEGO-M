@@ -26,8 +26,6 @@
 
         IEnumerable<ReviewListingServiceModel> ByUser(string userId);
 
-        IEnumerable<ReviewServiceModel> AllOfProduct(string productId);
-
         ReviewQueryModel All(
             string searchTerm = null,
             int currentPage = 1,

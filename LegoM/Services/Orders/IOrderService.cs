@@ -25,6 +25,8 @@
             int ordersPerPage = int.MaxValue,
             bool IsAccomplished = false);
 
+        bool OrderExists(int id);
+
         bool Delete(int id);
 
         bool Cancel(int id);
