@@ -256,7 +256,7 @@
         }
 
 
-        public IActionResult Details(string id)
+        public IActionResult Details(string id,[FromQuery]ProductsDetailsQueryModel query)
         {
             ;
             string merchantId = this.merchants.IdByUser(this.User.Id());
@@ -281,20 +281,35 @@
 
             var similarProducts = this.products.GetSimilarProducts(id);
 
-            var reviews = this.reviews.AllOfProduct(id);
+            var reviewsQueryResult = this.reviews.All(
+                query.ReviewsSearchTerm,
+                query.ReviewsCurrentPage,
+                ProductsDetailsQueryModel.ReviewsPerPage,
+                query.ReviewFiltering,
+                productId: id);
+
+
+            var questionsQueryResult = this.questions.All(
+                currentPage: query.QuestionsCurrentPage,
+                questionsPerPage: ProductsDetailsQueryModel.QuestionsPerPage,
+                productId: id);
 
             var reviewsStatistics = this.reviews.GetStatisticsForProduct(id);
+           
 
-            var questions = this.questions.AllOfProduct(id);
+            query.Product = product;
+            query.SimilarProducts = similarProducts;
+            query.ProductReviewsStatistics = reviewsStatistics;
 
-            return this.View(new ProductDetailsModel
-            { 
-                Product=product,
-                SimilarProducts=similarProducts,
-                ProductReviewsStatistics= reviewsStatistics,
-                Reviews=reviews,
-                Questions=questions
-            });
+            query.Reviews = reviewsQueryResult.Reviews;
+            query.TotalReviews = reviewsQueryResult.TotalReviews;
+
+            query.Questions = questionsQueryResult.Questions;
+            query.TotalQuestions = questionsQueryResult.TotalQuestions;
+            
+
+
+            return this.View(query);
 
         }
 

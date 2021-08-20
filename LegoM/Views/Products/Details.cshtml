@@ -1,4 +1,4 @@
-﻿@model ProductDetailsModel
+﻿@model ProductsDetailsQueryModel
 
 
 <partial name="_ProductDetailsPartial" model="@Model.Product" />
@@ -17,19 +17,8 @@
 
 <h4>Reviews :</h4>
 <div class="row">
-    @if (!Model.Reviews.Any())
-    {
-        <div class="col-md-6 mt-3 mb-3">
-            <h3>Be the first to write a review</h3>
-
-        </div>
-        <div class="col-md-6">
-            <a asp-controller="Reviews" asp-action="Add" asp-route-Id="@Model.Product.Id" class="btn btn-outline-primary ml-5"><h4>Add Review</h4></a>
-
-        </div>
-    }
-    else
-    {
+  
+    
 
         <div class="col-md-2 mt-5 mr-3 ml-5">
             <h1>@Model.ProductReviewsStatistics.Rating </h1>
@@ -47,7 +36,7 @@
             <a asp-controller="Reviews" asp-action="Add" asp-route-Id="@Model.Product.Id" class="btn btn-outline-primary">Add Review</a>
 
         </div>
-    }
+    
 
 
 
@@ -60,35 +49,111 @@
 
 <hr />
 
-<div>
-    @foreach (var review in Model.Reviews)
-    {
+    <form method="get">
 
-    <div class="row mt-5 mb-5">
-        <div class="col-md-4">
-            <h5>@review.UserName</h5>
-            <span>@review.PublishedOn</span>
+        <div class="row mb-mt-3 mb-3">
+
+
+            <div class="form-inline col-md-3 ml-3">
+                <div class="form-group">
+                    <label asp-for="ReviewFiltering" class="mr-3"></label>
+                    <select asp-for="ReviewFiltering" class="form-control" asp-items="Html.GetEnumSelectList<ReviewType>()">
+                        <option selected="selected" value="">All</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-inline col-md-3 ">
+                <div class="form-group">
+                    <input asp-for="ReviewsSearchTerm" class="form-control mr-sm-2" placeholder="Search">
+                    <button asp-controller="Products" asp-action="Details"  class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+                    <span asp-validation-for="ReviewsSearchTerm" class="small text-danger"></span>
+                </div>
+            </div>
+
         </div>
-        <div class="col-md-6">
-            <a asp-controller="Reviews" asp-action="Details" asp-route-id="@review.Id" asp-route-information="@(review.GetInformation())" ><h3>@review.Title</h3></a>
-            <p>@(new string(review.Content.Take(20).ToArray()))</p>
-            <div class="mt-3"></div>
-            <a asp-controller="Reviews" asp-action="Details" asp-route-id="@review.Id" asp-route-information="@(review.GetInformation())"><span>Comments (@review.TotalComments)</span></a>
-            <a asp-controller="Comments" asp-action="Add" asp-route-id="@review.Id" asp-route-information="@(review.GetInformation())" class="ml-3">Add Comment</a>
-        </div>  
-        @if (this.User.IsAdmin())
+
+    </form>
+
+@if (Model.Reviews.Any())
+{
+
+
+
+    <div>
+        @foreach (var review in Model.Reviews)
         {
-        <div class="col-md-2">
-            <a asp-controller="Reviews" asp-action="Delete" asp-route-id="@review.Id" class="btn btn-danger">Delete</a>
-        </div>
+
+            <div class="row mt-5 mb-5">
+                <div class="col-md-4">
+                    <h5>@review.UserName</h5>
+                    <span>@review.PublishedOn</span>
+                </div>
+                <div class="col-md-6">
+                    <a asp-controller="Reviews" asp-action="Details" asp-route-id="@review.Id" asp-route-information="@(review.GetInformation())"><h3>@review.Title</h3></a>
+                    <p>@(new string(review.Content.Take(20).ToArray()))</p>
+                    <div class="mt-3"></div>
+                    <a asp-controller="Reviews" asp-action="Details" asp-route-id="@review.Id" asp-route-information="@(review.GetInformation())"><span>Comments (@review.TotalComments)</span></a>
+                    <a asp-controller="Comments" asp-action="Add" asp-route-id="@review.Id" asp-route-information="@(review.GetInformation())" class="ml-3">Add Comment</a>
+                </div>
+                @if (this.User.IsAdmin())
+                {
+                    <div class="col-md-2">
+                        <a asp-controller="Reviews" asp-action="Delete" asp-route-id="@review.Id" class="btn btn-danger">Delete</a>
+                    </div>
+                }
+            </div>
+
+            <hr />
+
         }
+
+
+        @{
+            var reviewsPreviousPage = Model.ReviewsCurrentPage - 1;
+            if (reviewsPreviousPage < 1)
+            {
+                reviewsPreviousPage = 1;
+            }
+
+            var reviewsMaxPage = Math.Ceiling((double)Model.TotalReviews / ProductsDetailsQueryModel.ReviewsPerPage);
+        }
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <a class="btn btn-primary @(Model.ReviewsCurrentPage==1 ? "disabled":string.Empty)"
+                   asp-controller="Products"
+                   asp-action="Details"
+                   asp-route-id="@Model.Product.Id"
+                   asp-route-questionsCurrentPage="@Model.QuestionsCurrentPage"
+                   asp-route-reviewsSearchTerm="@Model.ReviewsSearchTerm"
+                   asp-route-reviewFiltering="@Model.ReviewFiltering"
+                   asp-route-reviewsCurrentPage="@reviewsPreviousPage">Previous</a>
+            </div>
+            <div class="col-md-6">
+                <a class="btn btn-primary float-right @(Model.ReviewsCurrentPage==reviewsMaxPage || !Model.Reviews.Any()  ? "disabled" : string.Empty)"
+                   asp-controller="Products"
+                   asp-action="Details"
+                   asp-route-id="@Model.Product.Id"
+                   asp-route-questionsCurrentPage="@Model.QuestionsCurrentPage"
+                   asp-route-reviewsSearchTerm="@Model.ReviewsSearchTerm"
+                   asp-route-reviewFiltering="@Model.ReviewFiltering"
+                   asp-route-reviewsCurrentPage="@(Model.ReviewsCurrentPage+1)">Next</a>
+            </div>
+        </div>
+
     </div>
 
-        <hr />
+    <hr />
+}
+else
+{
+ <h2 class="text-center mb-5 mt-5">No reviews was found with the given criteria !</h2> 
 
-    }
+ <hr />
 
-</div>
+}
+
 
 <h3>Questions and answers by clients (@Model.Questions.Count())</h3>
 <div class="row mb-5 mt-5">
@@ -100,40 +165,81 @@
         }
 
     </div>
-   <div class="col-md-6">
-    <a asp-controller="Questions" asp-action="Add" asp-route-Id="@Model.Product.Id" class="btn btn-outline-primary ml-5"><h4>Add Question</h4></a>
+    <div class="col-md-6">
+        <a asp-controller="Questions" asp-action="Add" asp-route-Id="@Model.Product.Id" class="btn btn-outline-primary ml-5"><h4>Add Question</h4></a>
 
-   </div>
+    </div>
 
 </div>
 
 <hr />
 
+@if (Model.Questions.Any())
+{
+
+
+
 <div>
     @foreach (var question in Model.Questions)
     {
 
-    <div class="row mt-5 mb-5">
-        <div class="col-md-4">
-            <h5>@question.UserName</h5>
-            <span>@question.PublishedOn</span>
-        </div>
-        <div class="col-md-6 mt-2">
-            <a asp-controller="Questions" asp-action="Details" asp-route-id="@question.Id" asp-route-information="@(question.GetInformation())"><h5>@(new string(question.Content.Take(20).ToArray()))</h5></a>
-            <div class="mt-3"></div>
-            <a asp-controller="Questions" asp-action="Details" asp-route-id="@question.Id" asp-route-information="@(question.GetInformation())"><span>Answers (@question.AnswersCount)</span></a>
-            <a asp-controller="Answers" asp-action="Add" asp-route-id="@question.Id" asp-route-information="@(question.GetInformation())" class="ml-3">Add Answer</a>
-        </div>
-        @if (this.User.IsAdmin())
-        {
-            <div class="col-md-2">
-                <a asp-controller="Questions" asp-action="Delete" asp-route-id="@question.Id" class="btn btn-danger">Delete</a>
+        <div class="row mt-5 mb-5">
+            <div class="col-md-4">
+                <h5>@question.UserName</h5>
+                <span>@question.PublishedOn</span>
             </div>
-        }
-    </div>
+            <div class="col-md-6 mt-2">
+                <a asp-controller="Questions" asp-action="Details" asp-route-id="@question.Id" asp-route-information="@(question.GetInformation())"><h5>@(new string(question.Content.Take(20).ToArray()))</h5></a>
+                <div class="mt-3"></div>
+                <a asp-controller="Questions" asp-action="Details" asp-route-id="@question.Id" asp-route-information="@(question.GetInformation())"><span>Answers (@question.AnswersCount)</span></a>
+                <a asp-controller="Answers" asp-action="Add" asp-route-id="@question.Id" asp-route-information="@(question.GetInformation())" class="ml-3">Add Answer</a>
+            </div>
+            @if (this.User.IsAdmin())
+            {
+                <div class="col-md-2">
+                    <a asp-controller="Questions" asp-action="Delete" asp-route-id="@question.Id" class="btn btn-danger">Delete</a>
+                </div>
+            }
+        </div>
 
         <hr />
 
     }
 
+
+
+    @{
+
+        var questionsPreviousPage = Model.QuestionsCurrentPage - 1;
+        if (questionsPreviousPage < 1)
+        {
+            questionsPreviousPage = 1;
+        }
+
+        var questionsMaxPage = Math.Ceiling((double)Model.TotalQuestions / ProductsDetailsQueryModel.QuestionsPerPage);
+    }
+
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <a class="btn btn-primary @(Model.QuestionsCurrentPage==1 ? "disabled":string.Empty)"
+               asp-controller="Products"
+               asp-action="Details"
+               asp-route-id="@Model.Product.Id"
+               asp-route-reviewsSearchTerm="@Model.ReviewsSearchTerm"
+               asp-route-reviewFiltering="@Model.ReviewFiltering"
+               asp-route-reviewsCurrentPage="@Model.ReviewsCurrentPage"
+               asp-route-questionsCurrentPage="@questionsPreviousPage">Previous</a>
+        </div>
+        <div class="col-md-6">
+            <a class="btn btn-primary float-right @(Model.QuestionsCurrentPage==questionsMaxPage || !Model.Questions.Any()  ? "disabled" : string.Empty)"
+               asp-controller="Products"
+               asp-action="Details"
+               asp-route-id="@Model.Product.Id"
+               asp-route-reviewsSearchTerm="@Model.ReviewsSearchTerm"
+               asp-route-reviewFiltering="@Model.ReviewFiltering"
+               asp-route-reviewsCurrentPage="@Model.ReviewsCurrentPage"
+               asp-route-questionsCurrentPage="@(Model.QuestionsCurrentPage+1)">Next</a>
+        </div>
+    </div>
 </div>
+}

@@ -19,7 +19,7 @@
 
         public IEnumerable<ProductSubCategoryServiceModel> SubCategories { get; set; }
 
-        [Display(Name ="Deep Search")]
+        
         public string SearchTerm { get; init; }
 
         public ProductSorting ProductSorting { get; init; }

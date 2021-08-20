@@ -19,43 +19,43 @@
 
     public  class ReviewsControllerTest
     {      
-        [Theory]
-        [InlineData(ReviewType.Excellent, DEFAULT_TITLE, TestContent)]
-        public void PostAddShouldBeForAuthorizedUsersAndShoulReturnRedirectToViewWithCorrectData(
-          ReviewType rating,
-          string title,
-          string content
-            )
-          => MyController<ReviewsController>
-              .Instance(controller => controller
-                        .WithUser()
-                        .WithData(GetProduct()))
-               .Calling(c => c.Add(TestId,new ReviewFormModel
-               {
-                   Rating = rating,
-                   Title = title,
-                   Content = content
+        //[Theory]
+        //[InlineData(ReviewType.Excellent, DEFAULT_TITLE, TestContent)]
+        //public void PostAddShouldBeForAuthorizedUsersAndShoulReturnRedirectToViewWithCorrectData(
+        //  ReviewType rating,
+        //  string title,
+        //  string content
+        //    )
+        //  => MyController<ReviewsController>
+        //      .Instance(controller => controller
+        //                .WithUser()
+        //                .WithData(GetProduct()))
+        //       .Calling(c => c.Add(TestId,new ReviewFormModel
+        //       {
+        //           Rating = rating,
+        //           Title = title,
+        //           Content = content
 
-               }))
-               .ShouldHave()
-               .ActionAttributes(attributes => attributes
-                   .RestrictingForAuthorizedRequests()
-                    .RestrictingForHttpMethod(HttpMethod.Post))
-                .ValidModelState()
-                .Data(data => data
-                     .WithSet<Review>(set => set
-                             .Any(x =>
-                             x.Rating == rating &&
-                             x.Title == title &&
-                             x.Content == content &&
-                             x.UserId==TestUser.Identifier)))
-                 .TempData(tempData => tempData
-                          .ContainingEntryWithKey(WebConstants.GlobalMessageKey))
-                 .AndAlso()
-                 .ShouldReturn()
-                  .Redirect(redirect => redirect
-                        .To<ProductsController>(c => c
-                        .Details(TestId)));
+        //       }))
+        //       .ShouldHave()
+        //       .ActionAttributes(attributes => attributes
+        //           .RestrictingForAuthorizedRequests()
+        //            .RestrictingForHttpMethod(HttpMethod.Post))
+        //        .ValidModelState()
+        //        .Data(data => data
+        //             .WithSet<Review>(set => set
+        //                     .Any(x =>
+        //                     x.Rating == rating &&
+        //                     x.Title == title &&
+        //                     x.Content == content &&
+        //                     x.UserId==TestUser.Identifier)))
+        //         .TempData(tempData => tempData
+        //                  .ContainingEntryWithKey(WebConstants.GlobalMessageKey))
+        //         .AndAlso()
+        //         .ShouldReturn()
+        //          .Redirect(redirect => redirect
+        //                .To<ProductsController>(c => c
+        //                .Details(TestId)));
 
         [Theory]
         [InlineData(ReviewType.Excellent,DEFAULT_TITLE, TestContent)]

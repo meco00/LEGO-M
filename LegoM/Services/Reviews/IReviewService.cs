@@ -12,8 +12,7 @@
             ReviewType rating,
             string content,
             string title,
-            bool IsPublic = false
-            );
+            bool IsPublic = false);
 
         bool Edit(
             int id,
@@ -33,7 +32,9 @@
             string searchTerm = null,
             int currentPage = 1,
             int reviewsPerPage = int.MaxValue,
-            bool IsPublicOnly = true);
+            ReviewType? reviewFiltering=null,
+            bool IsPublicOnly = true,
+            string productId = null);
 
         ReviewsProductStatisticsServiceModel GetStatisticsForProduct(string productId);
 

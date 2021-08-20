@@ -30,10 +30,11 @@
         IEnumerable<QuestionServiceModel> AllOfProduct(string productId);
 
         QuestionQueryModel All(
-             string searchTerm = null,
+            string searchTerm = null,
             int currentPage = 1,
             int questionsPerPage = int.MaxValue,
-            bool IsPublicOnly = true
+            bool IsPublicOnly = true,
+            string productId = null
             );
 
         

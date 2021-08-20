@@ -239,57 +239,57 @@
              .NotFound();
 
 
-        [Fact]
-        public void DetailsShouldReturnViewWithCorrectDataAndModel()
-            => MyPipeline
-                 .Configuration()
-                 .ShouldMap(request => request
-                        .WithPath($"/Products/Details/{TestId}")
-                 .WithUser())
-                 .To<ProductsController>(c => c.Details(TestId))
-                 .Which(controller => controller
-                       .WithData(GetProduct())
-                        .AndAlso()
-                        .WithData(GetQuestionsByProduct())
-                        .AndAlso()
-                        .WithData(GetReviewsByProduct()))
-             .ShouldReturn()
-             .View(view => view.WithModelOfType<ProductDetailsModel>()
-              .Passing(model =>
-              {
-                  model.Product.Should().NotBeNull();
-                  model.ProductReviewsStatistics.Should().NotBeNull();
-                  model.SimilarProducts.Should().NotBeNull();
-                  model.Questions.Should().HaveCount(5);
-                  model.Reviews.Should().HaveCount(5);
+        //[Fact]
+        //public void DetailsShouldReturnViewWithCorrectDataAndModel()
+        //    => MyPipeline
+        //         .Configuration()
+        //         .ShouldMap(request => request
+        //                .WithPath($"/Products/Details/{TestId}")
+        //         .WithUser())
+        //         .To<ProductsController>(c => c.Details(TestId))
+        //         .Which(controller => controller
+        //               .WithData(GetProduct())
+        //                .AndAlso()
+        //                .WithData(GetQuestionsByProduct())
+        //                .AndAlso()
+        //                .WithData(GetReviewsByProduct()))
+        //     .ShouldReturn()
+        //     .View(view => view.WithModelOfType<ProductDetailsModel>()
+        //      .Passing(model =>
+        //      {
+        //          model.Product.Should().NotBeNull();
+        //          model.ProductReviewsStatistics.Should().NotBeNull();
+        //          model.SimilarProducts.Should().NotBeNull();
+        //          model.Questions.Should().HaveCount(5);
+        //          model.Reviews.Should().HaveCount(5);
 
-              }));
+        //      }));
 
-        [Fact]
-        public void DetailsShouldReturnNotFoundWhenProductDoesNotExists()
-          => MyPipeline
-               .Configuration()
-               .ShouldMap(request => request
-                      .WithPath($"/Products/Details/{TestId}")
-               .WithUser())
-               .To<ProductsController>(c => c.Details(TestId))
-               .Which()
-               .ShouldReturn()
-               .NotFound();
+        //[Fact]
+        //public void DetailsShouldReturnNotFoundWhenProductDoesNotExists()
+        //  => MyPipeline
+        //       .Configuration()
+        //       .ShouldMap(request => request
+        //              .WithPath($"/Products/Details/{TestId}")
+        //       .WithUser())
+        //       .To<ProductsController>(c => c.Details(TestId))
+        //       .Which()
+        //       .ShouldReturn()
+        //       .NotFound();
 
 
 
-        [Fact]
-        public void DetailsShouldReturnBadRequestWhenProductIsNotPublic()
-        => MyPipeline
-             .Configuration()
-             .ShouldMap(request => request
-                    .WithPath($"/Products/Details/{TestId}")
-             .WithUser())
-             .To<ProductsController>(c => c.Details(TestId))
-             .Which(controller => controller.WithData(GetProduct(TestId, false, false, false))
-             .ShouldReturn()
-             .BadRequest());
+        //[Fact]
+        //public void DetailsShouldReturnBadRequestWhenProductIsNotPublic()
+        //=> MyPipeline
+        //     .Configuration()
+        //     .ShouldMap(request => request
+        //            .WithPath($"/Products/Details/{TestId}")
+        //     .WithUser())
+        //     .To<ProductsController>(c => c.Details(TestId))
+        //     .Which(controller => controller.WithData(GetProduct(TestId, false, false, false))
+        //     .ShouldReturn()
+        //     .BadRequest());
 
 
         [Fact]

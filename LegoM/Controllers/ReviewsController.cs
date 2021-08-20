@@ -28,25 +28,21 @@
         [Authorize]
         public IActionResult Add(string Id)
         {
-            ;
+            var IsUserAdmin = this.User.IsAdmin();
 
             if (!this.products.IsProductPublic(Id))
             {
                 return BadRequest();
             }
 
-            var review = this.reviews.ReviewByProductAndUser(Id, this.User.Id());
+            var reviewModel = this.reviews.ReviewByProductAndUser(Id, this.User.Id());
 
-            if (review !=null)
+            if (reviewModel != null && !IsUserAdmin)
             {
-                if (!review.IsPublic)
-                {
-                    return BadRequest();
-                }
 
-                return RedirectToAction("Details",new { id=review.Id, information=review.GetInformation()});
+                return RedirectToAction("Details", new { id = reviewModel.Id, information = reviewModel.GetInformation() });
 
-            }
+            }       
          
 
             return View();
@@ -57,6 +53,7 @@
         [HttpPost]
         public IActionResult Add(string Id,ReviewFormModel review)
         {
+            ;
             var IsUserAdmin = this.User.IsAdmin();
 
             if (!this.products.IsProductPublic(Id))
@@ -66,7 +63,7 @@
            
             var reviewModel = this.reviews.ReviewByProductAndUser(Id, this.User.Id());
 
-            if (reviewModel != null&& !IsUserAdmin)
+            if (reviewModel != null && !IsUserAdmin)
             {
                
                 return RedirectToAction("Details", new { id = reviewModel.Id, information = reviewModel.GetInformation() });

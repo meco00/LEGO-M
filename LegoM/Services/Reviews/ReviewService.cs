@@ -195,11 +195,20 @@
             string searchTerm = null,
             int currentPage = 1, 
             int reviewsPerPage = int.MaxValue,
-            bool IsPublicOnly = true)
+            ReviewType? reviewFiltering = null,
+            bool IsPublicOnly = true,
+            string productId = null)
         {
             var reviewsQuery = this.data.Reviews
                 .Where(x => !IsPublicOnly || x.IsPublic)
                 .AsQueryable();
+
+            if (!string.IsNullOrEmpty(productId))
+            {
+
+               reviewsQuery = reviewsQuery.Where(x => x.ProductId == productId);
+
+            }
 
 
             if (!string.IsNullOrEmpty(searchTerm))
@@ -208,7 +217,24 @@
                 reviewsQuery = reviewsQuery
                                          .Where(x =>
                                          x.Content.ToLower().Contains(searchTerm.ToLower()) ||
-                                         x.Title.ToLower().Contains(searchTerm.ToLower()));
+                                         x.Title.ToLower().Contains(searchTerm.ToLower()) ||
+                                         x.Product.Title.ToLower().Contains(searchTerm.ToLower()));
+
+            }
+
+         
+
+            if (reviewFiltering.HasValue)
+            {
+                reviewsQuery = reviewFiltering switch
+                {
+                    ReviewType.NotRecommended => reviewsQuery = reviewsQuery.Where(x => x.Rating==ReviewType.NotRecommended),
+                    ReviewType.Weak => reviewsQuery = reviewsQuery.Where(x => x.Rating == ReviewType.Weak),
+                    ReviewType.Average => reviewsQuery = reviewsQuery.Where(x => x.Rating == ReviewType.Average),
+                    ReviewType.Good => reviewsQuery = reviewsQuery.Where(x => x.Rating == ReviewType.Good),
+                    ReviewType.Excellent or _=> reviewsQuery = reviewsQuery.Where(x => x.Rating == ReviewType.Excellent),
+                   
+                };
 
             }
 
