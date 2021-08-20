@@ -58,6 +58,32 @@
                         .To<ProductsController>(c => c
                          .Details(TestId, With.Any<ProductsDetailsQueryModel>())));
 
+        [Theory]
+        [InlineData(ReviewType.Excellent, DEFAULT_TITLE, TestContent)]
+        public void PostAddShouldBeForAuthorizedUsersAndShoulReturnBadRequestWhenProductIsNotPublic(
+        ReviewType rating,
+        string title,
+        string content
+          )
+        => MyController<ReviewsController>
+            .Instance(controller => controller
+                      .WithUser()
+                      .WithData(GetProduct(IsPublic: false)))
+             .Calling(c => c.Add(TestId, new ReviewFormModel
+             {
+                 Rating = rating,
+                 Title = title,
+                 Content = content
+
+             }))
+             .ShouldHave()
+             .ActionAttributes(attributes => attributes
+                 .RestrictingForAuthorizedRequests()
+                  .RestrictingForHttpMethod(HttpMethod.Post))
+             .AndAlso()
+            .ShouldReturn()
+            .BadRequest();  
+
 
         [Theory]
         [InlineData(ReviewType.Excellent,DEFAULT_TITLE, TestContent)]

@@ -50,20 +50,36 @@
                              .Details(TestId,With.Any<ProductsDetailsQueryModel>())));
 
         [Fact]
-        public void AddShouldReturnNotFoundWhenUserIsAdmin()
+        public void AddShouldReturnNotFoundWhenProductDoesNotExists()
+      => MyPipeline
+              .Configuration()
+              .ShouldMap(request => request
+                 .WithPath($"/Favourites/Add/{TestId}")
+                 .WithUser())
+               .To<FavouritesController>(c => c.Add(TestId))
+                .Which()
+                .ShouldHave()
+                .ActionAttributes(attributes => attributes
+                      .RestrictingForAuthorizedRequests())
+                  .AndAlso()
+                 .ShouldReturn()
+                 .NotFound();
+
+        [Fact]
+        public void AddShouldReturnBadRequestWhenUserIsAdmin()
           => MyPipeline
                   .Configuration()
                   .ShouldMap(request => request
                      .WithPath($"/Favourites/Add/{TestId}")
                      .WithUser(new[] { AdminConstants.AdministratorRoleName }))
                    .To<FavouritesController>(c => c.Add(TestId))
-                    .Which()
+                    .Which(controller=>controller.WithData(GetProduct()))
                     .ShouldHave()
                     .ActionAttributes(attributes => attributes
                           .RestrictingForAuthorizedRequests())
                       .AndAlso()
                      .ShouldReturn()
-                     .NotFound();
+                     .BadRequest();
                     
 
         [Fact]

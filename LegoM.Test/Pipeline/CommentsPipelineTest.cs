@@ -29,6 +29,22 @@
                  .View();
 
 
+        [Fact]
+        public void GetAddShouldBeForAuthorizedUsersAndReturnNotFoundWhenReviewDoesNotExists()
+           => MyPipeline
+               .Configuration()
+               .ShouldMap(request => request.WithPath($"/Comments/Add/{1}/{Information}")
+               .WithUser())
+               .To<CommentsController>(c => c.Add(1, Information))
+               .Which()
+               .ShouldHave()
+                .ActionAttributes(attributes => attributes
+                     .RestrictingForAuthorizedRequests())
+                .AndAlso()
+                .ShouldReturn()
+                .NotFound();
+
+
         [Theory]
         [InlineData(1, "TestContent")]
         public void PostAddShouldBeForAuthorizedUsersAndReturnCorrectDataAndModelAndReturnRedirectToView(
@@ -66,5 +82,33 @@
             .Redirect(redirect => redirect
                      .To<ReviewsController>(c => c
                      .Details(reviewId, Information)));
+
+        [Theory]
+        [InlineData(1, "TestContent")]
+        public void PostAddShouldBeForAuthorizedUsersAndReturnNotFoundWhenReviewDoesNotExists(
+            int reviewId,
+            string content)
+            => MyPipeline
+                .Configuration()
+                .ShouldMap(request => request.WithPath($"/Comments/Add/{reviewId}/{Information}")
+                .WithMethod(HttpMethod.Post)
+                .WithFormFields(new
+                {
+                    Content = "TestContent"
+                })
+                .WithUser()
+                .WithAntiForgeryToken())
+            .To<CommentsController>(c => c.Add(reviewId, Information, new CommentFormModel
+            {
+                Content = content
+            }))
+            .Which()
+            .ShouldHave()
+            .ActionAttributes(attributes => attributes
+                    .RestrictingForAuthorizedRequests()
+                    .RestrictingForHttpMethod(HttpMethod.Post))
+            .AndAlso()
+            .ShouldReturn()
+            .NotFound();
     }
 }

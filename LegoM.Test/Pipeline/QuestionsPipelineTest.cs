@@ -99,6 +99,22 @@
                      .ShouldReturn()
                       .View();
 
+        [Fact]
+        public void GetAddShouldBeForAuthorizedUsersAndReturnBadRequestWhenProductIsNotPublic()
+           => MyPipeline
+                 .Configuration()
+                  .ShouldMap(request => request.WithPath($"/Questions/Add/{TestId}")
+                     .WithUser())
+                   .To<QuestionsController>(c => c.Add(TestId))
+                   .Which(controller => controller
+                         .WithData(GetProduct(IsPublic: false)))
+                   .ShouldHave()
+                   .ActionAttributes(attributes => attributes
+                          .RestrictingForAuthorizedRequests())
+                    .AndAlso()
+                    .ShouldReturn()
+                     .BadRequest();
+
 
         [Theory]
         [InlineData("MyTestContent", TestId)]
@@ -138,6 +154,34 @@
                                            redirect
                                            .To<ProductsController>(c =>
                                            c.Details(productId,With.Any<ProductsDetailsQueryModel>())));
+        [Fact]
+        public void PostAddShouldBeForAuthorizedUsersAndReturnBadRequestWhenProductIsNotPublic()
+           => MyRouting
+               .Configuration()
+                .ShouldMap(request => request
+                       .WithPath($"/Questions/Add/{TestId}")
+                      .WithMethod(HttpMethod.Post)
+                      .WithFormFields(new
+                      {
+                          Content = "TestContent"
+                      })
+                      .WithUser()
+                      .WithAntiForgeryToken())
+                      .To<QuestionsController>(c => c.Add(TestId, new QuestionFormModel
+                      {
+                          Content = "TestContent"
+                      }))
+                      .Which(controller => controller.WithData(GetProduct(IsPublic: false)))
+                      .ShouldHave()
+                       .ActionAttributes(attributes => attributes
+                             .RestrictingForAuthorizedRequests()
+                             .RestrictingForHttpMethod(HttpMethod.Post))
+                     .AndAlso()
+                     .ShouldReturn()
+                      .BadRequest();
+
+      
+
 
 
         [Theory]

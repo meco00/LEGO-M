@@ -29,7 +29,24 @@
             .ShouldReturn()
             .View());
 
-       
+
+        [Fact]
+        public void GetAddShouldBeForAuthorizedUsersAndReturnNotFoundWhenQuestionDoesNotExists()
+         => MyPipeline
+               .Configuration()
+                .ShouldMap(request => request
+                   .WithPath($"/Answers/Add/{1}/{Information}")
+                .WithUser())
+                .To<AnswersController>(c => c.Add(1, Information))
+               .Which()
+               .ShouldHave()
+            .ActionAttributes(attributes => attributes
+                 .RestrictingForAuthorizedRequests())
+            .AndAlso()
+            .ShouldReturn()
+            .NotFound();
+
+
 
         [Theory]
         [InlineData(1,"ContentTest")]
@@ -72,9 +89,40 @@
                           .Details(questionId,Information)));
 
 
+        [Theory]
+
+        [InlineData(2, "ContentTest2")]
+        public void PostAddShouldBeForAuthorizedUsersAndReturnNotFoundWhenQuestionDoesNotExists(
+         int questionId,
+         string content)
+         => MyPipeline
+            .Configuration()
+             .ShouldMap(request => request.WithPath($"/Answers/Add/{questionId}/{Information}")
+                .WithUser()
+                 .WithAntiForgeryToken()
+                .WithMethod(HttpMethod.Post)
+                .WithFormFields(new
+                {
+                    Content = content,
+
+                }))
+               .To<AnswersController>(c => c.Add(questionId, Information, new AnswerFormModel
+               {
+                   Content = content
+               }))
+              .Which()
+               .ShouldHave()
+               .ActionAttributes(attributes => attributes
+                .RestrictingForAuthorizedRequests()
+                 .RestrictingForHttpMethod(HttpMethod.Post))
+               .AndAlso()
+               .ShouldReturn()
+               .NotFound();
 
 
-        
+
+
+
 
 
 
