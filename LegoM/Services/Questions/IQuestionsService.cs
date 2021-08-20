@@ -9,7 +9,8 @@
         void Create(
             string productId,
             string userId,
-            string content
+            string content,
+            bool IsPublic=false
             );
 
         void ChangeVisibility(int id);

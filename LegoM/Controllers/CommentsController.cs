@@ -51,9 +51,15 @@
                 return this.View(comment);
             }
 
-            this.comments.Create(id, this.User.Id(), comment.Content);
+            var IsUserAdmin = this.User.IsAdmin();
 
-            this.TempData[WebConstants.GlobalMessageKey] = "Your comment was added and it is awaiting for approval!";
+            this.comments.Create(
+                id,
+                this.User.Id(),
+                comment.Content,
+                IsUserAdmin);
+
+            this.TempData[WebConstants.GlobalMessageKey] = $"Your comment was added  { (IsUserAdmin ? string.Empty : "and is awaiting for approval!") }";
 
             
 

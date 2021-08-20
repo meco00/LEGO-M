@@ -50,14 +50,17 @@
             if (!ModelState.IsValid)
             {
                 return this.View(answer);
-            }              
+            }
+
+            var IsUserAdmin = this.User.IsAdmin();
 
             this.answers.Create(
                 id,
                 this.User.Id(),
-                answer.Content);
+                answer.Content,
+               IsUserAdmin);
 
-            this.TempData[WebConstants.GlobalMessageKey] = "Your answer was added and it is awaiting for approval!";
+            this.TempData[WebConstants.GlobalMessageKey] = $"Your answer was added { (IsUserAdmin ? string.Empty : "and is awaiting for approval!") }";
        
             return RedirectToAction("Details","Questions", new { id = questionModel.Id, information = questionModel.GetInformation() });
 

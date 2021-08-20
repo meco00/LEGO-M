@@ -70,7 +70,11 @@
 
         }
 
-        public void Create(string productId, string userId, string content)
+        public void Create(
+            string productId,
+            string userId,
+            string content,
+            bool IsPublic = false)
         {
             var question = new Question
             {
@@ -78,7 +82,7 @@
                 ProductId = productId,
                 UserId = userId,
                 PublishedOn = DateTime.UtcNow,
-                IsPublic = false
+                IsPublic = IsPublic
                 
             };
 

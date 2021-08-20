@@ -11,7 +11,8 @@
             string userId,
             ReviewType rating,
             string content,
-            string title
+            string title,
+            bool IsPublic = false
             );
 
         bool Edit(

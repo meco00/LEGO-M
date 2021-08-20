@@ -150,12 +150,11 @@
             {
                 cartItem.Product.Quantity += cartItem.Quantity;
                 
-            }       
+            }
 
-            this.data.SaveChanges();
+            order.IsAccomplished = false;
 
-            this.Delete(id);
-
+            this.data.SaveChanges();         
 
             return true;
         }

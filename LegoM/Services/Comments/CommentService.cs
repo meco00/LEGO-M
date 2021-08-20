@@ -29,7 +29,11 @@
             .ProjectTo<CommentServiceModel>(mapper)
             .ToList();
 
-        public void Create(int reviewId, string userId, string content)
+        public void Create(
+            int reviewId, 
+            string userId, 
+            string content,
+            bool IsPublic = false)
         {
             var comment = new Comment
             {
@@ -37,7 +41,7 @@
                 UserId = userId,
                 Content = content,
                 PublishedOn=DateTime.UtcNow,
-                IsPublic=false
+                IsPublic= IsPublic
             };
 
             this.data.Comments.Add(comment);

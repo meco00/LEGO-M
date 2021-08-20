@@ -64,7 +64,6 @@ else
         <div class="row">
             <h2 class="col-md-4 text-center" id="total-products"></h2>
             <h2 class="col-md-4 text-center" id="total-users"></h2>
-            <h2 class="col-md-4 text-center" id="total-soldProducts"></h2>
         </div>
     </div>
 
@@ -75,7 +74,6 @@ else
             $.get('/api/statistics', (data) => {
                 $('#total-products').text(data.totalProducts + " Products");
                 $('#total-users').text(data.totalUsers + " Users");
-                $('#total-soldProducts').text(data.totalProductsSold + " Products Sold");
 
                 $('#statistics').removeClass('d-none');
                 $('#statistics-button').hide();

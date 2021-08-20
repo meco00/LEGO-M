@@ -28,32 +28,45 @@
 
 <hr />
 
-<div class="row mt-5">
-    <div class="col-md-2 mt-3">
+<div class="row mt-5 mb-5">
+    <div class="col-md-2 mt-3 ">
         <h5>@Model.Review.UserName</h5>
         <span>@Model.Review.PublishedOn</span>
     </div>
     <div class="col-md-8 ml-5">
         <h3>@Model.Review.Title</h3>
         <h5>Rating: @Model.Review.Rating </h5>
-        <p>@Model.Review.Content</p>
+        <p style="word-wrap: break-word">@Model.Review.Content</p>
         <a asp-controller="Comments" asp-action="Add" asp-route-id="@Model.Review.Id" asp-route-information="@(Model.Review.GetInformation())" class="mt-3">Add Comment</a>
     </div>
+    @if (this.User.IsAdmin())
+    {
+        <div class="col-md-2">
+            <a asp-controller="Reviews" asp-action="Delete" asp-route-id="@Model.Review.Id" >Delete</a>
+        </div>
+
+    }
 </div>
 
 <hr class="ml-5" />
 
 @foreach (var comment in Model.Comments)
 {
-    <div class="row ml-5 mt-5 mb-5">
-        <div class="col-md-2">
-            <h5>@comment.UserName</h5>
-            <span>@comment.PublishedOn</span>
-        </div>
-        <div class="col-md-8 ml-5">
-            <h5>@comment.Content</h5>
-        </div>
+<div class="row ml-5 mt-5 mb-5">
+    <div class="col-md-2">
+        <h5>@comment.UserName</h5>
+        <span>@comment.PublishedOn</span>
     </div>
+    <div class="col-md-8 ml-5">
+        <p style="word-wrap: break-word">@comment.Content</p>
+    </div>
+    @if (this.User.IsAdmin())
+    {
+        <div class="col-md-2 mt-3">
+            <a asp-area="Admin" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id">Delete</a>
+        </div>
+    }
+</div>
 
     <hr class="ml-5" />
 }

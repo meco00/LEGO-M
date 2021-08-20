@@ -9,7 +9,8 @@
         void Create(
             int reviewId,
             string userId,
-            string content);
+            string content,
+            bool IsPublic = false);
 
         IEnumerable<CommentServiceModel> CommentsOfReview(int reviewId);
 

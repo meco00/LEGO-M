@@ -50,13 +50,15 @@
 
             }
 
+            var IsUserAdmin = this.User.IsAdmin();
 
             this.questions.Create(
                 Id,
                 this.User.Id(),
-                question.Content);
+                question.Content,
+                IsUserAdmin);
 
-            this.TempData[WebConstants.GlobalMessageKey] = "Your question was added and it is awaiting for approval!";
+            this.TempData[WebConstants.GlobalMessageKey] = $"Your question was added  { (IsUserAdmin ? string.Empty : "and is awaiting for approval!") }";
 
             return RedirectToAction(nameof(ProductsController.Details), "Products", new { id = Id });
 

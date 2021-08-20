@@ -21,7 +21,11 @@
             this.mapper = mapper.ConfigurationProvider;
         }
 
-        public void Create(int questionId, string userId, string content)
+        public void Create(
+            int questionId,
+            string userId, 
+            string content,
+            bool IsPublic = false)
         {
 
             var answer = new Answer
@@ -30,7 +34,7 @@
                 UserId = userId,
                 Content = content,
                 PublishedOn=DateTime.UtcNow,
-                IsPublic=false
+                IsPublic= IsPublic
             };
 
             this.data.Answers.Add(answer);

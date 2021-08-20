@@ -7,6 +7,8 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+   
+
     public class ShoppingCartController:Controller
     {
         private readonly IProductsService products;
@@ -80,8 +82,9 @@
         [HttpPost]
         public IActionResult Edit(int id,CartItemServiceModel cartItemEdit )
         {
+            var isUserAdmin = this.User.IsAdmin();
 
-            if (!this.shoppingCarts.ItemIsByUser(id, this.User.Id()) && !this.User.IsAdmin())
+            if (!this.shoppingCarts.ItemIsByUser(id, this.User.Id()) && !isUserAdmin)
             {
                 return BadRequest();
             }
@@ -93,6 +96,11 @@
                 return NotFound();
             }
 
+            if (isUserAdmin)
+            {
+                return RedirectToAction(nameof(Areas.Admin.Controllers.OrdersController.UnAccomplished), "Orders");
+            }
+
 
             return RedirectToAction(nameof(Mine));
         }
@@ -102,7 +110,10 @@
         [Authorize]
         public IActionResult Delete(int id)
         {
-            if (!this.shoppingCarts.ItemIsByUser(id,this.User.Id()) && !this.User.IsAdmin())
+            var isUserAdmin = this.User.IsAdmin();
+
+
+            if (!this.shoppingCarts.ItemIsByUser(id,this.User.Id()) && !isUserAdmin)
             {
                 return BadRequest();
             }
@@ -115,6 +126,11 @@
             }
 
             this.TempData[WebConstants.GlobalMessageKey] = "Product was deleted succesfully from Shopping Cart!";
+
+            if (isUserAdmin)
+            {
+                return RedirectToAction(nameof(Areas.Admin.Controllers.OrdersController.UnAccomplished), "Orders");
+            }
 
             return RedirectToAction(nameof(Mine));
 

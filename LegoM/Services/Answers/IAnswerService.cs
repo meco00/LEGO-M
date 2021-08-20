@@ -8,7 +8,8 @@ namespace LegoM.Services.Answers
         void Create(
             int questionId,
             string userId,
-            string content
+            string content,
+            bool IsPublic = false
             );
 
         IEnumerable<AnswerServiceModel> AnswersOfQuestion(int questionId);

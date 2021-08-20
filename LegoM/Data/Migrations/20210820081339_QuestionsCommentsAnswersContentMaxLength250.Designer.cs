@@ -4,14 +4,16 @@ using LegoM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LegoM.Data.Migrations
 {
     [DbContext(typeof(LegoMDbContext))]
-    partial class LegoMDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210820081339_QuestionsCommentsAnswersContentMaxLength250")]
+    partial class QuestionsCommentsAnswersContentMaxLength250
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -32,9 +32,17 @@
         <span>@Model.Question.PublishedOn</span>
     </div>
     <div class="col-md-8 ml-5">
-        <h4>@Model.Question.Content</h4>
+        <p style="word-wrap: break-word">@Model.Question.Content</p>
         <a asp-controller="Answers" asp-action="Add" asp-route-id="@Model.Question.Id" asp-route-information="@(Model.Question.GetInformation())" class="mt-3">Add Answer</a>
     </div>
+    @if (this.User.IsAdmin())
+    {
+        <div class="col-md-2">
+        <a asp-controller="Questions" asp-action="Delete" asp-route-id="@Model.Question.Id">Delete</a>
+        </div>
+
+    }
+
 </div>
 
 <hr class="ml-5" />
@@ -47,8 +55,14 @@
             <span>@answer.PublishedOn</span>
         </div>
         <div class="col-md-8 ml-5">
-            <h5>@answer.Content</h5>
+            <p style="word-wrap: break-word">@answer.Content</p>
         </div>
+        @if (this.User.IsAdmin())
+        {
+         <div class="col-md-2">
+             <a asp-area="Admin" asp-controller="Answers" asp-action="Delete" asp-route-id="@answer.Id" >Delete</a>
+         </div>
+        }
     </div>
 
     <hr class="ml-5" />

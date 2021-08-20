@@ -57,7 +57,7 @@
         [HttpPost]
         public IActionResult Add(string Id,ReviewFormModel review)
         {
-            ;
+            var IsUserAdmin = this.User.IsAdmin();
 
             if (!this.products.IsProductPublic(Id))
             {
@@ -66,7 +66,7 @@
            
             var reviewModel = this.reviews.ReviewByProductAndUser(Id, this.User.Id());
 
-            if (reviewModel != null)
+            if (reviewModel != null&& !IsUserAdmin)
             {
                
                 return RedirectToAction("Details", new { id = reviewModel.Id, information = reviewModel.GetInformation() });
@@ -88,7 +88,8 @@
                 this.User.Id(),
                 review.Rating.Value,
                 review.Content,
-                review.Title
+                review.Title,
+                IsUserAdmin
                 );
 
             this.TempData[WebConstants.GlobalMessageKey] = $"Review was added { (this.User.IsAdmin() ? string.Empty : "and is awaiting for approval!") } ";
@@ -158,9 +159,14 @@
         [Authorize]
         public IActionResult Edit(int id,ReviewFormModel review)
         {
+            var IsUserAdmin = this.User.IsAdmin();
 
-            ;
-
+            if (!this.reviews.ReviewIsByUser(id,this.User.Id())&& !IsUserAdmin)
+            {
+                return BadRequest();
+            }
+          
+          
 
             if (!(ModelState.IsValid))
             {
@@ -168,13 +174,7 @@
 
             }
 
-
-            if (!this.reviews.ReviewIsByUser(id,this.User.Id())&& !this.User.IsAdmin())
-            {
-                return BadRequest();
-            }
-
-            var IsUserAdmin = this.User.IsAdmin();
+           
 
             var isReviewEdited = this.reviews.Edit
                 (id, 

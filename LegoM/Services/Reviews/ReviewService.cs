@@ -24,7 +24,13 @@
 
 
 
-        public void Create(string productId, string userId, ReviewType rating, string content, string title)
+        public void Create(
+            string productId,
+            string userId, 
+            ReviewType rating,
+            string content,
+            string title,
+            bool IsPublic = false)
         {
             title = ValidateTitle(rating, title);
 
@@ -36,7 +42,7 @@
                 ProductId = productId,
                 UserId = userId,
                 PublishedOn = DateTime.UtcNow,
-                IsPublic=false
+                IsPublic= IsPublic
 
             };
 
