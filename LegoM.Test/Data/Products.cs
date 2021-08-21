@@ -41,6 +41,7 @@
                 Title = "Title",
                 IsPublic = IsPublic,
                 IsDeleted = IsDeleted,
+                Quantity=5,
                 Merchant = merchant,
                 Category = new Category
                 {

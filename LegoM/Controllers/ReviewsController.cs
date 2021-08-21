@@ -133,6 +133,10 @@
         public IActionResult Edit(int id)
         {
             ;
+            if (!this.reviews.ReviewIsByUser(id, this.User.Id()) && !this.User.IsAdmin())
+            {
+                return BadRequest();
+            }
 
             var review = this.reviews.Details(id);
 
@@ -141,10 +145,6 @@
                 return NotFound();
             }
 
-            if (!this.reviews.ReviewIsByUser(id, this.User.Id()) && !this.User.IsAdmin())
-            {
-                return BadRequest();
-            }
 
             var reviewFormModel = this.mapper.Map<ReviewFormModel>(review);
 
@@ -170,9 +170,7 @@
                 return this.View(review);
 
             }
-
-           
-
+       
             var isReviewEdited = this.reviews.Edit
                 (id, 
                 review.Rating.Value, 
@@ -183,7 +181,7 @@
 
             if (!isReviewEdited)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             this.TempData[WebConstants.GlobalMessageKey] = $"Review was edited { (IsUserAdmin ? string.Empty : "and is awaiting for approval!") } ";

@@ -132,6 +132,36 @@
                     }));
 
         [Fact]
+        public void GetEditShouldBeForAuthorizedUsersAndReturnBadRequestWhenReviewIsNotOfUser()
+        => MyPipeline
+                .Configuration()
+               .ShouldMap(request => request.WithPath($"/Reviews/Edit/{1}")
+                .WithUser())
+              .To<ReviewsController>(c => c.Edit(1))
+              .Which(controller => controller.WithData(GetReviews(1, sameUser: false)))
+              .ShouldHave()
+                 .ActionAttributes(attributes => attributes
+                                .RestrictingForAuthorizedRequests())
+                 .AndAlso()
+                 .ShouldReturn()
+                 .BadRequest();
+
+        [Fact]
+        public void GetEditShouldBeForAuthorizedUsersAndReturnNotFoundWhenReviewDoesNotExistsAndUserIsAdmin()
+   => MyPipeline
+           .Configuration()
+          .ShouldMap(request => request.WithPath($"/Reviews/Edit/{1}")
+           .WithUser(new[] { AdminConstants.AdministratorRoleName}))
+         .To<ReviewsController>(c => c.Edit(1))
+         .Which()
+         .ShouldHave()
+            .ActionAttributes(attributes => attributes
+                           .RestrictingForAuthorizedRequests())
+            .AndAlso()
+            .ShouldReturn()
+            .NotFound();
+
+        [Fact]
         public void GetDeleteShouldBeForAuthorizedUsersAndReturnCorrectView()
             => MyPipeline
                 .Configuration()

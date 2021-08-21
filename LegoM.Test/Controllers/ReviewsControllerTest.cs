@@ -17,6 +17,7 @@
     using static Data.Reviews;
     using static Data.DataConstants;
     using LegoM.Models.Products;
+    using LegoM.Areas.Admin;
 
     public  class ReviewsControllerTest
     {
@@ -118,6 +119,42 @@
                 .Redirect(redirect => redirect
                        .To<ReviewsController>(c => c
                        .Mine()));
+
+        [Fact]
+        public void PostEditShouldBeForAuthorizedUsersAndReturnBadRequestWhenReviewIsNotOfUser()
+        => MyController<ReviewsController>
+             .Instance(controller => controller
+                      .WithUser()
+                      .WithData(GetReviews(1, sameUser: false)))
+             .Calling(c => c.Edit(1, With.Any<ReviewFormModel>()))
+             .ShouldHave()
+             .ActionAttributes(attributes => attributes
+                   .RestrictingForAuthorizedRequests()
+                    .RestrictingForHttpMethod(HttpMethod.Post))
+             .AndAlso()
+            .ShouldReturn()
+            .BadRequest();
+
+        [Fact]
+        public void PostEditShouldBeForAuthorizedUsersAndWhenUserIsAdminReturnBadRequestWhenReviewDoesNotExists()
+        => MyController<ReviewsController>
+             .Instance(controller => controller
+                      .WithUser(new[] { AdminConstants.AdministratorRoleName}))
+             .Calling(c => c.Edit(1, new ReviewFormModel
+             {
+                 Rating = ReviewType.Excellent,
+                 Title = DEFAULT_TITLE,
+                 Content = TestContent,
+
+             }))
+             .ShouldHave()
+             .ActionAttributes(attributes => attributes
+                   .RestrictingForAuthorizedRequests()
+                    .RestrictingForHttpMethod(HttpMethod.Post))
+             .ValidModelState()
+             .AndAlso()
+            .ShouldReturn()
+            .NotFound();
 
 
 

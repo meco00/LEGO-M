@@ -96,6 +96,8 @@
                 return NotFound();
             }
 
+            this.TempData[WebConstants.GlobalMessageKey] = "Cart item quantity was edited succesfully!";
+
             if (isUserAdmin)
             {
                 return RedirectToAction(nameof(Areas.Admin.Controllers.OrdersController.UnAccomplished), "Orders");
