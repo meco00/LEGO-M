@@ -5,8 +5,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     using static ShoppingCartItems;
 
@@ -55,10 +53,7 @@
         public static List<Order> GetOrders(
             int count = 5,
             bool accomplished = false,
-            bool sameUser = true,
-            int cartItemsCount=5,
-            byte quantityPerItem=1,
-            byte quantityPerProduct=5)
+            bool sameUser = true)
         {
             var user = new User
             {
@@ -92,16 +87,3 @@
         }
     }
 }
-
-
-//public int Id { get; set; }
-
-//public string FullName { get; set; }
-
-//public string State { get; set; }
-
-//public string City { get; set; }
-
-//public string OrderedOn { get; set; }
-
-//public string TotalAmount { get; set; }

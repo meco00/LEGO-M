@@ -202,16 +202,16 @@
             if (merchantId == null&& !isUserAdmin)
             {
                 return BadRequest();
+            }        
+
+            if (!this.products.ProductIsByMerchant(Id, merchantId) && !isUserAdmin)
+            {
+                return BadRequest();
             }
 
             if (!this.products.ProductExists(Id))
             {
                 return NotFound();
-            }
-
-            if (!this.products.ProductIsByMerchant(Id, merchantId) && !isUserAdmin)
-            {
-                return BadRequest();
             }
 
 

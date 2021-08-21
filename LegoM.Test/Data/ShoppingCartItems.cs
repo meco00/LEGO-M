@@ -2,18 +2,14 @@
 {
     using LegoM.Data.Models;
     using MyTested.AspNetCore.Mvc;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public static class ShoppingCartItems
     {
         public static IEnumerable<ShoppingCartItem> GetShoppingCartItems(int count = 5,
             byte cartQuantity=1,
             byte productQuantity=5,
-            bool isPublic = true,
             bool sameUser = true)
         {
             var user = new User

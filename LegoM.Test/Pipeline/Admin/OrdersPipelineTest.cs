@@ -84,8 +84,6 @@
                   {
                      var order = set.FirstOrDefault();
                      order.IsAccomplished.Should().BeTrue();
-                     order.ShoppingCart.All(x => x.Quantity==quantityPerProduct-quantityPerCartItem);
-                     order.ShoppingCart.All(x => x.UserId==null);
 
                   }))
                  .AndAlso()
@@ -134,7 +132,6 @@
                   {
                       var order = set.FirstOrDefault();
                       order.IsAccomplished.Should().BeFalse();
-                      order.ShoppingCart.All(x => x.Product.Quantity == quantityPerProduct + quantityPerCartItem);
                       
                   }))
                  .AndAlso()
@@ -184,6 +181,25 @@
              .Which()
              .ShouldReturn()
              .NotFound();
+
+        [Fact]
+        public void DetailsShouldReturnViewWithCorrectModelAndData()
+            => MyPipeline
+             .Configuration()
+             .ShouldMap(request => request
+               .WithLocation($"/Admin/Orders/Details/{1}")
+               .WithUser(new[] { AdminConstants.AdministratorRoleName }))
+             .To<OrdersController>(c => c
+                   .Details(1))
+             .Which(controller => controller.WithData(GetOrder(cartItemsCount:3)))
+             .ShouldReturn()
+             .View(view => view
+             .WithModelOfType<OrderDetailsModel>()
+             .Passing(model =>
+             {
+                 model.Order.Should().NotBeNull();
+                 model.OrderItems.Should().HaveCount(3);
+             }));
 
 
     }

@@ -13,7 +13,7 @@
     using Xunit;
 
     using static Data.ShoppingCartItems;
-    using static Data.Users;
+    using static Data.Merchants;
 
     public class OrdersPipelineTest
     {

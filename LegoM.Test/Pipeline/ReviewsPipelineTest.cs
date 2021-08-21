@@ -1,25 +1,19 @@
 ﻿namespace LegoM.Test.Pipeline
 {
-    using LegoM.Controllers;
-    using MyTested.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Xunit;
-    using LegoM.Models.Reviews;
     using FluentAssertions;
-
-
-    using static Data.Reviews;
-    using static Data.Comments;
-    using static Data.Products;
-    using static Data.DataConstants;
-    using LegoM.Data.Models.Enums;
-    using LegoM.Data.Models;
-    using LegoM.Services.Reviews.Models;
     using LegoM.Areas.Admin;
+    using LegoM.Controllers;
+    using LegoM.Data.Models.Enums;
+    using LegoM.Models.Reviews;
+    using LegoM.Services.Reviews.Models;
+    using MyTested.AspNetCore.Mvc;
+    using System.Collections.Generic;
+    using Xunit;
+
+    using static Data.Comments;
+    using static Data.DataConstants;
+    using static Data.Products;
+    using static Data.Reviews;
 
     public class ReviewsPipelineTest
     {
@@ -47,7 +41,7 @@
                       model.Should().NotBeNull();
                       model.Review.Should().NotBeNull();
                       model.Review.Id.Should().Be(1);
-                      model.Review.Title.Should().Be(DEFAULT_TITLE);
+                      model.Review.Title.Should().Be(Title);
                       model.Comments.Should().HaveCount(commentsCount);
                   })));
 

@@ -10,15 +10,8 @@
 
    public static class Questions
     {
-        public static DateTime TestDateTime = new DateTime(1, 1, 1);
-
         public static string GetInformation(int condition=2,string content="Quest" )
-            => String.Concat(condition + "-" + TestDateTime.ToString("dd MMM yyy") + "-" + new string(content.Take(5).ToArray()));
-
-
-
-        //      public static string GetInformation(this IQuestionModel model)
-        //=> String.Concat(model.ProductCondition + "-" + model.PublishedOn + "-" + new string(model.Content.Take(5).ToArray()));
+            => String.Concat(condition + "-" + new DateTime(1, 1, 1).ToString("dd MMM yyy") + "-" + new string(content.Take(5).ToArray()));
 
 
         public static List<Question> GetQuestions(         

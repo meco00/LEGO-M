@@ -1,18 +1,13 @@
 ﻿namespace LegoM.Test.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using MyTested.AspNetCore.Mvc;
-   
-    using Xunit;
-    using System.Threading.Tasks;
     using LegoM.Controllers;
     using LegoM.Data.Models;
+    using LegoM.Models.Products;
+    using MyTested.AspNetCore.Mvc;
+    using System.Linq;
+    using Xunit;
 
     using static WebConstants;
-    using LegoM.Models.Products;
 
     public class MerchantsControllerTest
     {

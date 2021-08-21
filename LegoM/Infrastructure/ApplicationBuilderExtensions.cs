@@ -58,6 +58,10 @@
                         {
                             Name="За момичета"
                         },
+                          new SubCategory()
+                        {
+                            Name="За момчета"
+                        },
                          new SubCategory()
                         {
                             Name="Лего"
@@ -66,6 +70,26 @@
                         {
                             Name="Плюшени играчки"
                         },
+                           new SubCategory()
+                        {
+                            Name="Автомобили, камиони и мотори"
+                        },
+                           new SubCategory()
+                        {
+                            Name="Пъзели"
+                        }, 
+                        new SubCategory()
+                        {
+                            Name="Карти за игра"
+
+                        },
+                         new SubCategory()
+                        {
+                            Name="Пистолети"
+
+                        },
+
+
                     }
                 },
                   new Category()
@@ -80,6 +104,32 @@
                          new SubCategory()
                         {
                             Name="Ученически раници и чанти"
+                        }, 
+                        new SubCategory()
+                        {
+                            Name="Несесери"
+
+                        }, 
+                        new SubCategory()
+                        {
+                            Name="Рисуване"
+
+
+                        }, 
+                        new SubCategory()
+                        {
+                            Name="Пишещи средства"
+
+                        },  
+                        new SubCategory()
+                        {
+                            Name="Скицници и блокчета"
+
+                        }, 
+                        new SubCategory()
+                        {
+                            Name="Папки и кутии"
+
                         },
                        
                     }

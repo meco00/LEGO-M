@@ -8,21 +8,19 @@
 
     using static Comments;
 
+
     public static class Reviews
     {
         public const string TestContent = nameof(TestContent);
 
-        public const string DEFAULT_TITLE = "TestReview";
-        public const int DEFAULT_RATING = 5;
-        public static DateTime DEFAULT_DATE = new DateTime(1, 1, 1);
+        public const string Title = "TestReview";
+        public const int Rating = 5;
+
 
         public static string GetInformation(
-           
-            string title=DEFAULT_TITLE,        
-            int rating=DEFAULT_RATING
-
-            )
-         => String.Concat(title + "-" + rating + "-" + DEFAULT_DATE.ToString("dd MMM yyy"));
+            string title=Title,        
+            int rating=Rating)
+         => String.Concat(title + "-" + rating + "-" + new DateTime(1, 1, 1).ToString("dd MMM yyy"));
 
        public static List<Review> GetReviews(int count = 5,
             bool isPublic = true,
@@ -40,7 +38,7 @@
                .Select(i => new Review
                {
                    Id = i,
-                   Title = DEFAULT_TITLE,
+                   Title = Title,
                    Rating = LegoM.Data.Models.Enums.ReviewType.Excellent,
                    Content = TestContent,
                    IsPublic = isPublic,
@@ -67,7 +65,7 @@
         public static List<Review> GetReviewsByProduct(string productId="TestId",int count=5)
           => Enumerable.Range(0, count).Select(i => new Review()
           {
-              Title = DEFAULT_TITLE,
+              Title = Title,
               Rating = LegoM.Data.Models.Enums.ReviewType.Excellent,
               Content = TestContent,
               IsPublic = true,

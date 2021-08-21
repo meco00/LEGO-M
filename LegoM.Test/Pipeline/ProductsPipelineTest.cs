@@ -10,13 +10,12 @@
     using System.Collections.Generic;
     using Xunit;
 
-
     using static Data.Categories;
     using static Data.DataConstants;
+    using static Data.Merchants;
     using static Data.Products;
     using static Data.Questions;
     using static Data.Reviews;
-    using static Data.Users;
 
     public class ProductsPipelineTest
     {

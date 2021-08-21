@@ -15,18 +15,16 @@
 
         var userIsAdmin = this.User.IsAdmin();
 
+        if (isUserMerchant || userIsAdmin)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark ml-5" asp-area="" asp-controller="Products" asp-action="Add">Add Product</a>
+            </li>
+        }
 
 
-        <li class="nav-item text-dark dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/" role="button" aria-haspopup="true" aria-expanded="true">Account</a>
-            <div class="dropdown-menu">
-                <a class="nav-link text-dark ml-2" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My Account</a>
-                <a class="nav-link text-dark ml-2" asp-area="" asp-controller="Reviews" asp-action="Mine">My Reviews</a>
-                <a class="nav-link text-dark ml-2" asp-area="" asp-controller="Questions" asp-action="Mine">My Questions</a>
-                <div class="dropdown-divider"></div>
-                <a class="nav-link text-dark ml-2" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
-            </div>
-        </li>
+
+
 
 
 
@@ -53,7 +51,16 @@
             </li>
         }
 
-
+        <li class="nav-item text-dark dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="/" role="button" aria-haspopup="true" aria-expanded="true">Account</a>
+            <div class="dropdown-menu">
+                <a class="nav-link text-dark ml-2" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My Account</a>
+                <a class="nav-link text-dark ml-2" asp-area="" asp-controller="Reviews" asp-action="Mine">My Reviews</a>
+                <a class="nav-link text-dark ml-2" asp-area="" asp-controller="Questions" asp-action="Mine">My Questions</a>
+                <div class="dropdown-divider"></div>
+                <a class="nav-link text-dark ml-2" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
+            </div>
+        </li>
     }
     else
     {

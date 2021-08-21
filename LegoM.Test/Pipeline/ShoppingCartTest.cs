@@ -4,19 +4,16 @@
     using LegoM.Areas.Admin;
     using LegoM.Controllers;
     using LegoM.Data.Models;
+    using LegoM.Models.Products;
     using LegoM.Services.ShoppingCarts.Models;
     using MyTested.AspNetCore.Mvc;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Xunit;
 
-    using static Data.ShoppingCartItems;
-    using static Data.Products;
     using static Data.DataConstants;
-    using LegoM.Models.Products;
+    using static Data.Products;
+    using static Data.ShoppingCartItems;
 
     public class ShoppingCartTest
     {

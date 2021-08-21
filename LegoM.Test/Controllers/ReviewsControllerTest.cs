@@ -1,28 +1,24 @@
 ﻿namespace LegoM.Test.Controllers
 {
+    using FluentAssertions;
+    using LegoM.Areas.Admin;
     using LegoM.Controllers;
     using LegoM.Data.Models;
-    using MyTested.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Xunit;
-    using LegoM.Models.Reviews;
     using LegoM.Data.Models.Enums;
-    using FluentAssertions;
+    using LegoM.Models.Products;
+    using LegoM.Models.Reviews;
+    using MyTested.AspNetCore.Mvc;
+    using System.Linq;
+    using Xunit;
 
+    using static Data.DataConstants;
     using static Data.Products;
     using static Data.Reviews;
-    using static Data.DataConstants;
-    using LegoM.Models.Products;
-    using LegoM.Areas.Admin;
 
     public  class ReviewsControllerTest
     {
         [Theory]
-        [InlineData(ReviewType.Excellent, DEFAULT_TITLE, TestContent)]
+        [InlineData(ReviewType.Excellent, Title, TestContent)]
         public void PostAddShouldBeForAuthorizedUsersAndShoulReturnRedirectToViewWithCorrectData(
           ReviewType rating,
           string title,
@@ -60,7 +56,7 @@
                          .Details(TestId, With.Any<ProductsDetailsQueryModel>())));
 
         [Theory]
-        [InlineData(ReviewType.Excellent, DEFAULT_TITLE, TestContent)]
+        [InlineData(ReviewType.Excellent, Title, TestContent)]
         public void PostAddShouldBeForAuthorizedUsersAndShoulReturnBadRequestWhenProductIsNotPublic(
         ReviewType rating,
         string title,
@@ -87,7 +83,7 @@
 
 
         [Theory]
-        [InlineData(ReviewType.Excellent,DEFAULT_TITLE, TestContent)]
+        [InlineData(ReviewType.Excellent,Title, TestContent)]
         public void PostEditShouldBeForAuthorizedUsersAndReturnCorrectDataAndModelAndRedirectTo(
             ReviewType rating,
             string title,
@@ -143,7 +139,7 @@
              .Calling(c => c.Edit(1, new ReviewFormModel
              {
                  Rating = ReviewType.Excellent,
-                 Title = DEFAULT_TITLE,
+                 Title = Title,
                  Content = TestContent,
 
              }))

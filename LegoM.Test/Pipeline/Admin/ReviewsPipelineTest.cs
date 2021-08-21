@@ -1,21 +1,17 @@
 ﻿namespace LegoM.Test.Pipeline.Admin
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Xunit;
-    using MyTested.AspNetCore.Mvc;
-    using LegoM.Services.Reviews.Models;
     using FluentAssertions;
     using LegoM.Areas.Admin;
+    using LegoM.Areas.Admin.Models.Reviews;
     using LegoM.Data.Models;
+    using MyTested.AspNetCore.Mvc;
+    using System.Linq;
+    using Xunit;
+
 
     using ReviewsController = LegoM.Areas.Admin.Controllers.ReviewsController;
-    
+
     using static Data.Reviews;
-    using LegoM.Areas.Admin.Models.Reviews;
 
     public class ReviewsPipelineTest
     {
@@ -55,7 +51,7 @@
 
                           review.Should().NotBeNull();
                           review.Title.Should().NotBeNull();
-                          review.Title.Should().Be(Data.Reviews.DEFAULT_TITLE);
+                          review.Title.Should().Be(Data.Reviews.Title);
                       }))
                   .AndAlso()
                   .ShouldReturn()

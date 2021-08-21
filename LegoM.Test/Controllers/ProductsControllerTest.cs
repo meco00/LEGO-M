@@ -1,23 +1,19 @@
 ﻿namespace LegoM.Test.Controllers
 {
+    using FluentAssertions;
+    using LegoM.Areas.Admin;
     using LegoM.Controllers;
+    using LegoM.Data.Models;
+    using LegoM.Data.Models.Enums;
     using LegoM.Models.Products;
     using MyTested.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Xunit;
-    using LegoM.Data.Models.Enums;
-    using LegoM.Data.Models;
-    using FluentAssertions;
 
-    using static Data.Users;
     using static Data.Categories;
-    using static Data.Products;
     using static Data.DataConstants;
-    using LegoM.Areas.Admin;
+    using static Data.Merchants;
+    using static Data.Products;
 
     public class ProductsControllerTest
     {
@@ -111,23 +107,49 @@
                  .BadRequest();
 
 
-        [Fact]
-        public void PostEditShouldEditProductAndReturnRedirectToWithCorrectDataAndModel()
+        [Theory]
+        [InlineData(
+            "TitleTest",
+            "DescriptionTest", 
+            12.55,
+            2,
+            FirstImageUrl,
+            SecondImageUrl,
+            ThirdImageUrl,
+            2,
+            1,
+            ProductCondition.New,
+            DeliveryTake.Seller
+            )]
+        public void PostEditShouldEditProductAndReturnRedirectToWithCorrectDataAndModel(
+            string title,
+            string description,
+            decimal price,
+            byte quantity,
+            string firstImageUrl,
+            string secondImageUrl,
+            string thirdImageUrl,
+            int categoryId,
+            int subCategoryId,
+            ProductCondition condition,
+            DeliveryTake deliveryTake)
             => MyController<ProductsController>
                 .Instance(controller => controller
                         .WithUser()
                         .WithData(GetProduct()))
                  .Calling(c => c.Edit(TestId, new ProductFormModel
                  {
-                     Title = "TitleTest",
-                     Description = "DescriptionTest",
-                     Price = 12.50M,
-                     Quantity = 2,
-                     FirstImageUrl = "https://upload.wikimedia.org/wikipedia/commons/4/44/Cat_img.jpg",
-                     CategoryId = 2,
-                     SubCategoryId = 1,
-                     Condition = ProductCondition.New,
-                     Delivery = DeliveryTake.Seller,
+                     Title = title,
+                     Description = description,
+                     Price = price,
+                     Quantity = quantity,
+                     FirstImageUrl = firstImageUrl,
+                     SecondImageUrl= secondImageUrl,
+                     ThirdImageUr= thirdImageUrl,
+                     CategoryId = categoryId,
+                     SubCategoryId = subCategoryId,
+                     Condition = condition,
+                     Delivery = deliveryTake,
 
                  }))
                 .ShouldHave()
@@ -138,16 +160,16 @@
                 .Data(data => data
                      .WithSet<Product>(set => set
                              .Any(x =>
-                             x.Title == "TitleTest" &&
-                             x.Description == "DescriptionTest" &&
-                             x.Price == 12.50M &&
-                             x.Quantity == 2 &&
+                             x.Title == title &&
+                             x.Description == description &&
+                             x.Price == price &&
+                             x.Quantity == quantity &&
                              x.Images.Any() &&
-                             x.CategoryId == 2 &&
-                             x.SubCategoryId == 1 &&
+                             x.CategoryId == categoryId &&
+                             x.SubCategoryId == subCategoryId &&
                              x.IsPublic == false &&
-                             x.ProductCondition == ProductCondition.New &&
-                             x.DeliveryTake == DeliveryTake.Seller)))
+                             x.ProductCondition == condition &&
+                             x.DeliveryTake == deliveryTake)))
                  .TempData(tempData => tempData
                           .ContainingEntryWithKey(WebConstants.GlobalMessageKey))
                  .AndAlso()
@@ -181,8 +203,7 @@
         public void PostEditShouldReturnNotFoundWhenProductDoesNotExists()
       => MyController<ProductsController>
           .Instance(controller => controller
-                  .WithUser()
-                  .WithData(GetMerchant()))
+                  .WithUser(new[] {AdminConstants.AdministratorRoleName }))
            .Calling(c => c.Edit(TestId, With.Any<ProductFormModel>()))
           .ShouldHave()
          .ActionAttributes(attributes => attributes

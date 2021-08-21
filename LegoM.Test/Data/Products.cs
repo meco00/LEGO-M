@@ -9,6 +9,14 @@
 
     public static class Products
     {
+
+        public const string FirstImageUrl = "https://upload.wikimedia.org/wikipedia/commons/4/44/Cat_img.jpg";
+
+        public const string SecondImageUrl = "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png";
+
+        public const string ThirdImageUrl = "https://timesofindia.indiatimes.com/photo/67586673.cms";
+
+
         public static Product GetProduct(
             string id=TestId,
             bool userSame=true,
@@ -87,7 +95,7 @@
              .Range(1, count)
              .Select(i => new Product
              {
-                 IsPublic = IsDeleted ? false : true,
+                 IsPublic = !IsDeleted ,
                  IsDeleted = IsDeleted ,
                  DeletedOn = IsDeleted ? new System.DateTime(1, 1, 1) : null,
                  Merchant = sameUser ? merchant : new Merchant

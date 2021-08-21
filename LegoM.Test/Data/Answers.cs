@@ -8,10 +8,7 @@
     using static DataConstants;
 
     public static class Answers
-    {
-
-       
-
+    {      
         public static IEnumerable<Answer> GetAnswers(int count=5, int questionId = 1,bool IsPublic=true)
        => Enumerable.Range(0, count).Select(i => new Answer()
        {
@@ -26,7 +23,7 @@
 
 
         public static Answer GetAnswer(int id = 1, bool IsPublic = true)
-            => new Answer 
+            => new()
             {
                 Id = id,
                 IsPublic = IsPublic
