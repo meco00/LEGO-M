@@ -26,7 +26,14 @@
 
         public decimal Price { get; init; }
 
-       
+
+        //TODO :
+
+        public string MerchantName { get; set; }
+
+        public string MerchantTelephoneNumber { get; set; }
+
+
 
     }
 }

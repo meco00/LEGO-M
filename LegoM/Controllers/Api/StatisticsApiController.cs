@@ -25,8 +25,5 @@ namespace LegoM.Controllers.Api
         => this.statistics.Total();
 
 
-
-
-
     }
 }

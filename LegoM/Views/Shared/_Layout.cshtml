@@ -15,23 +15,15 @@
             <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">            
-                <ul class="navbar-nav flex-grow-1 ml-5">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark ml-5" asp-area="" asp-controller="Products" asp-action="All">All Products</a>
-                    </li>
-                    @*<li class="nav-item">
-                     <a class="nav-link text-dark ml-5" asp-area="" asp-controller="Products" asp-action="Add">Add Product</a>
-                    </li>*@
-                </ul>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <p class="navbar-nav flex-grow-1 ml-5">Free delivery for orders over 50 BGN</p>
 
                 <partial name="_LoginPartial" />
-                
+
 
             </div>
         </nav>
-
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
             <div class="container">
                 <a class="navbar-brand mb-0 h5" asp-area="" asp-controller="Home" asp-action="Index">LEGO-M</a>
                 <form method="get" class="form-inline">
@@ -40,6 +32,29 @@
                 </form>
             </div>
         </nav>
+        <nav class="navbar navbar-expand-lg  justify-content-between navbar-light mb-3" style="background-color: #B0C4DE; ">
+            <div class="col-md-2"></div>
+            <ul class="navbar-nav flex-grow-1 ml-5">
+
+                <li class="nav-item">
+                    <a class="nav-link text-white ml-5" asp-area="" asp-controller="Products" asp-action="All" asp-route-category="Игри и играчки"><h4>Игри и играчки</h4></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white ml-5" asp-area="" asp-controller="Products" asp-action="All" asp-route-category="За ученика"><h4>За ученика</h4></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white ml-5" asp-area="" asp-controller="Products" asp-action="All" asp-route-category="Спорт"><h4>Спорт</h4></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white ml-5" asp-area="" asp-controller="Products" asp-action="All" asp-route-category="Подаръци"><h4>Подаръци</h4></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white ml-5" asp-area="" asp-controller="Products" asp-action="All"><h4>Всички</h4></a>
+                </li>
+            </ul>
+        </nav>
+
     </header>
     <div class="container">
         <main role="main" class="pb-3">

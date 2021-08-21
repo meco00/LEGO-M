@@ -158,7 +158,34 @@
 
                     }
                 },
+                    new Category()
+                {
+                    Name="Подаръци",
+                    SubCategories=new[]
+                    {
+                         new SubCategory()
+                        {
+                            Name="Бижута"
+                        },
+                        new SubCategory()
+                        {
+                            Name="Портмонета и несесери"
+                        },
+                         new SubCategory()
+                        {
+                            Name="Поздравителни картички и книжки"
+                        },
+                           new SubCategory()
+                        {
+                            Name="Касички"
+                        },
+                           new SubCategory()
+                        {
+                            Name="Ключодържатели"
+                        },
 
+                    }
+                },
 
             });
 
