@@ -8,9 +8,11 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class ShoppingCartItems
+    public static class ShoppingCartItems
     {
         public static IEnumerable<ShoppingCartItem> GetShoppingCartItems(int count = 5,
+            byte cartQuantity=1,
+            byte productQuantity=5,
             bool isPublic = true,
             bool sameUser = true)
         {
@@ -26,7 +28,7 @@
                .Select(i => new ShoppingCartItem
                {
                    Id = i,
-                   Quantity=1,
+                   Quantity=cartQuantity,
                    User = sameUser ? user : new User
                    {
                        Id = $"ShoppingCart Author Id {i}",
@@ -36,7 +38,7 @@
                    {
                        Title = "Test",
                        ProductCondition = LegoM.Data.Models.Enums.ProductCondition.New,
-                       Quantity=5
+                       Quantity=productQuantity
                    },
                    ProductId = "TestId"
                })

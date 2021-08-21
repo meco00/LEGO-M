@@ -106,7 +106,7 @@ namespace LegoM.Areas.Admin.Controllers
 
             this.TempData[WebConstants.GlobalMessageKey] = "Order was accomplished succesfully!";
 
-            return RedirectToAction(nameof(UnAccomplished));
+            return RedirectToAction(nameof(Accomplished));
         }
 
 
@@ -122,7 +122,7 @@ namespace LegoM.Areas.Admin.Controllers
 
             this.TempData[WebConstants.GlobalMessageKey] = "Order was canceled and deleted succesfully!";
 
-            return RedirectToAction(nameof(Accomplished));
+            return RedirectToAction(nameof(UnAccomplished));
         }
 
 
