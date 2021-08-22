@@ -25,6 +25,7 @@
 
             SeedCategories(services);
             SeedAdministrator(services);
+            SeedUser(services);
 
             return app;
         }
@@ -51,41 +52,41 @@
             {
                 new Category()
                 {
-                    Name="Игри и играчки",
+                    Name="Games and toys",
                     SubCategories=new[]
                     {
                         new SubCategory()
                         {
-                            Name="За момичета"
+                            Name="For girls"
                         },
                           new SubCategory()
                         {
-                            Name="За момчета"
+                            Name="For boys"
                         },
                          new SubCategory()
                         {
-                            Name="Лего"
+                            Name="Lego"
                         },
                            new SubCategory()
                         {
-                            Name="Плюшени играчки"
+                            Name="Plush toys"
                         },
                            new SubCategory()
                         {
-                            Name="Автомобили, камиони и мотори"
+                            Name="Cars, trucks and motorcycles"
                         },
                            new SubCategory()
                         {
-                            Name="Пъзели"
+                            Name="Puzzels"
                         }, 
                         new SubCategory()
                         {
-                            Name="Карти за игра"
+                            Name="Playing cards"
 
                         },
                          new SubCategory()
                         {
-                            Name="Пистолети"
+                            Name="Pistols"
 
                         },
 
@@ -94,94 +95,132 @@
                 },
                   new Category()
                 {
-                    Name="За ученика",
+                    Name="For the student",
                     SubCategories=new[]
                     {
                         new SubCategory()
                         {
-                            Name="Тетрадки"
+                            Name="Notebooks"
                         },
                          new SubCategory()
                         {
-                            Name="Ученически раници и чанти"
+                            Name="School backpacks and bags"
                         }, 
                         new SubCategory()
                         {
-                            Name="Несесери"
+                            Name="Pencilcases"
 
                         }, 
                         new SubCategory()
                         {
-                            Name="Рисуване"
+                            Name="Painting"
 
 
                         }, 
                         new SubCategory()
                         {
-                            Name="Пишещи средства"
+                            Name="Writing tools"
 
                         },  
                         new SubCategory()
                         {
-                            Name="Скицници и блокчета"
+                            Name="Sketches and blocks"
 
                         }, 
                         new SubCategory()
                         {
-                            Name="Папки и кутии"
+                            Name="Folders and boxes"
 
-                        },
-                       
-                    }
-                },
-                    new Category()
-                {
-                    Name="Спорт",
-                    SubCategories=new[]
-                    {
-                        new SubCategory()
-                        {
-                            Name="Футбол"
                         },
                          new SubCategory()
                         {
-                            Name="Волейбол"
+                            Name="Bindings"
+
                         },
                            new SubCategory()
                         {
-                            Name="Федербал"
-                        },
-                           new SubCategory()
-                        {
-                            Name="Бокс"
+                            Name="Cardboards"
+
                         },
 
                     }
                 },
                     new Category()
                 {
-                    Name="Подаръци",
+                    Name="Sport",
+                    SubCategories=new[]
+                    {
+                        new SubCategory()
+                        {
+                            Name="Football"
+                        },
+                         new SubCategory()
+                        {
+                            Name="Volleyball"
+                        },
+                           new SubCategory()
+                        {
+                            Name="Federball"
+                        },
+                           new SubCategory()
+                        {
+                            Name="Boxing"
+                        },
+
+                    }
+                },
+                    new Category()
+                {
+                    Name="Gifts",
                     SubCategories=new[]
                     {
                          new SubCategory()
                         {
-                            Name="Бижута"
+                            Name="Jewelry"
                         },
                         new SubCategory()
                         {
-                            Name="Портмонета и несесери"
+                            Name="Purses and travel bags"
                         },
                          new SubCategory()
                         {
-                            Name="Поздравителни картички и книжки"
+                            Name="Greeting cards and books"
                         },
                            new SubCategory()
                         {
-                            Name="Касички"
+                            Name="Piggy banks"
                         },
                            new SubCategory()
                         {
-                            Name="Ключодържатели"
+                            Name="Keychains"
+                        },
+
+                    }
+                },
+                    new Category()
+                {
+                    Name="Books",
+                    SubCategories=new[]
+                    {
+                         new SubCategory()
+                        {
+                            Name="Books for painting"
+                        },
+                        new SubCategory()
+                        {
+                            Name="Globuses"
+                        },
+                         new SubCategory()
+                        {
+                            Name="Еncyclopedias"
+                        },
+                           new SubCategory()
+                        {
+                            Name="Children's literature"
+                        },
+                           new SubCategory()
+                        {
+                            Name="Literature for teenagers"
                         },
 
                     }
@@ -229,5 +268,40 @@
                 .GetAwaiter()
                 .GetResult();
         }
+
+
+        private static void SeedUser(IServiceProvider services)
+        {
+            var userManager = services.GetRequiredService<UserManager<User>>();
+
+            Task
+              .Run(async () =>
+              {
+                  const string userEmail = "test@user.com";
+
+                  if (await userManager.FindByEmailAsync(userEmail) != null)
+                  {
+                      return;
+                  }                 
+
+                  const string userPassword = "test";
+
+                  var user = new User
+                  {
+                      Email = userEmail,
+                      UserName = userEmail,
+                      FullName = "TestUser"
+
+                  };
+
+                  await userManager.CreateAsync(user, userPassword);
+
+
+              })
+              .GetAwaiter()
+              .GetResult();
+
+        }
+
     }
 }
