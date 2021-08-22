@@ -67,6 +67,12 @@
 
         }
 
+        public class Report
+        {
+            public const int ContentMaxLength = 250;
+            public const int ContentMinLength = 10;
+        }
+
         public class Question
         {
             public const int ContentMaxLength = 250;

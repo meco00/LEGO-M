@@ -7,7 +7,19 @@
 }
 
 
-<h1>@Model.Title, @Model.Condition</h1>
+<div class="row">
+    <div class="col-md-6">
+        <h1>@Model.Title, @Model.Condition</h1>
+    </div>
+    <div class="col-md-4"></div>
+    <div class="col-md-2">
+        <a asp-controller="Reports" asp-action="Add" asp-route-id="@Model.Id" class="float-right text-dark">Report</a> 
+
+    </div>
+
+</div>
+
+
 
 <div class="row mb-5">
     <div class="col-md-4">
@@ -41,7 +53,7 @@
     <div class="col-md-4 offset-2 mt-5">
         @if (this.User.IsAdmin())
         {
-        <a asp-area="Admin" asp-controller="Products" asp-action="ChangeVisibility" asp-route-id="@Model.Id" class="btn btn-danger mb-3 ">@(Model.IsPublic ? "Hide": "Approve")</a>
+            <a asp-area="Admin" asp-controller="Products" asp-action="ChangeVisibility" asp-route-id="@Model.Id" class="btn btn-danger mb-3 ">@(Model.IsPublic ? "Hide": "Approve")</a>
 
         }
         <h5>Category : <a asp-action="All" asp-route-category="@Model.CategoryName">@Model.CategoryName</a></h5>
@@ -60,15 +72,17 @@
         <div class="mb-3"></div>
         @if (Model.Quantity > 0)
         {
-        <a asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-info mr-3">Add To Shopping Cart</a>
+            <a asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-info mr-3">Add To Shopping Cart</a>
         }
 
     </div>
 
 </div>
 
+
 <h4>Description:</h4>
+
 <div class="mt-5 mb-5">
 
-<h5 style="word-wrap: break-word">@Model.Description</h5>
+    <h5 style="word-wrap: break-word">@Model.Description</h5>
 </div>

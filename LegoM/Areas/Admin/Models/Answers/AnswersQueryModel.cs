@@ -6,7 +6,7 @@
 
     public class AnswersQueryModel
     {
-        public const int AnswersPerPage = 10;
+        public const int AnswersPerPage = 9;
 
         public int CurrentPage { get; set; } = 1;
 

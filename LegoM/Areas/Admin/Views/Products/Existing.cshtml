@@ -86,16 +86,17 @@
             <tr>
                 <td scope="col">@product.PublishedOn</td>
                 <td scope="col">@product.Title</td>
-                <td scope="col">@product.Price</td>
+                <td scope="col" >@product.Price</td>
                 <td scope="col">@product.Condition</td>
                 <td scope="col">@(product.IsPublic ? "Yes":"No")</td>
 
 
                 <td scope="col">
-                    <a asp-area="" asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger float-right ml-3">Delete</a>
-                    <a asp-area="" asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning float-right ml-3">Edit</a>
-                    <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary float-right ml-3">Details</a>
-                    <a asp-controller="Products" asp-action="ChangeVisibility" asp-route-id="@product.Id" class="btn btn-info float-right ml-3 ">@(product.IsPublic ? "Hide": "Show")</a>
+                    <a asp-area="" asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger float-right ml-1">Delete</a>
+                    <a asp-controller="Products" asp-action="Reports" asp-route-id="@product.Id" class="btn btn-dark float-right ml-1">Reports</a>
+                    <a asp-area="" asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning float-right ml-1">Edit</a>
+                    <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary float-right ml-1">Details</a>
+                    <a asp-controller="Products" asp-action="ChangeVisibility" asp-route-id="@product.Id" class="btn btn-info float-right ml-1 ">@(product.IsPublic ? "Hide": "Show")</a>
 
                 </td>
             </tr>

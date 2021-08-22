@@ -1,0 +1,47 @@
+﻿@model ProductReportsDetailsModel
+
+@{ 
+    ViewBag.Title = "Product Reports";
+}
+
+<h1 class="text-center mb-5 mt-5">@ViewBag.Title</h1>
+
+
+<div class="row mb-3">
+    <div class="col-md-3">
+        <img src="@Model.Product.Image" alt="@Model.Product.Title" class="img-thumbnail">
+
+    </div>
+    <div class="col-md-4">
+        <h4>Reports for :</h4>
+        <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@Model.Product.Id"><h5>@Model.Product.Title</h5></a>
+    </div>
+    <div class="col-md-2">
+        <h3>@(Model.Product.Price+" лв.")</h3>
+
+    </div>
+    
+
+</div>
+
+<hr />
+
+@foreach (var report in Model.Reports)
+{
+
+<div class="row mt-5 mb-5">
+    <div class="col-md-2 mt-3 ">
+        <h5>@report.UserName</h5>
+        <span>@report.PublishedOn</span>
+    </div>
+    <div class="col-md-8 ml-5">
+        <h3>@report.ReportType</h3>
+        <p style="word-wrap: break-word">@report.Content</p>
+    </div>
+        <div class="col-md-2">
+            <a asp-controller="Reports" asp-action="Delete" asp-route-id="@report.Id">Delete</a>
+        </div>
+</div>
+
+<hr />
+}

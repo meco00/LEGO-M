@@ -90,10 +90,11 @@
 
 
                 <td scope="col">
-                    <a asp-area="" asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger float-right ml-3">Delete</a>
-                    <a asp-area="Admin" asp-controller="Products" asp-action="Revive" asp-route-id="@product.Id" class="btn btn-info float-right ml-3">Revive</a>
-                    <a asp-area="" asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning float-right ml-3">Edit</a>
-                    <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary float-right ml-3">Details</a>
+                    <a asp-area="" asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger float-right ml-1">Delete</a>
+                    <a asp-controller="Products" asp-action="Reports" asp-route-id="@product.Id" class="btn btn-dark float-right ml-1">Reports</a>
+                    <a asp-area="Admin" asp-controller="Products" asp-action="Revive" asp-route-id="@product.Id" class="btn btn-info float-right ml-1">Revive</a>
+                    <a asp-area="" asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning float-right ml-1">Edit</a>
+                    <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary float-right ml-1">Details</a>
 
 
                 </td>

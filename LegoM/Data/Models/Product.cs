@@ -70,8 +70,8 @@
          = new HashSet<ShoppingCartItem>();
 
 
-        //public virtual ICollection<Report> Reports { get; set; }
-
+        public virtual ICollection<Report> Reports { get; set; }
+         = new HashSet<Report>();
 
     }
 }

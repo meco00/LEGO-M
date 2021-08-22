@@ -11,6 +11,7 @@
             : base(options)
         {
         }
+        public DbSet<Answer> Answers { get; set; }
 
         public DbSet<Product> Products { get; set; }
 
@@ -28,13 +29,13 @@
 
         public DbSet<Comment> Comments { get; set; }
 
-        public DbSet<Answer> Answers { get; set; }
-
         public DbSet<Favourite> Favourites { get; set; }
 
         public DbSet<ShoppingCartItem> ShoppingCarts { get; set; }
 
         public DbSet<Order> Orders { get; set; }
+
+        public DbSet<Report> Reports { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -54,6 +55,8 @@
             builder.ApplyConfiguration(new FavouriteEntityConfiguration());
 
             builder.ApplyConfiguration(new ShoppingCartItemEntityConfiguration());
+
+            builder.ApplyConfiguration(new ReportEntityConfiguration());
 
             builder
               .Entity<SubCategory>()

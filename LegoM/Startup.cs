@@ -10,6 +10,7 @@ namespace LegoM
     using LegoM.Services.Orders;
     using LegoM.Services.Products;
     using LegoM.Services.Questions;
+    using LegoM.Services.Reports;
     using LegoM.Services.Reviews;
     using LegoM.Services.ShoppingCarts;
     using LegoM.Services.Statistics;
@@ -72,6 +73,7 @@ namespace LegoM
             services.AddTransient<IProductsService, ProductsService>();
             services.AddTransient<IMerchantService, MerchantService>();
             services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<IReportsService, ReportsService>();
             services.AddTransient<IQuestionsService, QuestionsService>();
             services.AddTransient<IAnswerService, AnswerService>();
             services.AddTransient<ICommentService, CommentService>();

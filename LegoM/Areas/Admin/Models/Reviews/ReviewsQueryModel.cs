@@ -6,7 +6,7 @@
 
     public class ReviewsQueryModel
     {
-        public const int ReviewsPerPage = 10;
+        public const int ReviewsPerPage = 9;
 
         public int CurrentPage { get; set; } = 1;
 

@@ -6,7 +6,7 @@
 
     public class OrdersQueryModel
     {
-        public const int OrdersPerPage = 10;
+        public const int OrdersPerPage = 9;
 
         public int CurrentPage { get; set; } = 1;
 

@@ -6,7 +6,7 @@
 
     public class CommentsQueryModel
     {
-        public const int CommentsPerPage = 10;
+        public const int CommentsPerPage = 9;
 
         public int CurrentPage { get; set; } = 1;
 
