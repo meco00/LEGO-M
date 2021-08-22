@@ -2,11 +2,11 @@
 
 @{
     ViewBag.Title = "Order Details";
-}
 
-@{ 
     var isAccomplished = Model.Order.IsAccomplished;
 }
+
+
 
 <h1 class="text-center mb-3 mt-3">@ViewBag.Title</h1>
 
@@ -84,9 +84,10 @@
 @foreach (var cartItem in Model.OrderItems)
 {
 
-    var isProductAvailable = cartItem.ProductQuantity > 0;   
+    var isProductAvailable = cartItem.ProductQuantity > 0;
     var productQuantityList = Enumerable.Range(1, cartItem.ProductQuantity).ToList();
-    
+    var merchantName = cartItem.MerchantUserFullName != null ? cartItem.MerchantUserFullName : "Admin";
+    var merchantNumber = cartItem.MerchantTelephoneNumber != null ? cartItem.MerchantTelephoneNumber : "Admin";
 
 
 
@@ -103,7 +104,7 @@
 
             @if (isProductAvailable && !isAccomplished)
             {
-                <div class="row mb-5">
+                <div class="row mb-3">
                     <div class="form-group col-md-3 ml-10">
                         <label asp-for="@cartItem.Quantity"></label>
                         <select asp-for="@cartItem.Quantity" class="form-control">
@@ -121,6 +122,8 @@
             { 
               <h5>Product Count : @cartItem.Quantity</h5>
             }
+            <h5>Merchant :@(merchantName)</h5>
+            <h5>PhoneNumber :@(merchantNumber)</h5>
 
         </div>
 

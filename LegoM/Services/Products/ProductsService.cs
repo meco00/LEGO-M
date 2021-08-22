@@ -121,7 +121,7 @@
               .Where(x=>x.IsPublic)
               .OrderByDescending(x => x.PublishedOn)
               .ProjectTo<ProductServiceModel>(this.mapper)
-              .Take(3)
+              .Take(5)
               .ToList();
 
         public string Create(string title,

@@ -42,7 +42,7 @@
 
         public class Product
         {
-            public const int TittleMaxLength = 30;
+            public const int TittleMaxLength = 40;
             public const int TittleMinLength = 5;
 
             public const int DescriptionMaxLength = 1000;

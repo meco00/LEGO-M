@@ -8,7 +8,7 @@
                 <img class="card-img-top" src="@product.MainImageUrl" alt="@product.Condition @product.Title ">
                 <div class="card-body text-center">
                     <p class="card-text">@product.Condition</p>
-                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id"><h5 class="card-title">@product.Title</h5></a>
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id"><h5 class="card-title" style="word-wrap: break-word">@product.Title</h5></a>
                     <p class="card-text">@product.Price</p>
 
                     @if (ViewBag.AllowProductEdit == true || this.User.IsAdmin())

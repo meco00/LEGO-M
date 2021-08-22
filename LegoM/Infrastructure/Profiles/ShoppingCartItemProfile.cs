@@ -20,7 +20,9 @@
                .ForMember(x => x.Quantity, cfg => cfg.MapFrom(x => x.Quantity))
                .ForMember(x => x.ProductQuantity, cfg => cfg.MapFrom(x => x.Product.Quantity))
                .ForMember(x => x.ImageUrl, cfg => cfg.MapFrom(x => x.Product.Images.Select(x => x.ImageUrl).FirstOrDefault()))
-               .ForMember(x => x.Price, cfg => cfg.MapFrom(x => (x.Product.Price * (decimal)x.Quantity)));
+               .ForMember(x => x.Price, cfg => cfg.MapFrom(x => (x.Product.Price * (decimal)x.Quantity)))
+               .ForMember(x => x.MerchantUserFullName, cfg => cfg.MapFrom(x => x.Product.Merchant != null ? x.Product.Merchant.Name : null))
+               .ForMember(x => x.MerchantTelephoneNumber, cfg => cfg.MapFrom(x => x.Product.Merchant != null ? x.Product.Merchant.TelephoneNumber : null));
 
         }
     }

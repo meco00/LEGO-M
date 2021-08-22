@@ -29,7 +29,7 @@
 
         //TODO :
 
-        public string MerchantName { get; set; }
+        public string MerchantUserFullName { get; set; }
 
         public string MerchantTelephoneNumber { get; set; }
 

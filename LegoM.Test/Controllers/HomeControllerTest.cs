@@ -28,7 +28,7 @@
             .AndAlso()
             .ShouldReturn()
             .View(view => view.WithModelOfType<List<ProductServiceModel>>()
-            .Passing(model => model.Should().HaveCount(3)));
+            .Passing(model => model.Should().HaveCount(5)));
 
         [Fact]
         public void ErrorShouldReturnView()

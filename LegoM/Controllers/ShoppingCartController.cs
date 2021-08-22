@@ -1,5 +1,6 @@
 ﻿namespace LegoM.Controllers
 {
+    using LegoM.Areas.Admin;
     using LegoM.Infrastructure;
     using LegoM.Services.Products;
     using LegoM.Services.ShoppingCarts;
@@ -100,7 +101,7 @@
 
             if (isUserAdmin)
             {
-                return RedirectToAction(nameof(Areas.Admin.Controllers.OrdersController.UnAccomplished), "Orders");
+                return RedirectToAction(nameof(Areas.Admin.Controllers.OrdersController.UnAccomplished), "Orders",new { area=AdminConstants.AreaName});
             }
 
 
@@ -131,7 +132,7 @@
 
             if (isUserAdmin)
             {
-                return RedirectToAction(nameof(Areas.Admin.Controllers.OrdersController.UnAccomplished), "Orders");
+                return RedirectToAction(nameof(Areas.Admin.Controllers.OrdersController.UnAccomplished), "Orders", new { area = AdminConstants.AreaName });
             }
 
             return RedirectToAction(nameof(Mine));
