@@ -10,13 +10,31 @@
     using System.Threading.Tasks;
     using Xunit;
     using FluentAssertions;
+
     using static Data.Reports;
+    using static Data.Products;
 
     using ReportsController = Areas.Admin.Controllers.ReportsController;
     using LegoM.Areas.Admin.Models.Reports;
 
     public class ReportsPipelineTest
     {
+
+        [Fact]
+        public void AllShouldReturnCorrectViewAndModel()
+         => MyPipeline
+             .Configuration()
+             .ShouldMap(request => request
+                 .WithPath("/Admin/Reports/All")
+                  .WithUser(new[] { AdminConstants.AdministratorRoleName })
+                  .WithAntiForgeryToken())
+             .To<ReportsController>(c => c.All(With.Default<ReportsQueryModel>()))
+             .Which(controller => controller
+                 .WithData(GetProduct()).AndAlso().WithData(    GetReports()))
+             .ShouldReturn()
+             .View(view => view
+                .WithModelOfType<ReportsQueryModel>()
+              .Passing(model => model.Reports.Should().NotBeEmpty()));
 
         [Fact]
         public void DeleteShouldDeleteReportAndReturnRedirectToAll()
