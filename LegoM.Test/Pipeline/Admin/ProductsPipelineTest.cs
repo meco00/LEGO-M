@@ -2,6 +2,7 @@
 {
     using FluentAssertions;
     using LegoM.Areas.Admin;
+    using LegoM.Areas.Admin.Models.Products;
     using LegoM.Data.Models;
     using LegoM.Models.Products;
     using LegoM.Services.Products.Models;
@@ -12,6 +13,7 @@
 
     using static Data.DataConstants;
     using static Data.Products;
+    using static Data.Reports;
 
     using ProductsController = LegoM.Areas.Admin.Controllers.ProductsController;
 
@@ -94,7 +96,41 @@
                      .Redirect(redirect => redirect
                          .To<ProductsController>(c => c.Existing(With.Any<ProductsQueryModel>())));
 
-      
+
+        [Fact]
+        public void ReportShouldReturnViewWithCorectModelAndData()
+            => MyPipeline
+                .Configuration()
+                .ShouldMap(request => request
+                     .WithPath($"/Admin/Products/Reports/{TestId}")
+                     .WithUser(new[] { AdminConstants.AdministratorRoleName }))
+                .To<ProductsController>(c => c.Reports(TestId))
+                .Which(controller => controller
+                    .WithData(GetProduct()).AndAlso().WithData(GetReports(5,sameUser:false)))
+                .ShouldReturn()
+                .View(view => view
+                    .WithModelOfType<ProductReportsDetailsModel>()
+                    .Passing(model =>
+                    {
+                        model.Product.Title.Should().Be("Title");
+                        model.Product.Image.Should().Be("TestUrl");
+                        model.Reports.Should().HaveCount(5);
+                    }));
+
+
+        [Fact]
+        public void ReportShouldReturnNotFoundWhenProductDoesNotExists()
+           => MyPipeline
+               .Configuration()
+               .ShouldMap(request => request
+                    .WithPath($"/Admin/Products/Reports/{TestId}")
+                    .WithUser(new[] { AdminConstants.AdministratorRoleName }))
+               .To<ProductsController>(c => c.Reports(TestId))
+               .Which()
+               .ShouldReturn()
+               .NotFound();
+
+
 
     }
 }

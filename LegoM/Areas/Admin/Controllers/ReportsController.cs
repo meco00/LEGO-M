@@ -42,6 +42,8 @@
                 return NotFound();
             }
 
+            this.TempData[WebConstants.GlobalMessageKey] = "Comment was deleted successfully!";
+
             return RedirectToAction(nameof(All));
         }
 
