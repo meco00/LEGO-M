@@ -1,6 +1,6 @@
-﻿namespace LegoM.Services.Merchants
+﻿namespace LegoM.Services.Traders
 {
-   public interface IMerchantService
+   public interface ITraderService
     {
         void Create(
             string userId,
@@ -10,7 +10,7 @@
 
             
 
-        public bool IsUserMerchant(string userId);
+        public bool IsUserTrader(string userId);
 
         string IdByUser(string userId);
 

@@ -5,9 +5,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using static DataConstants.Merchant;
+    using static DataConstants.Trader;
 
-    public class Merchant
+    public class Trader
     {
         public string Id { get; init; } = Guid.NewGuid().ToString();
 

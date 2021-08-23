@@ -33,7 +33,7 @@
             this.CreateMap<Product, ProductDetailsServiceModel>()
             .ForMember(p => p.Condition, pd => pd.MapFrom(x => x.ProductCondition.ToString()))
             .ForMember(p => p.Delivery, pd => pd.MapFrom(x => x.DeliveryTake.ToString()))
-            .ForMember(p => p.UserId, pd => pd.MapFrom(x => x.Merchant.UserId))
+            .ForMember(p => p.UserId, pd => pd.MapFrom(x => x.Trader.UserId))
             .ForMember(p => p.MainImageUrl, pd => pd.MapFrom(x => x.Images.Select(x => x.ImageUrl).FirstOrDefault()))
             .ForMember(p => p.SecondImageUrl, pd => pd.MapFrom(x => x.Images.Skip(1).Take(1).Select(x => x.ImageUrl).FirstOrDefault()))
             .ForMember(p => p.ThirdImageUrl, pd => pd.MapFrom(x => x.Images.Skip(2).Take(1).Select(x => x.ImageUrl).FirstOrDefault()));

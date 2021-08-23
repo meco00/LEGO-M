@@ -74,7 +74,7 @@
 
             ;
 
-            this.TempData[GlobalMessageKey] = "Your order was created succesfully and it is awaiting for approval!";
+            this.TempData[GlobalMessageKey] = "Your order was created succesfully and it is awaiting for accomplish!";
 
 
             return RedirectToAction(nameof(HomeController.Index), "Home");

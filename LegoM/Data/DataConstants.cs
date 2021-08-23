@@ -21,7 +21,7 @@
 
         }
 
-        public class Merchant
+        public class Trader
         {
 
             public const int NameMaxLength = 20;

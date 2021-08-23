@@ -5,7 +5,7 @@
     using LegoM.Areas.Admin.Models.Orders;
     using LegoM.Data;
     using LegoM.Data.Models;
-    using LegoM.Services.Merchants;
+    using LegoM.Services.Traders;
     using LegoM.Services.Orders.Models;
     using LegoM.Services.Users;
     using Microsoft.EntityFrameworkCore;
@@ -18,13 +18,13 @@
     {
         private readonly LegoMDbContext data;
         private readonly IConfigurationProvider mapper;
-        private readonly IMerchantService merchants;
+        private readonly ITraderService traders;
         private readonly IUserService users;
 
-        public OrderService(LegoMDbContext data, IMerchantService merchants, IUserService users, IMapper mapper)
+        public OrderService(LegoMDbContext data, ITraderService traders, IUserService users, IMapper mapper)
         {
             this.data = data;
-            this.merchants = merchants;
+            this.traders = traders;
             this.users = users;
             this.mapper = mapper.ConfigurationProvider;
         }
@@ -184,7 +184,7 @@
         {
             var userFullName = this.users.GetFullName(userId);
 
-            var telephoneNumber = this.merchants.TelephoneNumberByUser(userId);
+            var telephoneNumber = this.traders.TelephoneNumberByUser(userId);
 
             return new OrderFormServiceModel
             {

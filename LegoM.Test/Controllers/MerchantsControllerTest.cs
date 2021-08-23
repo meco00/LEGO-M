@@ -13,7 +13,7 @@
     {
         [Fact]
         public void GetBecomeShouldBeForAuthorizedUsersAndShouldReturnView()
-            => MyController<MerchantsController>
+            => MyController<TradersController>
                 .Instance()                     
                 .Calling(c => c.Become())
                 .ShouldHave()
@@ -24,15 +24,15 @@
                  .View();
 
         [Theory]
-        [InlineData("Merchant", "0885412589")]
+        [InlineData("Trader", "0885412589")]
         public void PostBecomeShouldBeForAuthorizedUsersAndShoulReturnRedirectToViewWithCorrectData(
             string merchantName,
             string phoneNumber
             )
-            => MyController<MerchantsController>
+            => MyController<TradersController>
                 .Instance(controller=>controller
                           .WithUser())
-                 .Calling(c => c.Become(new Models.Merchants.BecomeMerchantFormModel
+                 .Calling(c => c.Become(new Models.Traders.BecomeTraderFormModel
                  {
                      Name=merchantName,
                      TelephoneNumber=phoneNumber
@@ -44,7 +44,7 @@
                       .RestrictingForHttpMethod(HttpMethod.Post))
                   .ValidModelState()
                   .Data(data=>data
-                       .WithSet<Merchant>(merchants=>merchants
+                       .WithSet<Trader>(merchants=>merchants
                                .Any(x => 
                                x.Name == merchantName && 
                                x.TelephoneNumber == phoneNumber &&

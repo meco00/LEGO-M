@@ -31,7 +31,7 @@
             };
 
 
-            var merchant = new Merchant
+            var trader = new Trader
             {
                 
                 Name = TestUser.Username,               
@@ -50,7 +50,7 @@
                 IsPublic = IsPublic,
                 IsDeleted = IsDeleted,
                 Quantity=5,
-                Merchant = merchant,
+                Trader = trader,
                 Category = new Category
                 {
                     Id = 1,
@@ -85,7 +85,7 @@
 
         public static List<Product> GetProducts(int count=5,bool IsDeleted=false,bool sameUser=true)     
         {
-              var merchant = new Merchant
+              var merchant = new Trader
               {
                 Name = TestUser.Username,
                 UserId = TestUser.Identifier,
@@ -98,7 +98,7 @@
                  IsPublic = !IsDeleted ,
                  IsDeleted = IsDeleted ,
                  DeletedOn = IsDeleted ? new System.DateTime(1, 1, 1) : null,
-                 Merchant = sameUser ? merchant : new Merchant
+                 Trader = sameUser ? merchant : new Trader
                   {
                       Id = $"Author Id {i}",
                       Name = $"Author {i}"

@@ -3,8 +3,8 @@
     using LegoM.Data;
     using LegoM.Data.Models;
     using LegoM.Infrastructure;
-    using LegoM.Models.Merchants;
-    using LegoM.Services.Merchants;
+    using LegoM.Models.Traders;
+    using LegoM.Services.Traders;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
@@ -12,19 +12,19 @@
 
     using static WebConstants;
 
-    public class MerchantsController : Controller
+    public class TradersController : Controller
     {
 
-        private readonly IMerchantService merchants;
+        private readonly ITraderService traders;
 
-        public MerchantsController(IMerchantService merchants)
-        => this.merchants = merchants;
+        public TradersController(ITraderService traders)
+        => this.traders = traders;
         
 
         [Authorize]
         public IActionResult Become()
         {
-            if (this.merchants.IsUserMerchant(this.User.Id()))
+            if (this.traders.IsUserTrader(this.User.Id()))
             {
                 return BadRequest();
             }
@@ -34,11 +34,11 @@
 
         [HttpPost]
         [Authorize]
-        public IActionResult Become(BecomeMerchantFormModel merchant)
+        public IActionResult Become(BecomeTraderFormModel merchant)
         {
             var userId = this.User.Id();
 
-            if (this.merchants.IsUserMerchant(userId))
+            if (this.traders.IsUserTrader(userId))
             {
                 return BadRequest();
             }
@@ -49,13 +49,13 @@
                 return View(merchant);
             }
 
-            this.merchants.Create(
+            this.traders.Create(
                  userId, 
                  merchant.Name, 
                  merchant.TelephoneNumber);
 
 
-            TempData[GlobalMessageKey] = "Thank you for becoming Merchant.";
+            TempData[GlobalMessageKey] = "Thank you for becoming Trader.";
 
             return RedirectToAction(nameof(ProductsController.All), "Products");
         }

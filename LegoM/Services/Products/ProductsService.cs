@@ -135,7 +135,7 @@
                 int subCategoryId,
                 ProductCondition productCondition,
                 DeliveryTake productDelivery,
-                string merchantId,
+                string traderId,
                 bool IsPublic=false
             )
         {
@@ -150,7 +150,7 @@
                 ProductCondition = productCondition,
                 DeliveryTake = productDelivery,
                 PublishedOn = DateTime.UtcNow,
-                MerchantId = merchantId,
+                TraderId = traderId,
                 IsPublic=IsPublic,
                 IsDeleted=false
 
@@ -271,7 +271,7 @@
         => GetProducts(
             this.data
                     .Products
-                      .Where(x => x.Merchant.UserId == userId&& !x.IsDeleted)
+                      .Where(x => x.Trader.UserId == userId&& !x.IsDeleted)
             );
 
         public IEnumerable<ProductServiceModel> GetSimilarProducts(string Id)
@@ -342,9 +342,9 @@
             .ProjectTo<ProductDetailsServiceModel>(this.mapper)
             .FirstOrDefault();
 
-        public bool ProductIsByMerchant(string id, string merchantId)
+        public bool ProductIsByTrader(string id, string traderId)
         => this.data.Products
-            .Any(x => x.Id == id && x.MerchantId == merchantId);
+            .Any(x => x.Id == id && x.TraderId == traderId);
 
         public IEnumerable<ProductSubCategoryServiceModel> AllSubCategories()
         => this.data

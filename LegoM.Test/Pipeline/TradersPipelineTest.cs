@@ -13,16 +13,16 @@
 
     using static WebConstants;
 
-    public class MerchantsPipelineTest
+    public class TradersPipelineTest
     {
 
         [Fact]
         public void BecomeShouldBeForAuthorizedUsersAndReturnView()
             =>MyPipeline
             .Configuration()
-            .ShouldMap(request=> request.WithLocation("/Merchants/Become")
+            .ShouldMap(request=> request.WithLocation("/Traders/Become")
             .WithUser())
-            .To<MerchantsController>(c=>c.Become())      
+            .To<TradersController>(c=>c.Become())      
             .Which()
             .ShouldHave()           
             .ActionAttributes(attributes=>attributes
@@ -34,24 +34,24 @@
         [Theory]
         [InlineData("Merchant", "0885412589")]
         public void PostBecomeShouldBeForAuthorizedUsersAndShoulReturnRedirectToViewWithCorrectData(
-            string merchantName,
+            string traderName,
             string phoneNumber
             )
           =>MyPipeline
             .Configuration()
              .ShouldMap(request=>request
-              .WithLocation("/Merchants/Become")
+              .WithLocation("/Traders/Become")
               .WithMethod(HttpMethod.Post)
                .WithFormFields(new
                {
-                 Name =  merchantName,
+                 Name =  traderName,
                  TelephoneNumber = phoneNumber
                })
               .WithUser()
                   .WithAntiForgeryToken())
-                .To<MerchantsController>(c=>c.Become(new Models.Merchants.BecomeMerchantFormModel
+                .To<TradersController>(c=>c.Become(new Models.Traders.BecomeTraderFormModel
                 {
-                    Name = merchantName,
+                    Name = traderName,
                     TelephoneNumber = phoneNumber
                 } ))                   
               .Which()
@@ -61,9 +61,9 @@
                     .RestrictingForHttpMethod(HttpMethod.Post))
                 .ValidModelState()
                 .Data(data => data
-                     .WithSet<Merchant>(set => set
+                     .WithSet<Trader>(set => set
                              .Any(x =>
-                             x.Name == merchantName &&
+                             x.Name == traderName &&
                              x.TelephoneNumber == phoneNumber &&
                              x.UserId == TestUser.Identifier)))
                  .TempData(tempData => tempData

@@ -64,7 +64,7 @@
                 this.User.Id());
 
 
-            this.TempData[WebConstants.GlobalMessageKey] = $"Report was added and is awaiting for approval! ";
+            this.TempData[WebConstants.GlobalMessageKey] = $"Report was added and send to administration!";
 
 
             return RedirectToAction(nameof(ProductsController.Details), "Products", new { id });

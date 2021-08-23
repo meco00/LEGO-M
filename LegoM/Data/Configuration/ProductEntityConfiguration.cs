@@ -23,9 +23,9 @@
                  .OnDelete(DeleteBehavior.Restrict);
 
             builder               
-                  .HasOne(x => x.Merchant)
+                  .HasOne(x => x.Trader)
                   .WithMany(x => x.Products)
-                  .HasForeignKey(x => x.MerchantId)
+                  .HasForeignKey(x => x.TraderId)
                   .OnDelete(DeleteBehavior.Restrict);
         }
     }

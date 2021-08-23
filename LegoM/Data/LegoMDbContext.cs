@@ -19,7 +19,7 @@
 
         public DbSet<SubCategory> SubCategories { get; set; }
 
-        public DbSet<Merchant> Merchants { get; set; }
+        public DbSet<Trader> Merchants { get; set; }
 
         public DbSet<ProductImage> ProductsImages { get; set; }
 
@@ -66,10 +66,10 @@
               .OnDelete(DeleteBehavior.Restrict);
 
 
-            builder.Entity<Merchant>()
+            builder.Entity<Trader>()
                 .HasOne<User>()
                 .WithOne()
-                .HasForeignKey<Merchant>(x => x.UserId)
+                .HasForeignKey<Trader>(x => x.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<ProductImage>()

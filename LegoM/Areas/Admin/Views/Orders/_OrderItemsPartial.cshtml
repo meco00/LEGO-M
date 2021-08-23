@@ -10,8 +10,8 @@
 
     var isProductAvailable = cartItem.ProductQuantity > 0;
     var productQuantityList = Enumerable.Range(1, cartItem.ProductQuantity).ToList();
-    var merchantName = cartItem.MerchantUserFullName != null ? cartItem.MerchantUserFullName : "Admin";
-    var merchantNumber = cartItem.MerchantTelephoneNumber != null ? cartItem.MerchantTelephoneNumber : "Admin";
+    var traderName = cartItem.TraderName != null ? cartItem.TraderName : "Admin";
+    var traderNumber = cartItem.TraderTelephoneNumber != null ? cartItem.TraderTelephoneNumber : "Admin";
 
 
 
@@ -46,8 +46,8 @@
             {
                 <h5>Product Count : @cartItem.Quantity</h5>
             }
-            <h5>Merchant :@(merchantName)</h5>
-            <h5>PhoneNumber :@(merchantNumber)</h5>
+            <h5>Trader : @(traderName)</h5>
+            <h5>PhoneNumber : @(traderNumber)</h5>
 
         </div>
 

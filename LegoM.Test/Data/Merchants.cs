@@ -7,7 +7,7 @@
     {
         public const string TelephoneNumber = "0888888888";
 
-        public static Merchant GetMerchant(string telephoneNumber = TelephoneNumber, bool sameUser = true)
+        public static Trader GetMerchant(string telephoneNumber = TelephoneNumber, bool sameUser = true)
         {
             var user = new User
             {
@@ -15,7 +15,7 @@
                 UserName = TestUser.Identifier
             };
 
-            var merchant = new Merchant()
+            var merchant = new Trader()
             {
                 User = sameUser ? user : new User
                 {

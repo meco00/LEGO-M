@@ -1,7 +1,7 @@
-using System;
-
-namespace LegoM.Models
+﻿namespace LegoM.Models
 {
+   using System;
+
     public class ErrorViewModel
     {
         public string RequestId { get; set; }

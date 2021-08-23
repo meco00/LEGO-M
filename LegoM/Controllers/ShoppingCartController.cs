@@ -5,6 +5,7 @@
     using LegoM.Services.Products;
     using LegoM.Services.ShoppingCarts;
     using LegoM.Services.ShoppingCarts.Models;
+    using LegoM.Services.Traders;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -13,25 +14,37 @@
     public class ShoppingCartController:Controller
     {
         private readonly IProductsService products;
+        private readonly ITraderService traders;
         private readonly IShoppingCartService shoppingCarts;
 
-        public ShoppingCartController(IProductsService products, IShoppingCartService shoppingCarts)
+        public ShoppingCartController(IProductsService products, IShoppingCartService shoppingCarts, ITraderService traders)
         {
             this.products = products;
             this.shoppingCarts = shoppingCarts;
-
+            this.traders = traders;
         }
 
         [Authorize]
         public IActionResult Add(string id)
-        {
-            ;
+        {        
             var product = this.products.Details(id);
 
             if (product==null)
             {
                 return NotFound();
             }
+
+            string traderId = this.traders.IdByUser(this.User.Id());
+
+            var isUserAdmin = this.User.IsAdmin();
+
+            if (traderId != null &&
+                !isUserAdmin &&
+                this.products.ProductIsByTrader(id, traderId))
+            {
+                return BadRequest();
+            }
+
 
             if (product.Quantity == 0 || this.shoppingCarts.ItemExists(id,this.User.Id()))
             {

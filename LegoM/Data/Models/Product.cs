@@ -39,9 +39,9 @@
 
         public DateTime? DeletedOn { get; set; }
 
-        public string MerchantId { get; set; }
+        public string TraderId { get; set; }
 
-        public virtual Merchant Merchant { get; set; }
+        public virtual Trader Trader { get; set; }
 
         
         public int CategoryId { get; set; }

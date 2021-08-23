@@ -1,28 +1,28 @@
-﻿namespace LegoM.Services.Merchants
+﻿namespace LegoM.Services.Traders
 {
     using LegoM.Data;
     using LegoM.Data.Models;
     using System.Linq;
 
-    public class MerchantService : IMerchantService
+    public class TraderService : ITraderService
     {
         private readonly LegoMDbContext data;
 
-        public MerchantService(LegoMDbContext data)
+        public TraderService(LegoMDbContext data)
         {
             this.data = data;
         }
 
         public void Create(string userId, string name, string telephoneNumber)
         {
-            var merchant = new Merchant
+            var trader = new Trader
             {
                 Name = name,
                 TelephoneNumber =telephoneNumber,
                 UserId = userId
             };
 
-            data.Merchants.Add(merchant);
+            data.Merchants.Add(trader);
 
             data.SaveChanges();
         }
@@ -33,7 +33,7 @@
                 .Select(x => x.Id)
                 .FirstOrDefault();
 
-        public bool IsUserMerchant(string userId)
+        public bool IsUserTrader(string userId)
         => this.data.Merchants.Any(x=>x.UserId==userId);
 
         public string TelephoneNumberByUser(string userId)

@@ -95,7 +95,7 @@
                  .AndAlso()
                  .ShouldReturn()
                  .Redirect(redirect => redirect
-                      .To<MerchantsController>(c => c
+                      .To<TradersController>(c => c
                       .Become()));
 
 

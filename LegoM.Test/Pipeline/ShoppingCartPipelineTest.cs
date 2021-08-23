@@ -15,7 +15,7 @@
     using static Data.Products;
     using static Data.ShoppingCartItems;
 
-    public class ShoppingCartTest
+    public class ShoppingCartPipelineTest
     {
         [Fact]
         public void MineShouldBeForAuthorizedUsersAndReturnViewWithCorrectDataAndModel()
@@ -92,7 +92,7 @@
                  .ShouldMap(request => request.WithLocation($"/ShoppingCart/Add/{TestId}")
                 .WithUser())
                 .To<ShoppingCartController>(c => c.Add(TestId))
-                 .Which(controller => controller.WithData(GetProduct()))
+                 .Which(controller => controller.WithData(GetProduct(userSame:false)))
                  .ShouldHave()
                  .ActionAttributes(attributes => attributes
                           .RestrictingForAuthorizedRequests())
@@ -113,6 +113,22 @@
                           .To<ProductsController>(c => c
                           .Details(TestId,With.Any<ProductsDetailsQueryModel>())));
 
+
+        [Fact]
+        public void AddShouldBeForAuthorizedUsersAndReturnBadRequestWhenUserIsTraderOfProduct()
+           => MyPipeline
+               .Configuration()
+                .ShouldMap(request => request.WithLocation($"/ShoppingCart/Add/{TestId}")
+               .WithUser())
+               .To<ShoppingCartController>(c => c.Add(TestId))
+                .Which(controller => controller.WithData(GetProduct()))
+                .ShouldHave()
+                .ActionAttributes(attributes => attributes
+                         .RestrictingForAuthorizedRequests())
+               .AndAlso()
+               .ShouldReturn()
+               .BadRequest();
+                
 
         [Fact]
         public void AddShouldBeForAuthorizedUsersAndReturnNotFoundWhenProductDoesNotExists()

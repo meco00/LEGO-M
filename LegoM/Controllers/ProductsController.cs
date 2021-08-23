@@ -5,7 +5,7 @@
     using LegoM.Data;
     using LegoM.Infrastructure;
     using LegoM.Models.Products;
-    using LegoM.Services.Merchants;
+    using LegoM.Services.Traders;
     using LegoM.Services.Products;
     using LegoM.Services.Questions;
     using LegoM.Services.Reviews;
@@ -17,7 +17,7 @@
     public class ProductsController:Controller
     {
         private readonly IProductsService products;
-        private readonly IMerchantService merchants;
+        private readonly ITraderService traders;
         private readonly IReviewService reviews;
         private readonly IQuestionsService questions;
         private readonly IMapper mapper;
@@ -25,11 +25,11 @@
         private readonly LegoMDbContext data;
 
 
-        public ProductsController(LegoMDbContext data, IProductsService products, IMerchantService merchants, IMapper mapper, IReviewService reviews, IQuestionsService questions)
+        public ProductsController(LegoMDbContext data, IProductsService products, ITraderService traders, IMapper mapper, IReviewService reviews, IQuestionsService questions)
         {
             this.data = data;
             this.products = products;
-            this.merchants = merchants;
+            this.traders = traders;
             this.mapper = mapper;
             this.reviews = reviews;
             this.questions = questions;
@@ -38,9 +38,9 @@
         [Authorize]
         public IActionResult Add()
         {
-            if (!this.merchants.IsUserMerchant(this.User.Id()) && !this.User.IsAdmin())
+            if (!this.traders.IsUserTrader(this.User.Id()) && !this.User.IsAdmin())
             {
-                return RedirectToAction(nameof(MerchantsController.Become), "Merchants");
+                return RedirectToAction(nameof(TradersController.Become), "Traders");
             }
 
 
@@ -58,7 +58,7 @@
         public IActionResult Add(ProductFormModel product)
         {
             ;
-            string merchantId = this.merchants.IdByUser(this.User.Id());
+            string merchantId = this.traders.IdByUser(this.User.Id());
 
             var isUserAdmin = this.User.IsAdmin();
 
@@ -160,7 +160,7 @@
         [Authorize]
         public IActionResult Edit(string Id)
         {
-            string merchantId = this.merchants.IdByUser(this.User.Id());
+            string merchantId = this.traders.IdByUser(this.User.Id());
 
             var isUserAdmin = this.User.IsAdmin();
 
@@ -174,7 +174,7 @@
                 return NotFound();
             }
 
-            if (!this.products.ProductIsByMerchant(Id, merchantId) && !isUserAdmin)
+            if (!this.products.ProductIsByTrader(Id, merchantId) && !isUserAdmin)
             {
                 return BadRequest();
             }
@@ -195,7 +195,7 @@
         public IActionResult Edit(string Id,ProductFormModel product)
         {
             ;
-            string merchantId = this.merchants.IdByUser(this.User.Id());
+            string merchantId = this.traders.IdByUser(this.User.Id());
 
             var isUserAdmin = this.User.IsAdmin();
 
@@ -204,7 +204,7 @@
                 return BadRequest();
             }        
 
-            if (!this.products.ProductIsByMerchant(Id, merchantId) && !isUserAdmin)
+            if (!this.products.ProductIsByTrader(Id, merchantId) && !isUserAdmin)
             {
                 return BadRequest();
             }
@@ -259,7 +259,7 @@
         public IActionResult Details(string id,[FromQuery]ProductsDetailsQueryModel query)
         {
             ;
-            string merchantId = this.merchants.IdByUser(this.User.Id());
+            string merchantId = this.traders.IdByUser(this.User.Id());
 
             var isUserAdmin = this.User.IsAdmin();
 
@@ -271,7 +271,7 @@
                 return NotFound();
             }
 
-            if (!this.products.ProductIsByMerchant(id,merchantId)&&
+            if (!this.products.ProductIsByTrader(id,merchantId)&&
                 !product.IsPublic&&
                 !isUserAdmin)
             {
@@ -319,7 +319,7 @@
         public IActionResult Delete(string id)
         {
             ;
-            string merchantId = this.merchants.IdByUser(this.User.Id());
+            string merchantId = this.traders.IdByUser(this.User.Id());
 
             var isUserAdmin = this.User.IsAdmin();
 
@@ -333,7 +333,7 @@
                 return NotFound();
             }
 
-            if (!this.products.ProductIsByMerchant(id, merchantId) && !isUserAdmin)
+            if (!this.products.ProductIsByTrader(id, merchantId) && !isUserAdmin)
             {
                 return BadRequest();
             }
@@ -349,7 +349,7 @@
         public IActionResult Delete(string id,ProductDeleteFormModel productDelete)
         {
             ;
-            string merchantId = this.merchants.IdByUser(this.User.Id());
+            string merchantId = this.traders.IdByUser(this.User.Id());
 
             var isUserAdmin = this.User.IsAdmin();
 
@@ -358,7 +358,7 @@
                 return BadRequest();
             }
 
-            if (!this.products.ProductIsByMerchant(id, merchantId) && !isUserAdmin)
+            if (!this.products.ProductIsByTrader(id, merchantId) && !isUserAdmin)
             {
                 return BadRequest();
             }

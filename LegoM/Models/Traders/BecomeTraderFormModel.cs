@@ -1,12 +1,12 @@
-﻿namespace LegoM.Models.Merchants
+﻿namespace LegoM.Models.Traders
 {
 
 using LegoM.Data;
 using System.ComponentModel.DataAnnotations;
 
-    using static Data.DataConstants.Merchant;
+    using static Data.DataConstants.Trader;
 
-    public class BecomeMerchantFormModel
+    public class BecomeTraderFormModel
     {
         [Required]
         [StringLength(NameMaxLength,MinimumLength = NameMinLength)]

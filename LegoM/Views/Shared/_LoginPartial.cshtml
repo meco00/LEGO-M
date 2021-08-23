@@ -3,7 +3,7 @@
 
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
-@inject IMerchantService merchantService
+@inject ITraderService traderService
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
@@ -11,11 +11,11 @@
 
         var userId = this.User.Id();
 
-        var isUserMerchant = merchantService.IsUserMerchant(userId);
+        var isUserTrader = traderService.IsUserTrader(userId);
 
         var userIsAdmin = this.User.IsAdmin();
 
-        if (isUserMerchant || userIsAdmin)
+        if (isUserTrader || userIsAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark ml-5" asp-area="" asp-controller="Products" asp-action="Add">Add Product</a>
@@ -30,7 +30,7 @@
 
 
 
-        @if (isUserMerchant && !userIsAdmin)
+        @if (isUserTrader && !userIsAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Mine">My Products</a>
@@ -40,7 +40,7 @@
         {
 
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Ad" asp-controller="Merchants" asp-action="Become">Become Merchant</a>
+                <a class="nav-link text-dark" asp-area="Ad" asp-controller="Traders" asp-action="Become">Become Trader</a>
             </li>
         }
         else if (userIsAdmin)
