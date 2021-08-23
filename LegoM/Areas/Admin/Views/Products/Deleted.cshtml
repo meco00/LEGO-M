@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Deleted Products Administration";
+    ViewBag.IsDeleted = true;
 }
 
 
@@ -68,40 +69,7 @@
 </form>
 
 
-<table class="table">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">DeletedOn</th>
-            <th scope="col">Title</th>
-            <th scope="col">Price</th>
-            <th scope="col">Condition</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in Model.Products)
-        {
-            <tr>
-                <td scope="col">@product.DeletedOn</td>
-                <td scope="col" >@product.Title</td>
-                <td scope="col">@product.Price</td>
-                <td scope="col">@product.Condition</td>
-
-
-
-                <td scope="col">
-                    <a asp-area="" asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger float-right ml-1">Delete</a>
-                    <a asp-controller="Products" asp-action="Reports" asp-route-id="@product.Id" class="btn btn-dark float-right ml-1">Reports</a>
-                    <a asp-area="Admin" asp-controller="Products" asp-action="Revive" asp-route-id="@product.Id" class="btn btn-info float-right ml-1">Revive</a>
-                    <a asp-area="" asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning float-right ml-1">Edit</a>
-                    <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary float-right ml-1">Details</a>
-
-
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<partial name="_ProductsPartial" model="@Model.Products" />
 
 
 @{

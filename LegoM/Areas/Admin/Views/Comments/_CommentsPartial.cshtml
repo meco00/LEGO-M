@@ -1,0 +1,36 @@
+﻿@model IEnumerable<CommentServiceModel>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">User</th>
+            <th scope="col">Content</th>
+            <th scope="col">Approved</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var comment in Model)
+        {
+            <tr>
+                <td scope="col">@comment.PublishedOn</td>
+                <td scope="col">@comment.UserName</td>
+
+                <td scope="col">@(new string(comment.Content.Take(50).ToArray()))</td>
+
+
+
+
+                <td scope="col">@(comment.IsPublic ? "Yes":"No")</td>
+
+
+                <td scope="col">
+                    <a asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id" class="btn btn-danger float-right ml-3">Delete</a>
+                    <a asp-controller="Comments" asp-action="ChangeVisibility" asp-route-id="@comment.Id" class="btn btn-info float-right ml-3 ">@(comment.IsPublic ? "Hide": "Show")</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

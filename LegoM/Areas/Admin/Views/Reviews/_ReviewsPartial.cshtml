@@ -1,0 +1,36 @@
+﻿@model IEnumerable<ReviewServiceModel> 
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">User</th>
+            <th scope="col">Product</th>
+            <th scope="col">Title</th>
+            <th scope="col">Approved</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var review in Model)
+        {
+            <tr>
+                <td scope="col">@review.PublishedOn</td>
+                <td scope="col">@review.UserName</td>
+                <td scope="col">@review.ProductTitle</td>
+                <td scope="col">@review.Title</td>
+
+                <td scope="col">@(review.IsPublic ? "Yes":"No")</td>
+
+
+                <td scope="col">
+                    <a asp-area="" asp-controller="Reviews" asp-action="Delete" asp-route-id="@review.Id" class="btn btn-danger float-right ml-3">Delete</a>
+                    <a asp-area="" asp-controller="Reviews" asp-action="Edit" asp-route-id="@review.Id" class="btn btn-warning float-right ml-3">Edit</a>
+                    <a asp-area="" asp-controller="Reviews" asp-action="Details" asp-route-id="@review.Id" asp-route-information="@(review.GetInformation())" class="btn btn-primary float-right ml-3">Details</a>
+                    <a asp-controller="Reviews" asp-action="ChangeVisibility" asp-route-id="@review.Id" class="btn btn-info float-right ml-3 ">@(review.IsPublic ? "Hide": "Show")</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -284,7 +284,7 @@
                       return;
                   }                 
 
-                  const string userPassword = "test";
+                  const string userPassword = "test123";
 
                   var user = new User
                   {

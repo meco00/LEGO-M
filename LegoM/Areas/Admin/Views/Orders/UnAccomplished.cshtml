@@ -31,64 +31,31 @@
     </div>
 </form>
 
+<partial name="_OrdersPartial" model="@Model.Orders">
 
-<table class="table">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">Date</th>
-            <th scope="col">Nº</th>
-            <th scope="col">Name</th>
-            <th scope="col">State</th>
-            <th scope="col">City</th>
-            <th scope="col">TotalAmount</th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var order in Model.Orders)
+  @{
+        var previousPage = Model.CurrentPage - 1;
+        if (previousPage < 1)
         {
-            <tr>
-                <td scope="col">@order.OrderedOn</td>
-                <td scope="col">@order.Id</td>
-                <td scope="col">@(new string(order.FullName.Take(20).ToArray()))</td>
-                <td scope="col">@order.State</td>
-                <td scope="col">@order.City</td>
-                <td scope="col">@order.TotalAmount</td>
-
-                <td scope="col">
-                    <a asp-controller="Orders" asp-action="Delete" asp-route-id="@order.Id" class="btn btn-danger float-right ml-3">Delete</a>
-                    <a asp-controller="Orders" asp-action="Details" asp-route-id="@order.Id" class="btn btn-primary float-right ml-3">Details</a>
-                    <a asp-controller="Orders" asp-action="Accomplish" asp-route-id="@order.Id" class="btn btn-success float-right ml-3 ">Accomplish</a>
-                </td>
-            </tr>
+            previousPage = 1;
         }
-    </tbody>
-</table>
 
-
-@{
-    var previousPage = Model.CurrentPage - 1;
-    if (previousPage < 1)
-    {
-        previousPage = 1;
+        var maxPage = Math.Ceiling((double)Model.TotalOrders / OrdersQueryModel.OrdersPerPage);
     }
 
-    var maxPage = Math.Ceiling((double)Model.TotalOrders / OrdersQueryModel.OrdersPerPage);
-}
-
-<div class="row mt-5">
-    <div class="col-md-6">
-        <a class="btn btn-primary @(Model.CurrentPage==1 ? "disabled":string.Empty)"
-           asp-controller="Orders"
-           asp-action="UnAccomplished"
-           asp-route-searchTerm="@Model.SearchTerm"
-           asp-route-currentPage="@previousPage"><<</a>
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <a class="btn btn-primary @(Model.CurrentPage==1 ? "disabled":string.Empty)"
+               asp-controller="Orders"
+               asp-action="UnAccomplished"
+               asp-route-searchTerm="@Model.SearchTerm"
+               asp-route-currentPage="@previousPage"><<</a>
+        </div>
+        <div class="col-md-6">
+            <a class="btn btn-primary float-right @(Model.CurrentPage==maxPage || !Model.Orders.Any()  ? "disabled" : string.Empty)"
+               asp-controller="Orders"
+               asp-action="UnAccomplished"
+               asp-route-searchTerm="@Model.SearchTerm"
+               asp-route-currentPage="@(Model.CurrentPage+1)">>></a>
+        </div>
     </div>
-    <div class="col-md-6">
-        <a class="btn btn-primary float-right @(Model.CurrentPage==maxPage || !Model.Orders.Any()  ? "disabled" : string.Empty)"
-           asp-controller="Orders"
-           asp-action="UnAccomplished"
-           asp-route-searchTerm="@Model.SearchTerm"
-           asp-route-currentPage="@(Model.CurrentPage+1)">>></a>
-    </div>
-</div>

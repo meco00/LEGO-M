@@ -1,0 +1,32 @@
+﻿@model IEnumerable<AnswerServiceModel>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">User</th>
+            <th scope="col">Content</th>
+            <th scope="col">Approved</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var answer in Model)
+        {
+            <tr>
+                <td scope="col">@answer.PublishedOn</td>
+                <td scope="col">@answer.UserName</td>
+
+                <td scope="col">@(new string(answer.Content.Take(50).ToArray()))</td>
+
+                <td scope="col">@(answer.IsPublic ? "Yes":"No")</td>
+
+                <td scope="col">
+                    <a asp-controller="Answers" asp-action="Delete" asp-route-id="@answer.Id" class="btn btn-danger float-right ml-3">Delete</a>
+                    <a asp-controller="Answers" asp-action="ChangeVisibility" asp-route-id="@answer.Id" class="btn btn-info float-right ml-3 ">@(answer.IsPublic ? "Hide": "Show")</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
