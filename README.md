@@ -53,4 +53,10 @@ would happen once you run the application, including Test Accounts:
   ## :wrench: Database Diagram
 <kbd><img src="https://github.com/meco00/LEGO-M/blob/master/AppScreenshots/Database.png" /></kbd>
 <br/><br/>
-
+## 🔧 Unit Tests
+<kbd><img src="https://github.com/meco00/LEGO-M/blob/master/AppScreenshots/UnitTestsCoverage.png" /></kbd>
+<br/><br/>
+## 🔰 Leave a feedback
+Give a ⭐ if you like it. <br/>
+Thank you 😍 <br/>
+<br/><br/>
