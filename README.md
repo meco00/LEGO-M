@@ -10,7 +10,7 @@ My defense project for ASP.NET Core Course at @SoftUni
  - Guest visitors:
    - Can view all approved products , reviews ,comments ,questions and answers.
    - Can register as a user.
-     - Logged Users:
+ - Logged Users:
    - Can add reviews ,questions ,answers , comments and reports for products.
    - Can view all approved products , reviews ,comments ,questions and answers.
    - Can order products.
