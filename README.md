@@ -7,26 +7,26 @@ My defense project for ASP.NET Core Course at @SoftUni
 - LegoM enables people to buy and sell products .
 - If you are trader you can add your products .
 - # :information_source: How It Works
-   - Guest visitors:
- - Can view all approved products , reviews ,comments ,questions and answers.
- - Can register as a user.
-   - Logged Users:
- - Can add reviews ,questions and comments
- - Can view all approved products , reviews ,comments ,questions and answers.
- - Can order products.
- - Can Delete/Update/View his reviews and questions.
- -  Can Delete/View his questions.
- - Can become trader.
-   - Trader (user role):
- - Can add products , reviews ,questions and comments
- - Can Delete/Update/View his products  and reviews.
- - Can order products.
- - Can Delete/View his questions.
-   - Admin
- - Can Add/Update/Delete/Approve/Unapprove products , reviews ,questions and comments
- - Only admin can approve products , reviews ,questions, comments and answers.
- - Can view all approved and unapproved products , reviews ,comments,questions ,answers.
- - Can Accomplish/UnAccomplish/Delete orders .
+ - Guest visitors:
+   - Can view all approved products , reviews ,comments ,questions and answers.
+   - Can register as a user.
+ - Logged Users:
+   - Can add reviews ,questions ,answers , comments and reports for products.
+   - Can view all approved products , reviews ,comments ,questions and answers.
+   - Can order products.
+   - Can Delete/Update/View his reviews and questions.
+   - Can Delete/View his questions.
+   - Can become trader.
+ - Trader (user role):
+   - Can add products , reviews ,questions and comments
+   - Can Delete/Update/View his products  and reviews.
+   - Can order products.
+   - Can Delete/View his questions.
+ - Admin
+   - Can Add/Update/Delete/Approve/Unapprove products , reviews ,questions and comments
+   - Only admin can approve products , reviews ,questions, comments and answers.
+   - Can view all approved and unapproved products , reviews ,comments,questions ,answers and reports.
+   - Can Accomplish/UnAccomplish/Delete orders .
 - # 🛠 Built with:
 - ASP.NET Core 5.0
 - Entity Framework (EF) Core 5.0
@@ -44,6 +44,7 @@ My defense project for ASP.NET Core Course at @SoftUni
 - Data Validation in the Models and Input View Models
 - Responsive Design
 - Bootstrap
+- FontAwesome
 - jQuery
 - ### 1. Seeding sample data
 would happen once you run the application, including Test Accounts:
