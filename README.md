@@ -50,4 +50,7 @@ My defense project for ASP.NET Core Course at @SoftUni
 would happen once you run the application, including Test Accounts:
   - User: test@user.com / password: test123
   - Admin: admin@gm.com / password: admin0021
+  ## :wrench: Database Diagram
+<kbd><img src="https://github.com/meco00/LEGO-M/blob/master/AppScreenshots/Database.png" /></kbd>
+<br/><br/>
 
