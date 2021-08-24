@@ -1,8 +1,8 @@
-﻿using LegoM.Services.Favourites.Models;
-using System.Collections.Generic;
-
-namespace LegoM.Services.Favourites
+﻿namespace LegoM.Services.Favourites
 {
+    using LegoM.Services.Favourites.Models;
+    using System.Collections.Generic;
+
     public interface IFavouriteService
     {
         void Add(string productId, string userId);

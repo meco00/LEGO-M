@@ -1,8 +1,8 @@
-﻿using LegoM.Services.ShoppingCarts.Models;
-using System.Collections.Generic;
-
-namespace LegoM.Services.ShoppingCarts
+﻿namespace LegoM.Services.ShoppingCarts
 {
+    using LegoM.Services.ShoppingCarts.Models;
+    using System.Collections.Generic;
+
     public interface IShoppingCartService
     {
         void Add(

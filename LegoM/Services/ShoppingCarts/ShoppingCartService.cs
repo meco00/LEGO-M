@@ -6,10 +6,8 @@
     using LegoM.Data.Models;
     using LegoM.Services.ShoppingCarts.Models;
     using Microsoft.EntityFrameworkCore;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     public class ShoppingCartService : IShoppingCartService
     {

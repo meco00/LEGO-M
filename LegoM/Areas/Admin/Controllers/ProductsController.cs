@@ -12,7 +12,6 @@
     {
         private readonly IProductsService products;
         private readonly IReportsService reports;
-
         private readonly IMapper mapper;
 
         public ProductsController(IProductsService products, IMapper mapper, IReportsService reports)
@@ -21,8 +20,6 @@
             this.mapper = mapper;
             this.reports = reports;
         }
-
-
 
         public IActionResult Existing([FromQuery]ProductsQueryModel query)
         {

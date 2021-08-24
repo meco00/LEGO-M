@@ -5,7 +5,6 @@
     using LegoM.Data;
     using LegoM.Data.Models;
     using LegoM.Services.Favourites.Models;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 

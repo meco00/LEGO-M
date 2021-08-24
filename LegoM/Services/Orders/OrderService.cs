@@ -2,17 +2,15 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using LegoM.Areas.Admin.Models.Orders;
     using LegoM.Data;
     using LegoM.Data.Models;
-    using LegoM.Services.Traders;
     using LegoM.Services.Orders.Models;
+    using LegoM.Services.Traders;
     using LegoM.Services.Users;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     public class OrderService : IOrderService
     {

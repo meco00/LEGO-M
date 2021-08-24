@@ -4,12 +4,10 @@
     using AutoMapper.QueryableExtensions;
     using LegoM.Data;
     using LegoM.Data.Models;
-    using LegoM.Services.Answers.Models;
     using LegoM.Services.Comments.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     public class CommentService : ICommentService
     {

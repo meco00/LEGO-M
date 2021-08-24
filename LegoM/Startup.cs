@@ -6,7 +6,6 @@ namespace LegoM
     using LegoM.Services.Answers;
     using LegoM.Services.Comments;
     using LegoM.Services.Favourites;
-    using LegoM.Services.Traders;
     using LegoM.Services.Orders;
     using LegoM.Services.Products;
     using LegoM.Services.Questions;
@@ -14,6 +13,7 @@ namespace LegoM
     using LegoM.Services.Reviews;
     using LegoM.Services.ShoppingCarts;
     using LegoM.Services.Statistics;
+    using LegoM.Services.Traders;
     using LegoM.Services.Users;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -24,15 +24,12 @@ namespace LegoM
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
 
-
     public class Startup
     {
         public Startup(IConfiguration configuration)
         => Configuration = configuration;
         
-
         public IConfiguration Configuration { get; }
-
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -58,9 +55,7 @@ namespace LegoM
             services
                 .AddControllersWithViews(options =>
                 {
-
                     options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
-
                 });
 
             services.AddRazorPages()
@@ -106,9 +101,6 @@ namespace LegoM
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
             {
-
-
-
                 endpoints.MapDefaultAreaRoute();
 
                 endpoints.MapReviewsDetailsRoute();
@@ -117,7 +109,6 @@ namespace LegoM
                 endpoints.MapAnswersAddRoute();
                 endpoints.MapCommentsAddRoute();
                
-
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });

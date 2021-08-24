@@ -1,11 +1,5 @@
 ﻿namespace LegoM.Services.Reviews.Models
 {
-    using LegoM.Services.Comments.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     public class ReviewDetailsServiceModel:IReviewModel
     {
         public int Id { get; set; }

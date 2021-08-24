@@ -1,10 +1,7 @@
 ﻿namespace LegoM.Services.Users
 {
     using LegoM.Data;
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     public class UserService : IUserService
     {

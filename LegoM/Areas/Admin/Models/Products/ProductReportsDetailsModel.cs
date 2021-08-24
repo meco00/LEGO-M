@@ -1,10 +1,7 @@
 ﻿namespace LegoM.Areas.Admin.Models.Products
 {
     using LegoM.Services.Reports.Models;
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class ProductReportsDetailsModel
     {

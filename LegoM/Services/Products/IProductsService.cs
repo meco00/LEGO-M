@@ -1,5 +1,4 @@
-﻿
-namespace LegoM.Services.Products
+﻿namespace LegoM.Services.Products
 {
     using LegoM.Data.Models.Enums;
     using LegoM.Services.Products.Models;

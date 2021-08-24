@@ -7,9 +7,7 @@
     using LegoM.Data.Models.Enums;
     using LegoM.Services.Reports.Models;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     public class ReportsService : IReportsService
     {

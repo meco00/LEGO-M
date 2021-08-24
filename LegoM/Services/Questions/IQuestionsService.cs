@@ -1,7 +1,6 @@
 ﻿namespace LegoM.Services.Questions
 {
-  using LegoM.Services.Questions.Models;
-    using System.Collections;
+    using LegoM.Services.Questions.Models;
     using System.Collections.Generic;
 
     public interface IQuestionsService

@@ -24,11 +24,6 @@
             this.mapper = mapper.ConfigurationProvider;
         }
 
-
-
-
-
-
         public ProductQueryModel All(
             string category = null,
             string subCategory = null,
@@ -169,18 +164,11 @@
 
             }
 
-
-            ;
-
-
-
-
             data.Products.Add(productData);
 
             data.SaveChanges();
 
             return productData.Id;
-
 
         }
 
@@ -257,16 +245,11 @@
                 }
             }
 
-            ;
-
-
             data.SaveChanges();
 
             return true;
         }
-
-        
-
+       
         public IEnumerable<ProductServiceModel> ByUser(string userId)
         => GetProducts(
             this.data
@@ -359,9 +342,6 @@
             product.IsPublic = !product.IsPublic;
 
             this.data.SaveChanges();
-
-
-
         }
 
         public bool ProductExists(string Id)

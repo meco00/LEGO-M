@@ -1,10 +1,5 @@
 ﻿namespace LegoM.Services.Questions.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     public class QuestionServiceModel:IQuestionModel
     {
         public int  Id { get; set; }
@@ -22,7 +17,6 @@
         public string PublishedOn { get; set; }
 
         public int AnswersCount { get; set; }
-
    
     }
 }

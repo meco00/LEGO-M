@@ -1,10 +1,5 @@
 ﻿namespace LegoM.Services.Reports.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     public class ReportServiceModel
     {
         public int Id { get; set; }
@@ -20,7 +15,5 @@
         public string ProductTitle { get; set; }
 
         public string PublishedOn { get; set; }
-    
-
     }
 }

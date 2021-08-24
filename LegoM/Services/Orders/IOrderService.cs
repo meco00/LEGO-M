@@ -1,8 +1,6 @@
 ﻿namespace LegoM.Services.Orders
 {
-    using LegoM.Areas.Admin.Models.Orders;
     using LegoM.Services.Orders.Models;
-    using System.Collections.Generic;
 
     public interface IOrderService
     {

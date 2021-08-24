@@ -18,9 +18,6 @@
 
         public int Rating { get; set; }
 
-        public int TotalComments { get; set; }
-
-        
-
+        public int TotalComments { get; set; }  
     }
 }
