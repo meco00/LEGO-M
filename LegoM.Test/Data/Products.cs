@@ -5,10 +5,10 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using static DataConstants;
 
     public static class Products
     {
+        public const string ProductTestId = "TestId";
 
         public const string FirstImageUrl = "https://upload.wikimedia.org/wikipedia/commons/4/44/Cat_img.jpg";
 
@@ -18,7 +18,7 @@
 
 
         public static Product GetProduct(
-            string id=TestId,
+            string id=ProductTestId,
             bool userSame=true,
             bool IsDeleted = false,
             bool IsPublic=true)

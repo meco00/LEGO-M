@@ -11,7 +11,6 @@
     using System.Linq;
     using Xunit;
 
-    using static Data.DataConstants;
     using static Data.Products;
     using static Data.Reports;
 
@@ -59,16 +58,16 @@
             => MyPipeline
                   .Configuration()
                    .ShouldMap(request => request
-                    .WithPath($"/Admin/Products/ChangeVisibility/{TestId}")
+                    .WithPath($"/Admin/Products/ChangeVisibility/{ProductTestId}")
                      .WithUser(new[] { AdminConstants.AdministratorRoleName })
                      .WithAntiForgeryToken())
-                   .To<ProductsController>(c => c.ChangeVisibility(TestId))
+                   .To<ProductsController>(c => c.ChangeVisibility(ProductTestId))
                    .Which(controller => controller
                     .WithData(GetProduct()))
                    .ShouldHave()
                     .Data(data => data
                          .WithSet<Product>(set => set
-                              .Any(x => x.Id == TestId && !x.IsPublic)))
+                              .Any(x => x.Id == ProductTestId && !x.IsPublic)))
                      .AndAlso()
                      .ShouldReturn()
                      .Redirect(redirect => redirect
@@ -81,16 +80,16 @@
             => MyPipeline
                 .Configuration()
                 .ShouldMap(request=>request
-                     .WithPath($"/Admin/Products/Revive/{TestId}")
+                     .WithPath($"/Admin/Products/Revive/{ProductTestId}")
                      .WithUser(new[] { AdminConstants.AdministratorRoleName })
                      .WithAntiForgeryToken())
-                .To<ProductsController>(c=>c.Revive(TestId))
+                .To<ProductsController>(c=>c.Revive(ProductTestId))
                 .Which(controller=>controller
-                    .WithData(GetProduct(TestId,true)))
+                    .WithData(GetProduct()))
                  .ShouldHave()
                   .Data(data => data
                          .WithSet<Product>(set => set
-                              .Any(x => x.Id == TestId && !x.IsDeleted)))
+                              .Any(x => x.Id == ProductTestId && !x.IsDeleted)))
                     .AndAlso()
                      .ShouldReturn()
                      .Redirect(redirect => redirect
@@ -102,9 +101,9 @@
             => MyPipeline
                 .Configuration()
                 .ShouldMap(request => request
-                     .WithPath($"/Admin/Products/Reports/{TestId}")
+                     .WithPath($"/Admin/Products/Reports/{ProductTestId}")
                      .WithUser(new[] { AdminConstants.AdministratorRoleName }))
-                .To<ProductsController>(c => c.Reports(TestId))
+                .To<ProductsController>(c => c.Reports(ProductTestId))
                 .Which(controller => controller
                     .WithData(GetProduct()).AndAlso().WithData(GetReports(5,sameUser:false)))
                 .ShouldReturn()
@@ -123,9 +122,9 @@
            => MyPipeline
                .Configuration()
                .ShouldMap(request => request
-                    .WithPath($"/Admin/Products/Reports/{TestId}")
+                    .WithPath($"/Admin/Products/Reports/{ProductTestId}")
                     .WithUser(new[] { AdminConstants.AdministratorRoleName }))
-               .To<ProductsController>(c => c.Reports(TestId))
+               .To<ProductsController>(c => c.Reports(ProductTestId))
                .Which()
                .ShouldReturn()
                .NotFound();

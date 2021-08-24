@@ -5,7 +5,7 @@
     using MyTested.AspNetCore.Mvc;
     using Xunit;
 
-    using static Data.DataConstants;
+    using static Data.Products;
 
     public class ReviewsRoutingTest
     {
@@ -14,10 +14,10 @@
             => MyRouting
                 .Configuration()
                  .ShouldMap(request => request
-                    .WithPath($"/Reviews/Add/{TestId}")
+                    .WithPath($"/Reviews/Add/{ProductTestId}")
                      .WithMethod(HttpMethod.Post))
                  .To<ReviewsController>(c => c
-                 .Add(TestId, With.Any<ReviewFormModel>()));
+                 .Add(ProductTestId, With.Any<ReviewFormModel>()));
 
         [Fact]
         public void PostEditShoulBeMapped()

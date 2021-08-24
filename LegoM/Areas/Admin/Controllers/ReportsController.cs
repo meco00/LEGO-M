@@ -3,10 +3,6 @@
     using LegoM.Areas.Admin.Models.Reports;
     using LegoM.Services.Reports;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class ReportsController:AdminController
     {
@@ -20,18 +16,15 @@
         public IActionResult All([FromQuery] ReportsQueryModel query)
         {
             var queryResult = this.reports.All(
-         query.SearchTerm,
-         query.CurrentPage,
-         ReportsQueryModel.ReportsPerPage);
+             query.SearchTerm,
+             query.CurrentPage,
+             ReportsQueryModel.ReportsPerPage);
 
-            query.Reports = queryResult.Reports;
-            query.TotalReports = queryResult.TotalReports;
+             query.Reports = queryResult.Reports;
+             query.TotalReports = queryResult.TotalReports;
 
             return this.View(query);
-
-
         }
-
 
         public IActionResult Delete(int id)
         {
@@ -46,7 +39,5 @@
 
             return RedirectToAction(nameof(All));
         }
-
-
     }
 }

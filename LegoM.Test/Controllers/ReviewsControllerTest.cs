@@ -11,7 +11,6 @@
     using System.Linq;
     using Xunit;
 
-    using static Data.DataConstants;
     using static Data.Products;
     using static Data.Reviews;
 
@@ -28,7 +27,7 @@
               .Instance(controller => controller
                         .WithUser()
                         .WithData(GetProduct()))
-               .Calling(c => c.Add(TestId, new ReviewFormModel
+               .Calling(c => c.Add(ProductTestId, new ReviewFormModel
                {
                    Rating = rating,
                    Title = title,
@@ -53,7 +52,7 @@
                  .ShouldReturn()
                   .Redirect(redirect => redirect
                         .To<ProductsController>(c => c
-                         .Details(TestId, With.Any<ProductsDetailsQueryModel>())));
+                         .Details(ProductTestId, With.Any<ProductsDetailsQueryModel>())));
 
         [Theory]
         [InlineData(ReviewType.Excellent, Title, TestContent)]
@@ -66,7 +65,7 @@
             .Instance(controller => controller
                       .WithUser()
                       .WithData(GetProduct(IsPublic: false)))
-             .Calling(c => c.Add(TestId, new ReviewFormModel
+             .Calling(c => c.Add(ProductTestId, new ReviewFormModel
              {
                  Rating = rating,
                  Title = title,

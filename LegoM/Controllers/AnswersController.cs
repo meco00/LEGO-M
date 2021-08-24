@@ -6,10 +6,6 @@
     using LegoM.Services.Questions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class AnswersController:Controller
     {
@@ -21,7 +17,6 @@
             this.questions = questions;
             this.answers = answers;
         }
-
 
         [Authorize]
         public IActionResult Add(int id,string information)
@@ -62,18 +57,7 @@
 
             this.TempData[WebConstants.GlobalMessageKey] = $"Your answer was added { (IsUserAdmin ? string.Empty : "and is awaiting for approval!") }";
        
-            return RedirectToAction("Details","Questions", new { id = questionModel.Id, information = questionModel.GetInformation() });
-
-            
-        }
-
-
-      
-
-
-
-
-
-
+            return RedirectToAction("Details","Questions", new { id = questionModel.Id, information = questionModel.GetInformation() });          
+        }    
     }
 }

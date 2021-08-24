@@ -11,7 +11,6 @@
     using System.Linq;
     using Xunit;
 
-    using static Data.DataConstants;
     using static Data.Products;
     using static Data.ShoppingCartItems;
 
@@ -89,9 +88,9 @@
         public void AddShouldBeForAuthorizedUsersAndReturnRedirectToMineWIthCorrectDataAndModel()
             => MyPipeline
                 .Configuration()
-                 .ShouldMap(request => request.WithLocation($"/ShoppingCart/Add/{TestId}")
+                 .ShouldMap(request => request.WithLocation($"/ShoppingCart/Add/{ProductTestId}")
                 .WithUser())
-                .To<ShoppingCartController>(c => c.Add(TestId))
+                .To<ShoppingCartController>(c => c.Add(ProductTestId))
                  .Which(controller => controller.WithData(GetProduct(userSame:false)))
                  .ShouldHave()
                  .ActionAttributes(attributes => attributes
@@ -100,7 +99,7 @@
                  {
                      var cartItem = set.FirstOrDefault();
 
-                     cartItem.ProductId.Should().Be(TestId);
+                     cartItem.ProductId.Should().Be(ProductTestId);
                      cartItem.UserId.Should().Be(TestUser.Identifier);
                      cartItem.Quantity.Should().Be(1);
 
@@ -111,16 +110,16 @@
                        .ShouldReturn()
                        .Redirect(redirect => redirect
                           .To<ProductsController>(c => c
-                          .Details(TestId,With.Any<ProductsDetailsQueryModel>())));
+                          .Details(ProductTestId, With.Any<ProductsDetailsQueryModel>())));
 
 
         [Fact]
         public void AddShouldBeForAuthorizedUsersAndReturnBadRequestWhenUserIsTraderOfProduct()
            => MyPipeline
                .Configuration()
-                .ShouldMap(request => request.WithLocation($"/ShoppingCart/Add/{TestId}")
+                .ShouldMap(request => request.WithLocation($"/ShoppingCart/Add/{ProductTestId}")
                .WithUser())
-               .To<ShoppingCartController>(c => c.Add(TestId))
+               .To<ShoppingCartController>(c => c.Add(ProductTestId))
                 .Which(controller => controller.WithData(GetProduct()))
                 .ShouldHave()
                 .ActionAttributes(attributes => attributes
@@ -134,9 +133,9 @@
         public void AddShouldBeForAuthorizedUsersAndReturnNotFoundWhenProductDoesNotExists()
            => MyPipeline
                .Configuration()
-                .ShouldMap(request => request.WithLocation($"/ShoppingCart/Add/{TestId}")
+                .ShouldMap(request => request.WithLocation($"/ShoppingCart/Add/{ProductTestId}")
                .WithUser())
-               .To<ShoppingCartController>(c => c.Add(TestId))
+               .To<ShoppingCartController>(c => c.Add(ProductTestId))
                 .Which()
                 .ShouldHave()
                 .ActionAttributes(attributes => attributes

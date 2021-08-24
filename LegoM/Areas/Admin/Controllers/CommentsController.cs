@@ -3,10 +3,6 @@
     using LegoM.Areas.Admin.Models.Comments;
     using LegoM.Services.Comments;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class CommentsController:AdminController
     {
@@ -16,7 +12,6 @@
         {
             this.comments = comments;
         }
-
 
         public IActionResult All([FromQuery] CommentsQueryModel query)
         {
@@ -36,12 +31,9 @@
         {
             this.comments.ChangeVisibility(id);
 
-
             return RedirectToAction(nameof(All));
-
         }
-
-        
+      
         public IActionResult Delete(int id)
         {
             var deleted = this.comments.Delete(id);
@@ -55,11 +47,7 @@
 
             this.TempData[WebConstants.GlobalMessageKey] = "Comment was deleted successfully!";
 
-
             return RedirectToAction(nameof(All));
-
         }
-
-
     }
 }

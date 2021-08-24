@@ -1,8 +1,6 @@
 ﻿@model List<ShoppingCartItemServiceModel>
 
-
 @{
-
     ViewBag.Title = "Shopping Cart";
 
     var total = Model.Sum(x => x.Price).ToString("F2");

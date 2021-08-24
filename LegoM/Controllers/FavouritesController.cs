@@ -5,15 +5,10 @@
     using LegoM.Services.Products;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class FavouritesController:Controller
     {
         private readonly IFavouriteService favourites;
-
         private readonly IProductsService products;
 
         public FavouritesController(IFavouriteService favourites, IProductsService products)
@@ -38,11 +33,9 @@
 
             this.favourites.Add(id, userId);
 
-
             this.TempData[WebConstants.GlobalMessageKey] = "Product was added succesfully to favourites!";
 
             return RedirectToAction(nameof(ProductsController.Details), "Products", new { id });
-
         }
 
         [Authorize]
@@ -55,27 +48,20 @@
                 return BadRequest();
             }
 
-            this.favourites.Delete(id);
-
-           
+            this.favourites.Delete(id);     
 
             this.TempData[WebConstants.GlobalMessageKey] = "Product was deleted succesfully from favourites!";
 
 
             return RedirectToAction(nameof(Mine));
-
-
         }
 
         [Authorize]
         public IActionResult Mine()
         {
-            ;
             var favourites = this.favourites.Mine(this.User.Id());
-
 
             return View(favourites);
         }
-
     }
 }

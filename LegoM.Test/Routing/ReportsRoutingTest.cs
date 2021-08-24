@@ -9,7 +9,7 @@
     using System.Text;
     using System.Threading.Tasks;
     using Xunit;
-    using static Data.DataConstants;
+    using static Data.Products;
 
    public class ReportsRoutingTest
     {
@@ -17,8 +17,8 @@
         public void GetAddShouldBeMapped()
            => MyRouting
                 .Configuration()
-                 .ShouldMap($"/Reports/Add/{TestId}")
-                  .To<ReportsController>(c => c.Add(TestId));
+                 .ShouldMap($"/Reports/Add/{ProductTestId}")
+                  .To<ReportsController>(c => c.Add(ProductTestId));
 
 
         [Fact]
@@ -26,9 +26,9 @@
            => MyRouting
                 .Configuration()
                  .ShouldMap(request=>request
-                      .WithPath($"/Reports/Add/{TestId}")
+                      .WithPath($"/Reports/Add/{ProductTestId}")
                       .WithMethod(HttpMethod.Post))
-                  .To<ReportsController>(c => c.Add(TestId,With.Any<ReportFormModel>()));
+                  .To<ReportsController>(c => c.Add(ProductTestId, With.Any<ReportFormModel>()));
 
 
 

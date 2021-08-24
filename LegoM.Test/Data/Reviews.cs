@@ -8,7 +8,6 @@
 
     using static Comments;
 
-
     public static class Reviews
     {
         public const string TestContent = nameof(TestContent);

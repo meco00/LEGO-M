@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using static DataConstants;
+    using static Data.Products;
 
     public static class Favourites
     {
@@ -23,7 +23,7 @@
 
             var product = new Product
             {
-                Id = TestId,
+                Id = ProductTestId,
                 ProductCondition = LegoM.Data.Models.Enums.ProductCondition.New
             };
 

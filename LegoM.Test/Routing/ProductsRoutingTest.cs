@@ -5,7 +5,7 @@
     using MyTested.AspNetCore.Mvc;
     using Xunit;
 
-    using static Data.DataConstants;
+    using static Data.Products;
 
     public class ProductsRoutingTest
     {
@@ -24,20 +24,20 @@
           => MyRouting
               .Configuration()
                .ShouldMap(request => request
-                  .WithPath($"/Products/Edit/{TestId}")
+                  .WithPath($"/Products/Edit/{ProductTestId}")
                    .WithMethod(HttpMethod.Post))
                .To<ProductsController>(c => c
-               .Edit(TestId, With.Any<ProductFormModel>()));
+               .Edit(ProductTestId, With.Any<ProductFormModel>()));
 
         [Fact]
         public void PostDeleteShoulBeMapped()
       => MyRouting
           .Configuration()
            .ShouldMap(request => request
-              .WithPath($"/Products/Delete/{TestId}")
+              .WithPath($"/Products/Delete/{ProductTestId}")
                .WithMethod(HttpMethod.Post))
            .To<ProductsController>(c => c
-           .Delete(TestId, With.Any<ProductDeleteFormModel>()));
+           .Delete(ProductTestId, With.Any<ProductDeleteFormModel>()));
      
              
     }

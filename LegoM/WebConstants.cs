@@ -11,6 +11,8 @@
         public class Cache
         {
             public const string LatestProductsCacheKey = nameof(LatestProductsCacheKey);
+
+            public const string TotalStatisticsCacheKey = nameof(TotalStatisticsCacheKey);
         }
     }
 }

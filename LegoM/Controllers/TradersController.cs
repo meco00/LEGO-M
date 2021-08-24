@@ -1,14 +1,10 @@
 ﻿namespace LegoM.Controllers
 {
-    using LegoM.Data;
-    using LegoM.Data.Models;
     using LegoM.Infrastructure;
     using LegoM.Models.Traders;
     using LegoM.Services.Traders;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
-    using System.Security.Claims;
 
     using static WebConstants;
 

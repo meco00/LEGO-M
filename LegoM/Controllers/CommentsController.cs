@@ -59,17 +59,9 @@
                 comment.Content,
                 IsUserAdmin);
 
-            this.TempData[WebConstants.GlobalMessageKey] = $"Your comment was added  { (IsUserAdmin ? string.Empty : "and is awaiting for approval!") }";
-
-            
+            this.TempData[WebConstants.GlobalMessageKey] = $"Your comment was added  { (IsUserAdmin ? string.Empty : "and is awaiting for approval!") }";         
 
             return RedirectToAction("Details", "Reviews", new { id = review.Id, information = review.GetInformation() });
-        }
-
-        
-
-
-
-
+        }      
     }
 }

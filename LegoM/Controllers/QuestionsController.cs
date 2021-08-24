@@ -37,13 +37,11 @@
         [HttpPost]
         public IActionResult Add(string Id,QuestionFormModel question)
         {
-            ;
             if (!this.products.IsProductPublic(Id))
             {
                 return BadRequest();
             }
             
-
             if (!(ModelState.IsValid))
             {
                 return this.View(question);
@@ -66,19 +64,15 @@
 
         public IActionResult Details(int id, string information)
         {
-            ;
-
             var question = this.questions.Details(id);
-
+           
             if (question == null || question.GetInformation() != information)
             {
-                return NotFound();
+                 return NotFound();
             }
 
 
-          var questionAnswers = this.answers.AnswersOfQuestion(id);
-
-           
+            var questionAnswers = this.answers.AnswersOfQuestion(id);
 
             return this.View(new QuestionDetailsWithAnswersModel
             { 
@@ -91,40 +85,33 @@
 
         [Authorize]
         public IActionResult Mine()
-        {
-            ;
-            
+        {         
             var questions = this.questions.Mine(this.User.Id());
 
-
             return this.View(questions);
-
         }
 
 
         [Authorize]
         public IActionResult Delete(int id)
         {
-            ;
-
-            if (!this.questions.QuestionIsByUser(id,this.User.Id()) && !this.User.IsAdmin())
-            {
-                return BadRequest();
-            }
+          if (!this.questions.QuestionIsByUser(id,this.User.Id()) && !this.User.IsAdmin())
+          {
+              return BadRequest();
+          }
 
           var isSuccesfullyDeleted = this.questions.Delete(id);
 
-            if (!isSuccesfullyDeleted)
-            {
-                return NotFound();
-            }
+          if (!isSuccesfullyDeleted)
+          {
+              return NotFound();
+          }
 
-            this.TempData[WebConstants.GlobalMessageKey] = $"Your question was deleted { (this.User.IsAdmin() ? string.Empty : "and is awaiting for approval!") } ";
+          this.TempData[WebConstants.GlobalMessageKey] = $"Your question was deleted { (this.User.IsAdmin() ? string.Empty : "and is awaiting for approval!") } ";
 
-            return RedirectToAction(nameof(Mine));
+          return RedirectToAction(nameof(Mine));
 
         }
-
 
     }
 }

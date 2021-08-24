@@ -5,7 +5,6 @@
     using LegoM.Models.Products;
     using LegoM.Services.Products;
     using LegoM.Services.Reports;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
 
@@ -57,7 +56,6 @@
 
         public IActionResult Deleted([FromQuery]ProductsQueryModel query)
         {
-            ;
             if (!this.products.SubCategoryIsValid(query.SubCategory, query.Category))
             {
                 return BadRequest();
@@ -73,7 +71,6 @@
             IsPublicOnly: false,
             IsDeleted: true);
 
-
             var categories = this.products.AllCategories();
             var subCategories = this.products.AllSubCategories();
 
@@ -83,29 +80,21 @@
             query.TotalProducts = queryResult.TotalProducts;
 
             return this.View(query);
-
         }
 
         public IActionResult ChangeVisibility(string id)
         {
-            ;
             this.products.ChangeVisibility(id);
 
-
-           return RedirectToAction(nameof(this.Existing));
-
+            return RedirectToAction(nameof(this.Existing));
         }
-
 
         public IActionResult Revive(string id)
         {
             this.products.ReviveProduct(id);
 
-
             return RedirectToAction(nameof(this.Existing));
-
         }
-
 
         public IActionResult Reports(string id)
         {
@@ -120,18 +109,11 @@
 
             var reports = this.reports.All(productId: id).Reports;
 
-
             return View(new ProductReportsDetailsModel
             {
                 Product = productModel,
                 Reports = reports
             });
-
-
-
         }
-
-
     }
-
 }

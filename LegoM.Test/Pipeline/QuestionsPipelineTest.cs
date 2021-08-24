@@ -14,7 +14,6 @@
 
 
     using static Data.Answers;
-    using static Data.DataConstants;
     using static Data.Products;
     using static Data.Questions;
 
@@ -86,10 +85,10 @@
         public void GetAddShouldBeForAuthorizedUsersAndReturnView()
             => MyPipeline
                   .Configuration()
-                   .ShouldMap(request => request.WithPath($"/Questions/Add/{TestId}")
+                   .ShouldMap(request => request.WithPath($"/Questions/Add/{ProductTestId}")
                       .WithUser()
                       .WithAntiForgeryToken())
-                    .To<QuestionsController>(c => c.Add(TestId))
+                    .To<QuestionsController>(c => c.Add(ProductTestId))
                     .Which(controller => controller
                           .WithData(GetProduct()))
                     .ShouldHave()
@@ -103,9 +102,9 @@
         public void GetAddShouldBeForAuthorizedUsersAndReturnBadRequestWhenProductIsNotPublic()
            => MyPipeline
                  .Configuration()
-                  .ShouldMap(request => request.WithPath($"/Questions/Add/{TestId}")
+                  .ShouldMap(request => request.WithPath($"/Questions/Add/{ProductTestId}")
                      .WithUser())
-                   .To<QuestionsController>(c => c.Add(TestId))
+                   .To<QuestionsController>(c => c.Add(ProductTestId))
                    .Which(controller => controller
                          .WithData(GetProduct(IsPublic: false)))
                    .ShouldHave()
@@ -117,7 +116,7 @@
 
 
         [Theory]
-        [InlineData("MyTestContent", TestId)]
+        [InlineData("MyTestContent", ProductTestId)]
         public void PostAddShouldBeForAuthorizedUsersAndReturnRedirectToWithCorrectDataAndModel(
             string content,
             string productId)
@@ -159,7 +158,7 @@
            => MyRouting
                .Configuration()
                 .ShouldMap(request => request
-                       .WithPath($"/Questions/Add/{TestId}")
+                       .WithPath($"/Questions/Add/{ProductTestId}")
                       .WithMethod(HttpMethod.Post)
                       .WithFormFields(new
                       {
@@ -167,7 +166,7 @@
                       })
                       .WithUser()
                       .WithAntiForgeryToken())
-                      .To<QuestionsController>(c => c.Add(TestId, new QuestionFormModel
+                      .To<QuestionsController>(c => c.Add(ProductTestId, new QuestionFormModel
                       {
                           Content = "TestContent"
                       }))

@@ -11,7 +11,6 @@
     using Xunit;
 
     using static Data.Comments;
-    using static Data.DataConstants;
     using static Data.Products;
     using static Data.Reviews;
 
@@ -51,10 +50,10 @@
         public void GetAddShouldBeForAuthorizedUsersAndReturnView()
           => MyPipeline
                 .Configuration()
-                 .ShouldMap(request => request.WithPath($"/Reviews/Add/{TestId}")
+                 .ShouldMap(request => request.WithPath($"/Reviews/Add/{ProductTestId}")
                     .WithUser()
                     .WithAntiForgeryToken())
-                  .To<ReviewsController>(c => c.Add(TestId))
+                  .To<ReviewsController>(c => c.Add(ProductTestId))
                   .Which(controller => controller
                         .WithData(GetProduct()))
                   .ShouldHave()
@@ -69,12 +68,12 @@
         public void GetAddShouldBeForAuthorizedUsersAndReturnBadRequestWhenReviewIsNotPublic()
           => MyPipeline
                 .Configuration()
-                 .ShouldMap(request => request.WithPath($"/Reviews/Add/{TestId}")
+                 .ShouldMap(request => request.WithPath($"/Reviews/Add/{ProductTestId}")
                     .WithUser()
                     .WithAntiForgeryToken())
-                  .To<ReviewsController>(c => c.Add(TestId))
+                  .To<ReviewsController>(c => c.Add(ProductTestId))
                   .Which(controller => controller
-                        .WithData(GetProduct(TestId,true,false,false)))
+                        .WithData(GetProduct(ProductTestId, true,false,false)))
                   .ShouldHave()
                   .ActionAttributes(attributes => attributes
                          .RestrictingForAuthorizedRequests())

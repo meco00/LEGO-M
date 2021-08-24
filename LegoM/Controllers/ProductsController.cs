@@ -5,13 +5,12 @@
     using LegoM.Data;
     using LegoM.Infrastructure;
     using LegoM.Models.Products;
-    using LegoM.Services.Traders;
     using LegoM.Services.Products;
     using LegoM.Services.Questions;
     using LegoM.Services.Reviews;
+    using LegoM.Services.Traders;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-
     using static WebConstants;
 
     public class ProductsController:Controller
@@ -21,9 +20,7 @@
         private readonly IReviewService reviews;
         private readonly IQuestionsService questions;
         private readonly IMapper mapper;
-
         private readonly LegoMDbContext data;
-
 
         public ProductsController(LegoMDbContext data, IProductsService products, ITraderService traders, IMapper mapper, IReviewService reviews, IQuestionsService questions)
         {
@@ -43,7 +40,6 @@
                 return RedirectToAction(nameof(TradersController.Become), "Traders");
             }
 
-
             return View(new ProductFormModel
             {
                 Categories = this.products.AllCategories(),
@@ -51,13 +47,10 @@
             });
         }
 
-      
-
         [HttpPost]
         [Authorize]
         public IActionResult Add(ProductFormModel product)
         {
-            ;
             string merchantId = this.traders.IdByUser(this.User.Id());
 
             var isUserAdmin = this.User.IsAdmin();
@@ -89,7 +82,7 @@
                 return View(product);
             }
 
-           var productId = this.products
+            var productId = this.products
                    .Create(product.Title,
                            product.Description,
                            product.FirstImageUrl,
@@ -102,9 +95,7 @@
                            product.Condition.Value,
                            product.Delivery.Value,
                            merchantId,
-                           isUserAdmin
-
-                           );
+                           isUserAdmin);
 
             TempData[GlobalMessageKey] = $"Your product was added { (isUserAdmin ? string.Empty : "and is awaiting for approval!") }";
 
@@ -114,7 +105,6 @@
 
         public IActionResult All([FromQuery]ProductsQueryModel query)
         {
-            ;
             if (!this.products.SubCategoryIsValid(query.SubCategory,query.Category))
             {
                 return BadRequest();
@@ -127,8 +117,6 @@
             query.CurrentPage,
             ProductsQueryModel.ProductsPerPage,
             query.ProductSorting);
-
-            ;
 
             var categories = this.products.AllCategories();
             var subCategories = this.products.AllSubCategories();
@@ -145,7 +133,6 @@
         [Authorize]
         public IActionResult Mine()
         {
-            ;
             var myProducts=this.products.ByUser(this.User.Id());
 
             if (this.User.IsAdmin())
@@ -154,7 +141,6 @@
             }
 
             return this.View(myProducts);
-
         }
 
         [Authorize]
@@ -189,12 +175,10 @@
             return View(productForm);
         }
 
-
         [HttpPost]
         [Authorize]
         public IActionResult Edit(string Id,ProductFormModel product)
         {
-            ;
             string merchantId = this.traders.IdByUser(this.User.Id());
 
             var isUserAdmin = this.User.IsAdmin();
@@ -214,7 +198,6 @@
                 return NotFound();
             }
 
-
             if (!this.products.CategoryExists(product.CategoryId))
             {
                 this.ModelState.AddModelError(nameof(product.CategoryId), "Category does not exists.");
@@ -232,24 +215,23 @@
 
                 return View(product);
             }                
-
-          this.products.Edit(
-                Id,
-                product.Title,
-                product.Description,
-                product.FirstImageUrl,
-                product.SecondImageUrl,
-                product.ThirdImageUr,
-                product.Price,
-                product.Quantity,
-                product.CategoryId,
-                product.SubCategoryId,
-                product.Condition.Value,
-                product.Delivery.Value,
-                merchantId,
-                isUserAdmin);
-
-
+           
+            this.products.Edit(
+                  Id,
+                  product.Title,
+                  product.Description,
+                  product.FirstImageUrl,
+                  product.SecondImageUrl,
+                  product.ThirdImageUr,
+                  product.Price,
+                  product.Quantity,
+                  product.CategoryId,
+                  product.SubCategoryId,
+                  product.Condition.Value,
+                  product.Delivery.Value,
+                  merchantId,
+                  isUserAdmin);
+           
             TempData[GlobalMessageKey] = $"Your product was edited { (isUserAdmin ? string.Empty : "and is awaiting for approval!") } ";
 
             return RedirectToAction(nameof(Details), new { Id });
@@ -258,11 +240,9 @@
 
         public IActionResult Details(string id,[FromQuery]ProductsDetailsQueryModel query)
         {
-            ;
             string merchantId = this.traders.IdByUser(this.User.Id());
 
             var isUserAdmin = this.User.IsAdmin();
-
 
             var product = this.products.Details(id);
 
@@ -278,7 +258,6 @@
                 return BadRequest();
             }
 
-
             var similarProducts = this.products.GetSimilarProducts(id);
 
             var reviewsQueryResult = this.reviews.All(
@@ -288,17 +267,13 @@
                 query.ReviewFiltering,
                 productId: id);
 
-
             var questionsQueryResult = this.questions.All(
                 currentPage: query.QuestionsCurrentPage,
                 questionsPerPage: ProductsDetailsQueryModel.QuestionsPerPage,
                 productId: id);
 
-            ;
-
             var reviewsStatistics = this.reviews.GetStatisticsForProduct(id);
            
-
             query.Product = product;
             query.SimilarProducts = similarProducts;
             query.ProductReviewsStatistics = reviewsStatistics;
@@ -309,16 +284,12 @@
             query.Questions = questionsQueryResult.Questions;
             query.TotalQuestions = questionsQueryResult.TotalQuestions;
             
-
-
             return this.View(query);
-
         }
 
         [Authorize]
         public IActionResult Delete(string id)
         {
-            ;
             string merchantId = this.traders.IdByUser(this.User.Id());
 
             var isUserAdmin = this.User.IsAdmin();
@@ -338,9 +309,7 @@
                 return BadRequest();
             }
 
-
             return View();
-
 
         }
 
@@ -348,7 +317,6 @@
         [HttpPost]
         public IActionResult Delete(string id,ProductDeleteFormModel productDelete)
         {
-            ;
             string merchantId = this.traders.IdByUser(this.User.Id());
 
             var isUserAdmin = this.User.IsAdmin();
@@ -377,7 +345,6 @@
                 return RedirectToAction(nameof(Details),new { id});
             }                 
             
-
             this.TempData[GlobalMessageKey] = "Your product was deleted!";
 
             if (isUserAdmin)
@@ -387,14 +354,6 @@
 
             return RedirectToAction(nameof(All));
         }
-
-
-
-
-
-
-
-
 
     }
 }

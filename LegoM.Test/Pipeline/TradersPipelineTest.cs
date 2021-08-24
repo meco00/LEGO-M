@@ -17,7 +17,7 @@
     {
 
         [Fact]
-        public void BecomeShouldBeForAuthorizedUsersAndReturnView()
+        public void GetBecomeShouldBeForAuthorizedUsersAndReturnView()
             =>MyPipeline
             .Configuration()
             .ShouldMap(request=> request.WithLocation("/Traders/Become")

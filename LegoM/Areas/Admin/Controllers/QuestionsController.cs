@@ -13,7 +13,6 @@ namespace LegoM.Areas.Admin.Controllers
             this.questions = questions;
         }
 
-
         public IActionResult All([FromQuery]QuestionsQueryModel query)
         {
               var queryResult = this.questions.All(
@@ -32,12 +31,7 @@ namespace LegoM.Areas.Admin.Controllers
         {
             this.questions.ChangeVisibility(id);
 
-
             return RedirectToAction(nameof(All));
-
         }
-
-
-
     }
 }

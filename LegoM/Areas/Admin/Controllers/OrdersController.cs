@@ -37,17 +37,14 @@ namespace LegoM.Areas.Admin.Controllers
             OrdersQueryModel.OrdersPerPage,
             IsAccomplished: true);
 
-
             query.Orders = queryResult.Orders;
             query.TotalOrders = queryResult.TotalOrders;
 
             return this.View(query);
-
         }
 
         public IActionResult Details(int id)
         {
-            ;
             var order = this.orders.Details(id);
 
             var orderItems=this.shoppingCarts.GetCartItemsbyOrder(id);
@@ -90,13 +87,8 @@ namespace LegoM.Areas.Admin.Controllers
 
         }
 
-
-
-
-
         public IActionResult Accomplish(int id)
         {
-            ;
             var IsAccomplished = this.orders.Accomplish(id);
 
             if (!IsAccomplished)
@@ -109,10 +101,8 @@ namespace LegoM.Areas.Admin.Controllers
             return RedirectToAction(nameof(Accomplished));
         }
 
-
         public IActionResult Cancel(int id)
         {
-            ;
             var IsCanceled = this.orders.Cancel(id);
 
             if (!IsCanceled)
@@ -124,9 +114,5 @@ namespace LegoM.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(UnAccomplished));
         }
-
-
-
-
     }
 }

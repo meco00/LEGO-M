@@ -31,7 +31,6 @@
                 return BadRequest();
             }
 
-
             return View();
 
         }
@@ -63,18 +62,10 @@
                 id,
                 this.User.Id());
 
-
             this.TempData[WebConstants.GlobalMessageKey] = $"Report was added and send to administration!";
 
-
             return RedirectToAction(nameof(ProductsController.Details), "Products", new { id });
-
-
-
         }
-
-
-
 
     }
 }

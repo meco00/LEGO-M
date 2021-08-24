@@ -3,10 +3,6 @@
     using LegoM.Areas.Admin.Models.Reviews;
     using LegoM.Services.Reviews;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class ReviewsController:AdminController
     {
@@ -14,8 +10,6 @@
 
         public ReviewsController(IReviewService reviews)
         => this.reviews = reviews;
-
-
 
         public IActionResult All([FromQuery] ReviewsQueryModel query)
         {
@@ -35,11 +29,7 @@
         {
             this.reviews.ChangeVisibility(id);
 
-
             return RedirectToAction(nameof(All));
-
         }
-
-
     }
 }

@@ -35,17 +35,10 @@
                     .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
 
                 latestProducts = this.cache.Set(LatestProductsCacheKey, products,cacheOptions);
-            }
-
-
-
-          
-
+            }     
 
             return this.View(latestProducts); 
         }
-
-       
 
         public IActionResult Error() => View();
     }

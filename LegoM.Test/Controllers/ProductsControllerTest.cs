@@ -11,7 +11,6 @@
     using Xunit;
 
     using static Data.Categories;
-    using static Data.DataConstants;
     using static Data.Merchants;
     using static Data.Products;
 
@@ -137,7 +136,7 @@
                 .Instance(controller => controller
                         .WithUser()
                         .WithData(GetProduct()))
-                 .Calling(c => c.Edit(TestId, new ProductFormModel
+                 .Calling(c => c.Edit(ProductTestId, new ProductFormModel
                  {
                      Title = title,
                      Description = description,
@@ -176,7 +175,7 @@
                  .ShouldReturn()
                  .Redirect(redirect => redirect
                        .To<ProductsController>(c => c
-                       .Details(TestId, With.Any<ProductsDetailsQueryModel>())));
+                       .Details(ProductTestId, With.Any<ProductsDetailsQueryModel>())));
 
 
 
@@ -186,7 +185,7 @@
          => MyController<ProductsController>
              .Instance(controller => controller
                      .WithUser())
-              .Calling(c => c.Edit(TestId,new ProductFormModel
+              .Calling(c => c.Edit(ProductTestId, new ProductFormModel
               {
 
 
@@ -204,7 +203,7 @@
       => MyController<ProductsController>
           .Instance(controller => controller
                   .WithUser(new[] {AdminConstants.AdministratorRoleName }))
-           .Calling(c => c.Edit(TestId, With.Any<ProductFormModel>()))
+           .Calling(c => c.Edit(ProductTestId, With.Any<ProductFormModel>()))
           .ShouldHave()
          .ActionAttributes(attributes => attributes
              .RestrictingForAuthorizedRequests()
@@ -220,8 +219,8 @@
            .Instance(controller => controller
                    .WithUser()
                    .WithData(GetMerchant())
-                   .WithData(GetProduct(TestId,false)))
-            .Calling(c => c.Edit(TestId, new ProductFormModel
+                   .WithData(GetProduct(ProductTestId, false)))
+            .Calling(c => c.Edit(ProductTestId, new ProductFormModel
             {
 
 
@@ -241,7 +240,7 @@
        .Instance(controller => controller
                .WithUser()
                .WithData(GetProduct()))
-        .Calling(c => c.Edit(TestId, new ProductFormModel
+        .Calling(c => c.Edit(ProductTestId, new ProductFormModel
         {
 
 
@@ -265,7 +264,7 @@
                 .Instance(controller => controller
                .WithUser()
                .WithData(GetProduct()))
-               .Calling(c => c.Delete(TestId, new ProductDeleteFormModel
+               .Calling(c => c.Delete(ProductTestId, new ProductDeleteFormModel
                {
                    SureToDelete = true
                }))
@@ -275,7 +274,7 @@
                  .RestrictingForHttpMethod(HttpMethod.Post))
               .ValidModelState()
               .Data(data => data.WithSet<Product>(set => set.Any(x=>
-                       x.Id==TestId &&
+                       x.Id== ProductTestId &&
                        x.IsDeleted ==true &&
                        x.IsPublic== false&&
                        x.DeletedOn.HasValue)))
@@ -294,8 +293,8 @@
         => MyController<ProductsController>
              .Instance(controller => controller
             .WithUser(new[] { AdminConstants.AdministratorRoleName })
-            .WithData(GetProduct(TestId,false)))
-            .Calling(c => c.Delete(TestId, new ProductDeleteFormModel
+            .WithData(GetProduct(ProductTestId, false)))
+            .Calling(c => c.Delete(ProductTestId, new ProductDeleteFormModel
             {
                 SureToDelete = true
             }))
@@ -323,7 +322,7 @@
              .Instance(controller => controller
             .WithUser())
             .Calling(c => c.Delete(
-                   TestId, 
+                   ProductTestId, 
                    With.Default<ProductDeleteFormModel>()))
           .ShouldHave()
            .ActionAttributes(attributes => attributes
@@ -340,7 +339,7 @@
          .WithUser()
          .WithData(GetMerchant()))
          .Calling(c => c.Delete(
-                TestId,
+                ProductTestId,
                 With.Default<ProductDeleteFormModel>()))
        .ShouldHave()
         .ActionAttributes(attributes => attributes
@@ -357,7 +356,7 @@
          .WithUser(new[] { AdminConstants.AdministratorRoleName})
          .WithData())
          .Calling(c => c.Delete(
-                TestId,
+                ProductTestId,
                 new ProductDeleteFormModel 
                 {
                     SureToDelete=true
@@ -377,7 +376,7 @@
         .WithUser()
         .WithData(GetProduct()))
         .Calling(c => c.Delete(
-               TestId,
+               ProductTestId,
                With.Default<ProductDeleteFormModel>()))
       .ShouldHave()
        .ActionAttributes(attributes => attributes
@@ -387,13 +386,7 @@
       .ShouldReturn()
       .Redirect(redirect => redirect
                  .To<ProductsController>(c => c
-                       .Details(TestId,With.Any<ProductsDetailsQueryModel>())));
-
-
-
-
-
-
+                       .Details(ProductTestId, With.Any<ProductsDetailsQueryModel>())));
 
     }
 }

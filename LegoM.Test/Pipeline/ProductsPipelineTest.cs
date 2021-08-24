@@ -11,7 +11,6 @@
     using Xunit;
 
     using static Data.Categories;
-    using static Data.DataConstants;
     using static Data.Merchants;
     using static Data.Products;
     using static Data.Questions;
@@ -103,9 +102,9 @@
         public void GetEditShouldBeForAuthorizedUsersReturnViewWithCorrectDataAndModel()
           => MyPipeline
               .Configuration()
-               .ShouldMap(request => request.WithPath($"/Products/Edit/{TestId}")
+               .ShouldMap(request => request.WithPath($"/Products/Edit/{ProductTestId}")
                .WithUser())
-              .To<ProductsController>(c => c.Edit(TestId))
+              .To<ProductsController>(c => c.Edit(ProductTestId))
             .Which(controller => controller
                 .WithData(GetProduct())
            .ShouldHave()
@@ -120,9 +119,9 @@
         public void GetEditShouldBeForAuthorizedUsersAndReturnBadRequestWhenUserIsNotMerchant()
           => MyPipeline
                 .Configuration()
-             .ShouldMap(request => request.WithPath($"/Products/Edit/{TestId}")
+             .ShouldMap(request => request.WithPath($"/Products/Edit/{ProductTestId}")
              .WithUser())
-             .To<ProductsController>(c => c.Edit(TestId))
+             .To<ProductsController>(c => c.Edit(ProductTestId))
              .Which()
              .ShouldHave()
                  .ActionAttributes(attributes => attributes
@@ -136,13 +135,13 @@
         public void GetEditShouldBeForAuthorizedUsersReturnBadRequestWhenProductIsNotOfUser()
             => MyPipeline
                 .Configuration()
-             .ShouldMap(request => request.WithPath($"/Products/Edit/{TestId}")
+             .ShouldMap(request => request.WithPath($"/Products/Edit/{ProductTestId}")
              .WithUser())
-             .To<ProductsController>(c => c.Edit(TestId))
+             .To<ProductsController>(c => c.Edit(ProductTestId))
              .Which(controller => controller
                   .WithData(GetMerchant())
                   .AndAlso()
-                  .WithData(GetProduct(TestId, false))
+                  .WithData(GetProduct(userSame: false))
              .ShouldHave()
                  .ActionAttributes(attributes => attributes
                         .RestrictingForAuthorizedRequests())
@@ -155,9 +154,9 @@
         public void GetEditShouldBeForAuthorizedUsersReturnNotFoundWhenProductDoesNotExists()
            => MyPipeline
                .Configuration()
-            .ShouldMap(request => request.WithPath($"/Products/Edit/{TestId}")
+            .ShouldMap(request => request.WithPath($"/Products/Edit/{ProductTestId}")
             .WithUser())
-            .To<ProductsController>(c => c.Edit(TestId))
+            .To<ProductsController>(c => c.Edit(ProductTestId))
             .Which(controller => controller
                  .WithData(GetMerchant()))
             .ShouldHave()
@@ -172,9 +171,9 @@
         public void GetDeleteShouldBeForAuthorizedUsersAndReturnView()
             => MyPipeline
                   .Configuration()
-                   .ShouldMap(request => request.WithPath($"/Products/Delete/{TestId}")
+                   .ShouldMap(request => request.WithPath($"/Products/Delete/{ProductTestId}")
                    .WithUser())
-             .To<ProductsController>(c => c.Delete(TestId))
+             .To<ProductsController>(c => c.Delete(ProductTestId))
              .Which(controller => controller
                   .WithData(GetProduct())
                  .ShouldHave()
@@ -190,9 +189,9 @@
         public void GetDeleteShouldBeForAuthorizedUsersAndReturnBadRequestWhenUserIsNotMerchant()
        => MyPipeline
              .Configuration()
-          .ShouldMap(request => request.WithPath($"/Products/Delete/{TestId}")
+          .ShouldMap(request => request.WithPath($"/Products/Delete/{ProductTestId}")
           .WithUser())
-          .To<ProductsController>(c => c.Delete(TestId))
+          .To<ProductsController>(c => c.Delete(ProductTestId))
           .Which()
           .ShouldHave()
               .ActionAttributes(attributes => attributes
@@ -207,13 +206,13 @@
         public void GetDeleteShouldBeForAuthorizedUsersReturnBadRequestWhenProductIsNotOfMerchant()
             => MyPipeline
                 .Configuration()
-             .ShouldMap(request => request.WithPath($"/Products/Delete/{TestId}")
+             .ShouldMap(request => request.WithPath($"/Products/Delete/{ProductTestId}")
              .WithUser())
-             .To<ProductsController>(c => c.Delete(TestId))
+             .To<ProductsController>(c => c.Delete(ProductTestId))
              .Which(controller => controller
                   .WithData(GetMerchant())
                   .AndAlso()
-                  .WithData(GetProduct(TestId, false))
+                  .WithData(GetProduct(ProductTestId, false))
              .ShouldHave()
                  .ActionAttributes(attributes => attributes
                         .RestrictingForAuthorizedRequests())
@@ -225,9 +224,9 @@
         public void GetDeleteShouldBeForAuthorizedUsersReturnNotFoundWhenProductDoesNotExists()
           => MyPipeline
               .Configuration()
-           .ShouldMap(request => request.WithPath($"/Products/Delete/{TestId}")
+           .ShouldMap(request => request.WithPath($"/Products/Delete/{ProductTestId}")
            .WithUser())
-           .To<ProductsController>(c => c.Delete(TestId))
+           .To<ProductsController>(c => c.Delete(ProductTestId))
            .Which(controller => controller
                 .WithData(GetMerchant()))
            .ShouldHave()
@@ -243,9 +242,9 @@
             => MyPipeline
                  .Configuration()
                  .ShouldMap(request => request
-                        .WithPath($"/Products/Details/{TestId}")
+                        .WithPath($"/Products/Details/{ProductTestId}")
                  .WithUser())
-                 .To<ProductsController>(c => c.Details(TestId,With.Default<ProductsDetailsQueryModel>()))
+                 .To<ProductsController>(c => c.Details(ProductTestId, With.Default<ProductsDetailsQueryModel>()))
                  .Which(controller => controller
                        .WithData(GetProduct())
                         .AndAlso()
@@ -269,9 +268,9 @@
           => MyPipeline
                .Configuration()
                .ShouldMap(request => request
-                      .WithPath($"/Products/Details/{TestId}")
+                      .WithPath($"/Products/Details/{ProductTestId}")
                .WithUser())
-               .To<ProductsController>(c => c.Details(TestId,With.Default<ProductsDetailsQueryModel>()))
+               .To<ProductsController>(c => c.Details(ProductTestId, With.Default<ProductsDetailsQueryModel>()))
                .Which()
                .ShouldReturn()
                .NotFound();
@@ -283,10 +282,10 @@
         => MyPipeline
              .Configuration()
              .ShouldMap(request => request
-                    .WithPath($"/Products/Details/{TestId}")
+                    .WithPath($"/Products/Details/{ProductTestId}")
              .WithUser())
-             .To<ProductsController>(c => c.Details(TestId,With.Default<ProductsDetailsQueryModel>()))
-             .Which(controller => controller.WithData(GetProduct(TestId, false, false, false))
+             .To<ProductsController>(c => c.Details(ProductTestId, With.Default<ProductsDetailsQueryModel>()))
+             .Which(controller => controller.WithData(GetProduct(ProductTestId, false, false, false))
              .ShouldReturn()
              .BadRequest());
 

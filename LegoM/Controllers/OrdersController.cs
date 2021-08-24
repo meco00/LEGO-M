@@ -6,7 +6,6 @@
     using LegoM.Services.ShoppingCarts;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
     using System.Linq;
     using static WebConstants;
 
@@ -14,7 +13,6 @@
     {
         private readonly IShoppingCartService shoppingCarts;
         private readonly IOrderService orders;
-
 
         public OrdersController(IShoppingCartService shoppingCarts, IOrderService orders)
         {
@@ -25,7 +23,6 @@
         [Authorize]
         public IActionResult Add()
         {
-            ;
             var shoppingCartErrorsMessages = this.shoppingCarts
                 .ValidateShoppingCartOfUser(this.User.Id());
 
@@ -39,7 +36,6 @@
             var orderFormModel = this.orders.GetOrderAddFormModel(this.User.Id());
 
             return View(orderFormModel);
-
         }
 
 
@@ -57,7 +53,6 @@
                 return RedirectToAction(nameof(ShoppingCartController.Mine), "ShoppingCart");
             }
 
-
             if (!ModelState.IsValid)
             {
                 return View(order);
@@ -72,18 +67,10 @@
                 order.ZipCode,
                 this.User.Id());
 
-            ;
-
             this.TempData[GlobalMessageKey] = "Your order was created succesfully and it is awaiting for accomplish!";
 
-
             return RedirectToAction(nameof(HomeController.Index), "Home");
-
         }
-
-
-
-    
 
     }
 }

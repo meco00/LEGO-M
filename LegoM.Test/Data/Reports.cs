@@ -47,17 +47,7 @@
 
         }
 
-        //public string ReportType { get; set; }
-
-        //public string Content { get; set; }
-
-        //public string UserName { get; set; }
-
-        //public string ProductId { get; set; }
-
-        //public string ProductTitle { get; set; }
-
-        //public string PublishedOn { get; set; }
+   
 
 
     }

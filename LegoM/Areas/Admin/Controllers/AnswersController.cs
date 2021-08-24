@@ -3,10 +3,6 @@
     using LegoM.Areas.Admin.Models.Answers;
     using LegoM.Services.Answers;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class AnswersController:AdminController
     {
@@ -16,7 +12,6 @@
         {
             this.answers = answers;
         }
-
 
         public IActionResult All([FromQuery] AnswersQueryModel query)
         {
@@ -36,12 +31,9 @@
         {
             this.answers.ChangeVisibility(id);
 
-
             return RedirectToAction(nameof(All));
-
         }
-
-        
+    
         public IActionResult Delete(int id)
         {
             var deleted= this.answers.Delete(id); 
@@ -54,9 +46,6 @@
             this.TempData[WebConstants.GlobalMessageKey] = "Answer was deleted successfully!";
 
             return RedirectToAction(nameof(All));
-
         }
-
-
     }
 }

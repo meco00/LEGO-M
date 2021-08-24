@@ -11,7 +11,6 @@
     using System.Threading.Tasks;
     using Xunit;
 
-    using static Data.DataConstants;
     using static Data.Products;
     using static Data.Favourites;
     using LegoM.Services.Favourites.Models;
@@ -25,9 +24,9 @@
             => MyPipeline
                     .Configuration()
                     .ShouldMap(request => request
-                       .WithPath($"/Favourites/Add/{TestId}")
+                       .WithPath($"/Favourites/Add/{ProductTestId}")
                        .WithUser())
-                     .To<FavouritesController>(c => c.Add(TestId))
+                     .To<FavouritesController>(c => c.Add(ProductTestId))
                       .Which(controller => controller.WithData(GetProduct()))
                       .ShouldHave()
                       .ActionAttributes(attributes => attributes
@@ -36,7 +35,7 @@
                        {
                            var favourite = set.FirstOrDefault();
 
-                           favourite.ProductId.Should().Be(TestId);
+                           favourite.ProductId.Should().Be(ProductTestId);
 
                            favourite.UserId.Should().Be(TestUser.Identifier);
 
@@ -47,16 +46,16 @@
                        .ShouldReturn()
                        .Redirect(redirect => redirect
                              .To<ProductsController>(c => c
-                             .Details(TestId,With.Any<ProductsDetailsQueryModel>())));
+                             .Details(ProductTestId, With.Any<ProductsDetailsQueryModel>())));
 
         [Fact]
         public void AddShouldReturnNotFoundWhenProductDoesNotExists()
       => MyPipeline
               .Configuration()
               .ShouldMap(request => request
-                 .WithPath($"/Favourites/Add/{TestId}")
+                 .WithPath($"/Favourites/Add/{ProductTestId}")
                  .WithUser())
-               .To<FavouritesController>(c => c.Add(TestId))
+               .To<FavouritesController>(c => c.Add(ProductTestId))
                 .Which()
                 .ShouldHave()
                 .ActionAttributes(attributes => attributes
@@ -70,9 +69,9 @@
           => MyPipeline
                   .Configuration()
                   .ShouldMap(request => request
-                     .WithPath($"/Favourites/Add/{TestId}")
+                     .WithPath($"/Favourites/Add/{ProductTestId}")
                      .WithUser(new[] { AdminConstants.AdministratorRoleName }))
-                   .To<FavouritesController>(c => c.Add(TestId))
+                   .To<FavouritesController>(c => c.Add(ProductTestId))
                     .Which(controller=>controller.WithData(GetProduct()))
                     .ShouldHave()
                     .ActionAttributes(attributes => attributes

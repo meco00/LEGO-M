@@ -44,7 +44,6 @@
 
             }       
          
-
             return View();
 
         }
@@ -53,7 +52,6 @@
         [HttpPost]
         public IActionResult Add(string Id,ReviewFormModel review)
         {
-            ;
             var IsUserAdmin = this.User.IsAdmin();
 
             if (!this.products.IsProductPublic(Id))
@@ -70,15 +68,11 @@
 
             }
             
-
             if (!(ModelState.IsValid))
             {
                 return this.View(review);
 
-            }
-
-
-             
+            }            
 
             this.reviews.Create(
                 Id,
@@ -91,15 +85,12 @@
 
             this.TempData[WebConstants.GlobalMessageKey] = $"Review was added { (this.User.IsAdmin() ? string.Empty : "and is awaiting for approval!") } ";
 
-
             return RedirectToAction(nameof(ProductsController.Details), "Products" , new {id=Id });
         }
 
 
         public IActionResult Details(int id,string information)
         {
-            ;
-
             var review = this.reviews.Details(id);
 
             if (review==null || review.GetInformation() != information)
@@ -121,9 +112,7 @@
         [Authorize]
         public IActionResult Mine()
         {
-            ;
             var myReviews = this.reviews.ByUser(this.User.Id());
-
 
             return this.View(myReviews);
         }
@@ -145,7 +134,6 @@
                 return NotFound();
             }
 
-
             var reviewFormModel = this.mapper.Map<ReviewFormModel>(review);
 
             return this.View(reviewFormModel);
@@ -162,9 +150,7 @@
             {
                 return BadRequest();
             }
-          
-          
-
+                   
             if (!(ModelState.IsValid))
             {
                 return this.View(review);
@@ -194,7 +180,6 @@
         [Authorize]
         public IActionResult Delete(int id)
         {
-            ;
             if (!this.reviews.ReviewIsByUser(id, this.User.Id())&& !this.User.IsAdmin())
             {
                 return BadRequest();
@@ -205,8 +190,6 @@
                 return NotFound();
             }
 
-
-
            return this.View();
 
         }
@@ -215,7 +198,6 @@
         [HttpPost]
         public IActionResult Delete(int id,ReviewDeleteFormModel deleteModel)
         {
-            ;
             if (!this.reviews.ReviewIsByUser(id, this.User.Id()) && !this.User.IsAdmin())
             {
                 return BadRequest();
@@ -237,12 +219,7 @@
             this.TempData[WebConstants.GlobalMessageKey] = $"Your review was deleted { (this.User.IsAdmin() ? string.Empty : "and is awaiting for approval!") } ";
 
             return RedirectToAction(nameof(Mine));
-        }
-
-        
-
-
-
+        }     
 
     }
 }
