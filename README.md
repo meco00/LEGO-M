@@ -46,7 +46,7 @@ My defense project for ASP.NET Core Course at @SoftUni
 - Bootstrap
 - FontAwesome
 - jQuery
-- ### 1. Seeding sample data
+- ### Seeding sample data
 would happen once you run the application, including Test Accounts:
   - User: test@user.com / password: test123
   - Admin: admin@gm.com / password: admin0021
