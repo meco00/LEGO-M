@@ -8,6 +8,7 @@
     <title>@ViewBag.Title - LegoM</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 </head>
 <body>
     <header>
@@ -77,9 +78,51 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; @DateTime.UtcNow.Year - LegoM 
+    <footer class="page-footer font-small mdb-color pt-4" style="background-color: #e8ecef">
+        <div class="container text-center text-md-left">
+            <div class="row ml-5">
+                <div class="col-md-4">
+                    <h4>Who are we</h4>
+                    <h6 class="mb-2" style="word-wrap: break-word">LegoM-online store for orders from Bulgaria.Store in Momchilgrad</h6>
+                </div>
+                <div class="col-md-4">
+                    <h4>Working time</h4>
+                    <h6 class="mb-2">Monday-Saturday</h6>
+                    <h6 class="mb-2">09:00 - 20:00</h6>
+                    <h6 class="mb-2">Sunday : Rest day</h6>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="mb-2">Contact</h4>
+                    <h6 class="mb-2"><i class="fas fa-home"></i> Momchilgrad,Bulgaria</h6>
+                    <h6 class="mb-2"><i class="fas fa-envelope"></i> info@legoM.com</h6>
+                    <h6 class="mb-2"><i class="fas fa-phone-alt"></i> + 000 000 000 000</h6>
+                </div>
+            </div>
+            <div class="text-center text-md-right mt-5">
+                <ul class="list-unstyled list-inline">
+                    <li class="list-inline-item">
+                        <a href="https://www.facebook.com/mert.tuncay.37" class="btn-floating btn-sm rgba-white-slight mx-1">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="btn-floating btn-sm rgba-white-slight mx-1">
+                            <i class="fab fa-google-plus-g"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="https://www.linkedin.com/in/mert-kadir-050a26206/" class="btn-floating btn-sm rgba-white-slight mx-1">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <h5 class="ml-5">Copyright &copy; LegoM - @DateTime.UtcNow.Year</h5>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
