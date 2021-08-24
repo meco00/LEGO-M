@@ -22,22 +22,22 @@
                 UserId = userId
             };
 
-            data.Merchants.Add(trader);
+            data.Traders.Add(trader);
 
             data.SaveChanges();
         }
 
         public string IdByUser(string userId)
-        => this.data.Merchants
+        => this.data.Traders
                 .Where(x => x.UserId == userId)
                 .Select(x => x.Id)
                 .FirstOrDefault();
 
         public bool IsUserTrader(string userId)
-        => this.data.Merchants.Any(x=>x.UserId==userId);
+        => this.data.Traders.Any(x=>x.UserId==userId);
 
         public string TelephoneNumberByUser(string userId)
-        => this.data.Merchants
+        => this.data.Traders
             .Where(x => x.UserId == userId)
             .Select(x => x.TelephoneNumber)
             .FirstOrDefault();

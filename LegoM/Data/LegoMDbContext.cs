@@ -19,7 +19,7 @@
 
         public DbSet<SubCategory> SubCategories { get; set; }
 
-        public DbSet<Trader> Merchants { get; set; }
+        public DbSet<Trader> Traders { get; set; }
 
         public DbSet<ProductImage> ProductsImages { get; set; }
 

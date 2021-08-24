@@ -7,12 +7,12 @@
 
 @if (!Model.Any())
 {
-    <div class="jumbotron">
-        <h1 class="display-4">Welcome to Lego-M World</h1>
-        <p class="lead">There are no products in system currently</p>
-        <hr class="my-4">
-        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>     
-    </div>
+<div class="jumbotron">
+    <h1 class="display-4 mb-4">Welcome to Lego-M World</h1>
+    <h5 class="lead">There are no products in system currently</h5>
+    <hr class="my-4">
+    <a  asp-controller="Products" asp-action="Add"><h5>You can add products by following some steps</h5></a>
+</div>
 
 }
 else
